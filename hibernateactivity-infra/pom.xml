@@ -1,17 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-
-    <groupId>activity.hibernate</groupId>
-    <artifactId>hibernateactivity</artifactId>
+    <parent>
+        <groupId>activity.hibernate</groupId>
+        <artifactId>hibernateactivity</artifactId>
+        <version>1.0SNAPSHOT</version>
+    </parent>
+    <groupId>hibernateactivity.infra</groupId>
+    <artifactId>hibernateactivity-infra</artifactId>
     <version>1.0SNAPSHOT</version>
     <packaging>pom</packaging>
 
-    <name>hibernateactivity</name>
+    <name>hibernateactivity-infra</name>
     <url>http://maven.apache.org</url>
-
+   
     <properties>
-       <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
     <dependencies>
@@ -22,10 +26,8 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
-
     <modules>
-        <module>hibernateactivity-app</module>
-        <module>hibernateactivity-core</module>
-        <module>hibernateactivity-infra</module>
+        <module>hibernateactivity-infra-persistence</module>
+        <module>hibernateactivity-infra-buildtools</module>
     </modules>
 </project>

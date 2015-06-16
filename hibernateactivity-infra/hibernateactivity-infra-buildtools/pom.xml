@@ -3,14 +3,14 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <modelVersion>4.0.0</modelVersion>
   <parent>
-    <groupId>hibernateactivity.core</groupId>
-    <artifactId>hibernateactivity-core</artifactId>
+    <groupId>hibernateactivity.infra</groupId>
+    <artifactId>hibernateactivity-infra</artifactId>
     <version>1.0SNAPSHOT</version>
   </parent>
-  <groupId>hibernateactivity.core.model</groupId>
-  <artifactId>hibernateactivity-core-model</artifactId>
+  <groupId>hibernateactivity.infra.buildtools</groupId>
+  <artifactId>hibernateactivity-infra-buildtools</artifactId>
   <version>1.0SNAPSHOT</version>
-  <name>hibernateactivity-core-model</name>
+  <name>hibernateactivity-infra-buildtools</name>
   <url>http://maven.apache.org</url>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

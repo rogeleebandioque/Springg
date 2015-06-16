@@ -14,71 +14,18 @@
        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
+    <dependencies>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>3.8.1</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
     <modules>
         <module>hibernateactivity-app</module>
         <module>hibernateactivity-core</module>
         <module>hibernateactivity-infra</module>
     </modules>
-
-    <dependencies>
-        <dependency>
-             <groupId>org.hibernate</groupId>
-             <artifactId>hibernate-entitymanager</artifactId>
-             <version>4.3.10.Final</version>
-        </dependency>
-        <dependency>
-            <groupId>org.postgresql</groupId>
-            <artifactId>postgresql</artifactId>
-            <version>9.3-1102-jdbc41</version>
-        </dependency>
-  </dependencies>
-
-  <build>
-    <plugins>
-        <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-compiler-plugin</artifactId>
-	        <configuration>
-	        	<source>1.7</source>
-	        	<target>1.7</target>
-			</configuration>
-		</plugin>
-    	<plugin>
-			<artifactId>maven-assembly-plugin</artifactId>
-			<configuration>
-				<archive>
-					<manifest>
-						<mainClass>hibernateactivity.app.HibernateActivity</mainClass>
-					</manifest>
-				</archive>
-				<descriptorRefs>
-					<descriptorRef>jar-with-dependencies</descriptorRef>
-				</descriptorRefs>
-			</configuration>
-			<executions>
-				<execution>
-					<phase>package</phase>
-					<goals>
-						<goal>single</goal>
-					</goals>
-				</execution>
-			</executions>
-		</plugin>
-	</plugins>
-  </build>
-
-  <profiles>
-        <profile>
-            <id>dev</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>    
-            <properties>
-                <database.driverClassName>com.postgresql.Driver</database.driverClassName>
-                <database.url>jdbc:postresql:dummy</database.url>
-                <database.user>rbandioque</database.user>
-                <database.password>rbandioque</database.password>
-            </properties>
-        </profile>
-    </profiles>
 </project>

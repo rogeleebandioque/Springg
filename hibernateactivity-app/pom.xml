@@ -12,18 +12,14 @@
     <name>hibernateactivity-app</name>
     <url>http://maven.apache.org</url>
     <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.build.sourceEncoding>UTF-8</  project.build.sourceEncoding>
     </properties>
     <dependencies>
         <dependency>
-            <groupId>hibernateactivity.core.service</groupId>
-            <artifactId>hibernateactivity-core-service</artifactId>
-            <version>1.0SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>hibernateactivity.core.model</groupId>
-            <artifactId>hibernateactivity-core-model</artifactId>
-            <version>1.0SNAPSHOT</version>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>3.8.1</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 </project>

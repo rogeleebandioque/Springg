@@ -6,15 +6,18 @@
         <artifactId>hibernateactivity</artifactId>
         <version>1.0SNAPSHOT</version>
     </parent>
-    <groupId>hibernateactivity.core</groupId>
-    <artifactId>hibernateactivity-core</artifactId>
+    <groupId>hibernateactivity.infra</groupId>
+    <artifactId>hibernateactivity-infra</artifactId>
     <version>1.0SNAPSHOT</version>
     <packaging>pom</packaging>
-    <name>hibernateactivity-core</name>
+
+    <name>hibernateactivity-infra</name>
     <url>http://maven.apache.org</url>
+   
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
+
     <dependencies>
         <dependency>
             <groupId>junit</groupId>
@@ -24,8 +27,7 @@
         </dependency>
     </dependencies>
     <modules>
-        <module>hibernateactivity-core-service</module>
-        <module>hibernateactivity-core-dao</module>
-        <module>hibernateactivity-core-model</module>
+        <module>hibernateactivity-infra-persistence</module>
+        <module>hibernateactivity-infra-buildtools</module>
     </modules>
 </project>

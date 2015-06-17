@@ -52,4 +52,23 @@ public class Dao implements PersonDao
 	    }
     return "Person Deleted";
     }
+    public boolean inRecord(int idNum){
+        Session session = factory.openSession();
+        Transaction tx = null; 
+        List persons = null;
+        try{
+            tx = session.beginTransaction();
+            persons = session.createQuery("FROM Person WHERE id ="+idNum).list();
+            tx.commit();
+        }catch(HibernateException e){
+            
+        }finally{
+            session.close();
+        }
+    boolean y = true;
+    if (persons == null){
+        y=false;
+    }
+    return y;    
+    }
 }

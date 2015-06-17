@@ -28,7 +28,7 @@ public class HibernateActivity
                             System.out.print(mes);
 							break;
 						case 4: 
-
+                            System.out.println(service.searchPersons(Integer.parseInt(userInput("Enter Id: "))));
 							break;
 						case 5: 
 							choice = false;	

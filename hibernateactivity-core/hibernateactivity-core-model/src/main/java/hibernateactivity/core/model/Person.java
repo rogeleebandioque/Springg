@@ -1,24 +1,25 @@
 package hibernateactivity.core.model;
 
+import java.util.*;
+
 public class Person 
 {
     private int id;
 	private String name;
 	private String address;
-	private String contact;
+	private List contact;
 	private int age;
 	private String gender;
-	private String bday;
+	private Date bday;
 	private int grade;
-	private String date_hired;
+	private Date date_hired;
 	private String currently_employed;
 
 	public Person(){}
 
-	public Person(String name, String address, String contact, int age, String gender, String bday, int grade, String date_hired, String currently_employed){
+	public Person(String name, String address, int age, String gender, Date bday, int grade, Date date_hired, String currently_employed){
 		this.name = name;
 		this.address = address;
-		this.contact = contact;
 		this.age = age;
 		this.gender = gender;
 		this.bday = bday;
@@ -39,7 +40,7 @@ public class Person
 	public void setAddress(String address){
 		this.address = address;
 	}//2
-	public void setContact(String contact){
+	public void setContact(List contact){
 		this.contact = contact;
 	}//3
 	public void setAge(int age){
@@ -48,13 +49,13 @@ public class Person
 	public void setGender(String gender){
 		this.gender = gender;
 	}//5
-	public void setBday(String bday){
+	public void setBday(Date bday){
 		this.bday = bday;
 	}//6
 	public void setGrade(int grade){
 		this.grade = grade;
 	}//7
-	public void setDate_hired(String date_hired){
+	public void setDate_hired(Date date_hired){
 		this.date_hired = date_hired;
 	}//8
 	public void setCurrently_employed(String currently_employed){
@@ -67,7 +68,7 @@ public class Person
 	public String getAddress(){
 		return address;
 	}//2
-	public String getContact(){
+	public List getContact(){
 		return contact;
 	}//3
 	public int getAge(){
@@ -76,13 +77,13 @@ public class Person
 	public String getGender(){
 		return gender;
 	}//5
-	public String getBday(){
+	public Date getBday(){
 		return bday;
 	}//6
 	public int getGrade(){
 		return grade;
 	}//7
-	public String getDate_hired(){
+	public Date getDate_hired(){
 		return date_hired;
 	}//8
 	public String getCurrently_employed(){

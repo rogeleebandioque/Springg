@@ -66,9 +66,58 @@ public class Dao implements PersonDao
             session.close();
         }
     boolean y = true;
-    if (persons == null){
+    if (persons.isEmpty()){
         y=false;
     }
     return y;    
+    }
+    public String addPeople(Person person){
+        Session session = factory.openSession();
+        Transaction tx = null;  
+        try{
+	        tx = session.beginTransaction();
+	        session.save(person);
+	        tx.commit();
+	    }catch (HibernateException e) {
+	        if (tx!=null) tx.rollback();
+	        e.printStackTrace();
+	    }finally {
+	        session.close();
+	    }
+    return "Added!";
+    }
+
+    public String updatePeople(Person person){
+        Session session = factory.openSession();
+        Transaction tx = null;
+        String mes = null;
+         try{
+	        tx = session.beginTransaction();
+	        session.update(person);
+	        tx.commit();
+            mes = "Updated!";
+	    }catch (HibernateException e) {
+	        if (tx!=null) tx.rollback();
+	        e.printStackTrace();
+	    }finally {
+	        session.close();
+	    }
+        return mes;
+    }
+
+    public Person getPeople(int idNum){
+        Session session = factory.openSession();
+        Transaction tx = null;
+        Person people = null;        
+        try{
+            tx = session.beginTransaction();
+            people = (Person)session.get(Person.class, idNum);
+            tx.commit();
+        }catch(HibernateException e){
+            
+        }finally{
+            session.close();
+        }
+        return people;
     }
 }

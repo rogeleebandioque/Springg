@@ -9,123 +9,137 @@ import hibernateactivity.core.model.Contacts;
 import org.apache.commons.validator.routines.DateValidator;
 import org.apache.commons.validator.routines.EmailValidator;
 
-public class HibernateActivity 
-{
-    public static void main( String[] args )
-    {
+public class HibernateActivity {
+
+    public static void main( String[] args ) {
         Service service = new Service();
     	boolean choice = true;
-			outer: while(choice)
-			{
-				try
-				{
-					int input = Integer.parseInt(userInput("Enter Choice: \n [1] List [2] Add [3] Delete [4] Edit"));
-					switch (input){
-						case 1: 
-							List<Person> person = service.getPersons();
-                            displayPerson(person);
+		
+        while (choice) {
+    	    try {
+			    int input = Integer.parseInt(userInput("Enter Choice: \n [1] List [2] Add [3] Delete [4] Edit"));
+				switch (input) {
+					case 1: 
+						List<Person> person = service.getPersons();
+                           displayPerson(person);
 							break;
-						case 2: 
-                            Person addPer = addPerson();
-                            System.out.println(service.addPersons(addPer));	 
-							break;
-						case 3: 
-		                    int idNum = integerValid(userInput("Enter ID# to be deleted"),"ID#");
-                            boolean exist = service.searchPersons(idNum);
-                            if(exist){
-                                String mes = service.deletePersons(idNum);
-                                System.out.println(mes);
-                            }else{
-                                System.out.println("ID does not exist!");
-                            }
-							break;
-						case 4: 
-                            int idNo = integerValid(userInput("Enter ID to update: "),"ID to update");
-                            boolean existUp = service.searchPersons(idNo);
-                           // Person people = null;                            
-                            if(existUp){
-                                Person people = service.getPersons(idNo);
-                                String toEdit = stringValid(userInput("Edit What? [name] [address] [age] [contacts] [bday] [employment status] [grade] [date hired] [gender] "),"Category to Edit");
-                                
-                                people = editPerson(toEdit, people);                                
-                                String message = service.updatePersons(people);
-                                System.out.println(message);                        
-                            }
-							break;
-						default:
-							System.out.println("Not in Choices!");
-							break;
-					}
-					
-				}catch(NumberFormatException e){
-					System.out.println("Invalid Input");
-				}
-			}
-    }
-    public static void displayPerson(List<Person> person){
-        for(Iterator iterator = person.iterator(); iterator.hasNext();){
-                Person persons = (Person) iterator.next();
-                //System.out.print("ID: " + persons.getId());
-	            System.out.println("Name: " + persons.getFirst_name()+ " "+ persons.getLast_name());    
-                Set<Contacts> c = persons.getContact();
-                //System.out.println("Contact: " + persons.getContact())
-                    for (Iterator iterator2 = c.iterator(); iterator2.hasNext();){
-                        Contacts contact = (Contacts) iterator2.next();
-                        System.out.println(">Contacts: " + contact.getContact());   
-                    }
 
-            }
+					case 2: 
+                        Person addPer = addPerson();
+                        System.out.println(service.addPersons(addPer));	 
+    					break;
+
+					case 3: 
+	                    int idNum = integerValid(userInput("Enter ID# to be deleted"),"ID#");
+                        boolean exist = service.searchPersons(idNum);
+                           
+                        if (exist) {
+                            String mes = service.deletePersons(idNum);
+                            System.out.println(mes);
+                        } else {
+                            System.out.println("ID does not exist!");
+                        }
+					    break;
+
+					case 4: 
+                        int idNo = integerValid(userInput("Enter ID to update: "),"ID to update");
+                        boolean existUp = service.searchPersons(idNo);                          
+
+                        if(existUp) {
+                            Person people = service.getPersons(idNo);
+                            String toEdit = stringValid(userInput("Edit What? [name] [address] [age] [contacts][bday] "+
+                                            "[employment status] [grade] [date hired] [gender] "),"Category to Edit");                              
+                            people = editPerson(toEdit, people);                                
+                            String message = service.updatePersons(people);
+                            System.out.println(message);                        
+                        }
+    					break;
+
+        			default:
+    					System.out.println("Not in Choices!");
+						break;
+				}
+			} catch (NumberFormatException e) {
+				System.out.println("Invalid Input");
+			}
+        }
     }
-    public static Person editPerson(String edit, Person person){
+
+    public static void displayPerson(List<Person> person) {
+
+        for(Iterator iterator = person.iterator(); iterator.hasNext();) {
+            Person persons = (Person) iterator.next();
+            System.out.println("Name: " + persons.getFirst_name()+ " "+ persons.getLast_name());    
+ 
+            Set<Contacts> c = persons.getContact(); 
+            for (Iterator iterator2 = c.iterator(); iterator2.hasNext();) {
+                Contacts contact = (Contacts) iterator2.next();
+                System.out.println(">"+ contact.getType() + ": " + contact.getContact());   
+            }
+        }
+    }
+
+    public static Person editPerson(String edit, Person person) {
         edit = edit.toLowerCase().trim();
-        //boolean go = true;
-        loop: while(true){
-            switch (edit){
+   
+        loop: while (true) {
+            switch (edit) {
                 case "name":
                     person.setFirst_name(stringValid(userInput("Enter New First Name:"),"First Name"));            
                     person.setLast_name(stringValid(userInput("Enter New Last Name:"),"Last Name"));            
-                break loop;
+                    break loop;
+
                 case "address":
                     person.setAddress(stringValid(userInput("Enter New Address"),"Address"));
-                break loop;
+                    break loop;
+
                 case "age":
                     person.setAge(integerValid(userInput("Enter New Age"),"Age"));
-                break loop;
+                    break loop;
+
                 case "contacts":
                     Set<Contacts> toUpCon = person.getContact();
-                toUpCon = upContacts(toUpCon);
+                    toUpCon = upContacts(toUpCon);
                     person.setContact(toUpCon);
-                break loop;
+                    break loop;
+
                 case "bday":
                     person.setBday(dateValid(userInput("Enter New Bday (MM/dd/yyyy) :"), "Bday (MM/dd/yyyy) :"));
-                break loop;
+                    break loop;
+
                 case "employment status":
                     person.setCurrently_employed(employmentValid(userInput("Currently Employed? [yes] [no]")));
-                break loop;
+                    break loop;
+
                 case "gender":
-                    person.setGender(genderValid(integerValid(userInput("Enter Person's Gender [1] Male [2] Female: "),"Answer: "),"Gender [1] Male [2] Female: "));
-                break loop;
+                    person.setGender(genderValid(integerValid(userInput("Enter Person's Gender [1] Male [2] Female: "),"Answer: "),
+                                                                        "Gender [1] Male [2] Female: "));
+                    break loop;
+
                 case "hired date":
                     person.setDate_hired(dateValid(userInput("Enter New Hired Date (MM/dd/yyyy) :"), "Hired Date (MM/dd/yyyy) :"));
-                break loop;
+                    break loop;
+
                 case "grade":
                     person.setGrade(integerValid(userInput("Enter Person's Grade: "),"Grade: "));
-                break loop;
+                    break loop;
+
                 default:
                     System.out.println("Not in category");
                     edit = stringValid(userInput("Enter valid category: "),"category to edit: ");
-                break;
+                    break;
             }
         }
         return person;
     }
-    public static String userInput(String message){
+
+    public static String userInput(String message) {
         System.out.println(message);        
         Scanner scan = new Scanner(System.in);
         String input = scan.nextLine();
         return input;
     }
-    public static Person addPerson(){
+    public static Person addPerson() {
         Person newPerson = new Person();
        
         newPerson.setFirst_name(stringValid(userInput("Enter Person's First Name: "),"First Name: "));
@@ -133,7 +147,8 @@ public class HibernateActivity
         newPerson.setAddress(stringValid(userInput("Enter Person's Address: "),"Name: "));
         newPerson.setContact(contactDetails());
         newPerson.setAge(integerValid(userInput("Enter Person's Age: "),"Age: "));
-        newPerson.setGender(genderValid(integerValid(userInput("Enter Person's Gender [1] Male [2] Female: "),"Answer: "),"Gender [1] Male [2] Female: "));
+        newPerson.setGender(genderValid(integerValid(userInput("Enter Person's Gender [1] Male [2] Female: "),"Answer: "),
+                                        "Gender [1] Male [2] Female: "));
         newPerson.setBday(dateValid(userInput("Enter Person's Birth date (MM/dd/yyyy): "), "Birth date (MM/dd/yyyy): "));
         newPerson.setGrade(integerValid(userInput("Enter Person's Grade: "),"Grade: "));
         newPerson.setDate_hired(dateValid(userInput("Enter Person's Date Hired (MM/dd/yyyy):  "),"Date Hired (MM/dd/yyyy): : "));
@@ -141,50 +156,54 @@ public class HibernateActivity
        
        return newPerson;    
     }
-    public static String stringValid(String check, String categ){
-        while(check.equals("")){
+
+    public static String stringValid(String check, String categ) {
+        while(check.equals("")) {
             check = userInput("Enter Valid "+ categ);
         }
         return check; 
-       
     }
-    public static int integerValid(String in, String categ){
+
+    public static int integerValid(String in, String categ) {
         boolean a = true;
         int input = 0;
-        while(a){
-            try{
+        
+        while(a) {
+            try {
                 input = Integer.parseInt(in);
                 a = false;
-            }catch(NumberFormatException e){
+            } catch(NumberFormatException e) {
                 in = userInput("Enter valid "+categ);
             }
         }
         return input;
     }
-    public static Date dateValid(String date, String categ){
+
+    public static Date dateValid(String date, String categ) {
         boolean d=true;
         DateValidator dateVal = DateValidator.getInstance();
         Date dt = null;
-        while(d){                      
-               dt = dateVal.validate(date, "MM/dd/yyyy");
-               if(dt == null){
-                    date = userInput("Enter valid "+categ);
-               }else{
-                    d = false;
-                }
+
+        while(d) {                      
+            dt = dateVal.validate(date, "MM/dd/yyyy");
+            if(dt == null) {
+                date = userInput("Enter valid "+categ);
+            } else {
+                d = false;
+            }
         }
-    return dt; 
+        return dt; 
     }
-    public static String genderValid(int gender,String categ){
-                
-        while(true){
-            if(gender ==1 || gender ==2){
-            break; 
+    
+    public static String genderValid(int gender,String categ) {
+        String genderV = "";                
+
+        while(true) {
+            if(gender ==1 || gender ==2) {
+                break; 
             }
             gender = integerValid(userInput("Enter valid " + categ), categ);        
         }
-
-        String genderV = "";
         if(gender == 1){
             genderV = "Male";
         }else if(gender == 2){
@@ -192,94 +211,110 @@ public class HibernateActivity
         }
         return genderV;    
     }
-    public static String employmentValid(String status){
+
+    public static String employmentValid(String status) {
         status = status.toLowerCase().trim();
-        while (true){
-            if(status.equals("yes") || status.equals("no")){
+        while (true) {
+            if(status.equals("yes") || status.equals("no")) {
                 break;
             }
             status = stringValid(userInput("Enter valid answer: "), "Enter valid answer: ");
         }
         return status; 
     }
-    public static String emailValid(String email, String categ){
+
+    public static String emailValid(String email, String categ) {
         EmailValidator valid = EmailValidator.getInstance();        
-        while(true){
-            if(valid.isValid(email)){
+
+        while(true) {
+            if(valid.isValid(email)) {
                 break;
-            }else{
+            } else {
                 email = userInput("Enter Valid "+ categ);
             }
         }
         return email;
     }
-    public static Set contactDetails(){
+
+    public static Set contactDetails() {
         Set cD = new HashSet();
-        while (true){
-            int cN = integerValid(userInput("Enter Contact details [1]E-mail [2]Cellphone# [3]Telephone#"), "details [1]E-mail [2]Cellphone# [3]Telephone#");
-            switch(cN){
+
+        while (true) {
+            int cN = integerValid(userInput("Enter Contact details [1]E-mail [2]Cellphone# [3]Telephone#"), 
+                                 "details [1]E-mail [2]Cellphone# [3]Telephone#");
+            switch(cN) {
                 case 1:
                     String email = emailValid(userInput("Enter E-Mail: "), "Email: ");
                     cD.add(new Contacts(email,"e-mail"));
-                break;
+                    break;
+
                 case 2:
                     String cell = patternMatch(stringValid(userInput("Enter Cellphone#: "), "Cellphone#: "));
                     cD.add(new Contacts(cell,"cellphone"));
-                break;
+                    break;
+
                 case 3:
                     String phone = patternMatch(stringValid(userInput("Enter Telephone#: "), "Telephone#: "));
                     cD.add(new Contacts(phone,"telephone"));                
-                break;
+                    break;
+
                 default:
                     System.out.println("Enter valid contact details");
-                break;
+                    break;
             }
             int cont = integerValid(userInput("Add another contact? [1]Yes [2]No"),"answer [1]Yes [2]No: ");
-            while(cont>2){
+
+            while(cont>2) {
                 System.out.println("Not in the choices");
                 cont = integerValid(userInput("Add another contact? [1]Yes [2]No"),"answer [1]Yes [2]No: ");         
             }
-            if(cont == 2){
+            if(cont == 2) {
                 break;
             }
         }
         return cD;
     }
-    public static Set upContacts(Set toUpCon){
+
+    public static Set upContacts(Set toUpCon) {
+
         for(Iterator iterator = toUpCon.iterator(); iterator.hasNext();){
-          Contacts cont = (Contacts) iterator.next();
-          String up = stringValid(userInput(" Edit: " + cont.getContact() + "? [Yes][No]: "),"Answer[Yes][No]: ").toLowerCase();
-          switch (up){
-             case "yes":
-                 if(cont.getType().equals("e-mail")){
-                     cont.setContact(emailValid(userInput("Enter New Email: "),"New Email:"));
-                 }else if(cont.getType().equals("cellphone")){
-                     cont.setContact(patternMatch(stringValid(userInput("Enter Cellphone#: "), "Cellphone#: ")));
-                 }else if(cont.getType().equals("telephone")){
-                     cont.setContact(patternMatch(stringValid(userInput("Enter Telephone#: "), "Telephone#: ")));
-                 } 
-             break;
-             case "no":
-                    
-             break;
+            Contacts cont = (Contacts) iterator.next();
+            String up = stringValid(userInput(" Edit: " + cont.getContact() + "? [Yes][No]: "),"Answer[Yes][No]: ").toLowerCase();
+
+            switch (up) {
+                case "yes":
+                    if(cont.getType().equals("e-mail")) {
+                        cont.setContact(emailValid(userInput("Enter New Email: "),"New Email:"));
+                    } else if(cont.getType().equals("cellphone")) {
+                        cont.setContact(patternMatch(stringValid(userInput("Enter Cellphone#: "), "Cellphone#: ")));
+                    } else if(cont.getType().equals("telephone")) {
+                        cont.setContact(patternMatch(stringValid(userInput("Enter Telephone#: "), "Telephone#: ")));
+                    } 
+                    break;
+
+                case "no":                    
+                    break;
+
              default:
                  System.out.println("Not in choices! ");
-             break;   
+                 break;   
                        
-          }
-       }
-     return toUpCon;    
+            }
+        }
+        return toUpCon;    
     }
-    public static String patternMatch(String num){
+
+    public static String patternMatch(String num) {
         Pattern pattern = Pattern.compile("^[0-9]*$");
         Matcher matcher = pattern.matcher(num);
         boolean matches = matcher.matches();
 
-        while(matches == false){
+        while(matches == false) {
             num = stringValid(userInput("Enter valid input: "),"input: ");
             matcher = pattern.matcher(num);
             matches = matcher.matches();
         }
     return num;
     }
+
 }

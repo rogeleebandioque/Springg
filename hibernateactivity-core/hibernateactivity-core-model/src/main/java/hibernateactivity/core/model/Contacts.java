@@ -1,45 +1,57 @@
 package hibernateactivity.core.model;
 
-public class Contacts{
+public class Contacts {
+
     private int id;
     private String type;
     private String contact;
 
-    public Contacts(){}
+    public Contacts() {}
 
-    public Contacts(String contact, String type){
+    public Contacts(String contact, String type) {
         this.contact = contact;
         this.type = type;    
     }
     
-    public int getId(){
+    public int getId() {
         return this.id;    
     }
-    public String getContact(){
-        return this.contact;    
-    }
-    public String getType(){
-        return this.type;
-    }
-    public void setId(int id){
+
+    public void setId(int id) {
         this.id = id;
     }
-    public void setContact(String contact){
+
+    public String getContact() {
+        return this.contact;    
+    }
+
+    public void setContact(String contact) {
         this.contact = contact;
     }
-    public void setType(String type){
+
+    public String getType() {
+        return this.type;
+    }
+
+    public void setType(String type) {
         this.type = type;
     }
+
     public boolean equals(Object obj) {
         if (obj == null) return false;
-        if (!this.getClass().equals(obj.getClass())) return false;
+
+        if (!this.getClass().equals(obj.getClass())) {
+            return false;
+        }
+        
         Contacts obj2 = (Contacts)obj;
-        if((this.id == obj2.getId()) && (this.contact.equals(obj2.getContact())))
-        {
+
+        if((this.id == obj2.getId()) && (this.contact.equals(obj2.getContact()))) {
             return true;
         }
         return false;
     }
+
     public int hashCode() {
         int tmp = 0;
         tmp = ( id + contact ).hashCode();

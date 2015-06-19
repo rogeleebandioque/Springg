@@ -1,4 +1,4 @@
-create table Contacts(
+CREATE TABLE Contacts(
     id int not null, 
     contact text default null, 
     person_id int default null, 

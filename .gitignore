@@ -1,1 +1,11 @@
 *~
+hibernateactivity-app/target/
+hibernateactivity-core/hibernateactivity-core-dao/target/
+hibernateactivity-core/hibernateactivity-core-model/target/
+hibernateactivity-core/hibernateactivity-core-service/target/
+hibernateactivity-core/target/
+hibernateactivity-infra/hibernateactivity-infra-buildtools/target/
+hibernateactivity-infra/hibernateactivity-infra-persistence/target/
+hibernateactivity-infra/target/
+target/
+

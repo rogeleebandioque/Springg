@@ -1,17 +1,25 @@
+package hibernateactivity.core.model;
+
 public class Contacts{
     private int id;
+    private String type;
     private String contact;
+
     public Contacts(){}
 
-    public Contacts(String contact){
+    public Contacts(String contact, String type){
         this.contact = contact;
+        this.type = type;    
     }
     
     public int getId(){
-        return id;    
+        return this.id;    
     }
     public String getContact(){
-        return contact;    
+        return this.contact;    
+    }
+    public String getType(){
+        return this.type;
     }
     public void setId(int id){
         this.id = id;
@@ -19,4 +27,24 @@ public class Contacts{
     public void setContact(String contact){
         this.contact = contact;
     }
+    public void setType(String type){
+        this.type = type;
+    }
+    public boolean equals(Object obj) {
+        if (obj == null) return false;
+        if (!this.getClass().equals(obj.getClass())) return false;
+        Contacts obj2 = (Contacts)obj;
+        if((this.id == obj2.getId()) && (this.contact.equals(obj2.getContact())))
+        {
+            return true;
+        }
+        return false;
+    }
+    public int hashCode() {
+        int tmp = 0;
+        tmp = ( id + contact ).hashCode();
+        return tmp;
+    }   
+
+
 }

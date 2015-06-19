@@ -16,5 +16,6 @@
 	<property name="hibernate.connection.password">rbandioque</property>
         <!-- List of XML mapping files -->
         <mapping resource="Person.hbm.xml"/>
+        <mapping resource="Contacts.hbm.xml"/>
     </session-factory>
 </hibernate-configuration>

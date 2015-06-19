@@ -13,7 +13,7 @@ public class Dao implements PersonDao
     private static SessionFactory factory;
     public Dao(){
         try{
-            factory =  new Configuration().configure().buildSessionFactory();       
+            factory =  new Configuration().configure("hibernate.cfg.xml").buildSessionFactory();       
         }catch(Throwable ex){
             ex.printStackTrace();
             System.err.println("Failed to create sessionFactory object" + ex);
@@ -119,5 +119,6 @@ public class Dao implements PersonDao
             session.close();
         }
         return people;
-    }
+    }    
+    
 }

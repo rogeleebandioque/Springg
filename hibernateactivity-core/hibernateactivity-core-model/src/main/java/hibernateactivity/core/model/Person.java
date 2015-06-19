@@ -5,9 +5,10 @@ import java.util.*;
 public class Person 
 {
     private int id;
-	private String name;
+	private String first_name;
+	private String last_name;
 	private String address;
-	private List contact;
+	private Set contact;
 	private int age;
 	private String gender;
 	private Date bday;
@@ -17,8 +18,9 @@ public class Person
 
 	public Person(){}
 
-	public Person(String name, String address, int age, String gender, Date bday, int grade, Date date_hired, String currently_employed){
-		this.name = name;
+	public Person(String first_name,String last_name, String address, int age, String gender, Date bday, int grade, Date date_hired, String currently_employed){
+		this.first_name = first_name;
+        this.last_name = first_name;
 		this.address = address;
 		this.age = age;
 		this.gender = gender;
@@ -28,19 +30,20 @@ public class Person
 		this.currently_employed = currently_employed;
 	}
 
-	public int getId(){
-		return id;
-	}
+
     public void setId(int id){
 		this.id = id;
 	}
-	public void setName(String name){
-		this.name = name;
-	}//1
+	public void setFirst_name(String first_name){
+		this.first_name = first_name;
+	}
+    public void setLast_name(String last_name){
+		this.last_name = last_name;
+	}
 	public void setAddress(String address){
 		this.address = address;
 	}//2
-	public void setContact(List contact){
+	public void setContact(Set contact){
 		this.contact = contact;
 	}//3
 	public void setAge(int age){
@@ -62,13 +65,19 @@ public class Person
 		this.currently_employed = currently_employed;
 	}//9
 
-	public String getName(){
-		return name;
-	}//1
+	public int getId(){
+		return id;
+	}    
+	public String getFirst_name(){
+		return first_name;
+	}
+    public String getLast_name(){
+		return last_name;
+	}
 	public String getAddress(){
 		return address;
 	}//2
-	public List getContact(){
+	public Set getContact(){
 		return contact;
 	}//3
 	public int getAge(){

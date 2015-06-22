@@ -68,7 +68,8 @@ public class PersonDaoImpl implements PersonDao {
             persons = session.createQuery("FROM Person WHERE id ="+idNum).list();
             tx.commit();
         } catch(HibernateException e) {
-            e.printStackTrace();
+           	if (tx!=null) tx.rollback();
+	        e.printStackTrace();
         } finally {
             session.close();
         }

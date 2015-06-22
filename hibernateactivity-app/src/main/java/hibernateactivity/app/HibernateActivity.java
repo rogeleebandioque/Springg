@@ -13,9 +13,9 @@ public class HibernateActivity {
 
     public static void main( String[] args ) {
         Service service = new Service();
-    	//boolean choice = true;
+    	boolean choice = true;
 		
-        while (true) {
+        while (choice) {
     	    try {
 			    int input = Integer.parseInt(userInput("\nEnter Choice: \n [1] List [2] Add [3] Delete [4] Edit"));
 				switch (input) {
@@ -82,8 +82,9 @@ public class HibernateActivity {
 
     public static Person editPerson(String edit, Person person) {
         edit = edit.toLowerCase().trim();
-   
-        loop: while (true) {
+        boolean edit=true;
+
+        loop: while (edit) {
             switch (edit) {
                 case "name":
                     person.setFirst_name(stringValid(userInput("Enter New First Name:"),"First Name"));            
@@ -198,9 +199,10 @@ public class HibernateActivity {
     }
     
     public static String genderValid(int gender,String categ) {
-        String genderV = "";                
+        String genderV = "";     
+        boolean gv = true;           
 
-        while(true) {
+        while(gv) {
             if(gender ==1 || gender ==2) {
                 break; 
             }
@@ -216,7 +218,9 @@ public class HibernateActivity {
 
     public static String employmentValid(String status) {
         status = status.toLowerCase().trim();
-        while (true) {
+        boolean ev = true;
+
+        while (ev) {
             if(status.equals("yes") || status.equals("no")) {
                 break;
             }
@@ -227,8 +231,9 @@ public class HibernateActivity {
 
     public static String emailValid(String email, String categ) {
         EmailValidator valid = EmailValidator.getInstance();        
+        boolean emv = true;
 
-        while(true) {
+        while(emv) {
             if(valid.isValid(email)) {
                 break;
             } else {
@@ -240,8 +245,9 @@ public class HibernateActivity {
 
     public static Set contactDetails() {
         Set cD = new HashSet();
+        boolean cnd = true;
 
-        while (true) {
+        while (cnd) {
             int cN = integerValid(userInput("Enter Contact details [1]E-mail [2]Cellphone# [3]Telephone#"), 
                                  "details [1]E-mail [2]Cellphone# [3]Telephone#");
             switch(cN) {

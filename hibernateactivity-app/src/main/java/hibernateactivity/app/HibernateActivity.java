@@ -82,9 +82,9 @@ public class HibernateActivity {
 
     public static Person editPerson(String edit, Person person) {
         edit = edit.toLowerCase().trim();
-        boolean edit=true;
+      // boolean edit = true;
 
-        loop: while (edit) {
+        loop: while (true) {
             switch (edit) {
                 case "name":
                     person.setFirst_name(stringValid(userInput("Enter New First Name:"),"First Name"));            

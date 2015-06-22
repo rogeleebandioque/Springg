@@ -13,11 +13,11 @@ public class HibernateActivity {
 
     public static void main( String[] args ) {
         Service service = new Service();
-    	boolean choice = true;
+    	//boolean choice = true;
 		
-        while (choice) {
+        while (true) {
     	    try {
-			    int input = Integer.parseInt(userInput("Enter Choice: \n [1] List [2] Add [3] Delete [4] Edit"));
+			    int input = Integer.parseInt(userInput("\nEnter Choice: \n [1] List [2] Add [3] Delete [4] Edit"));
 				switch (input) {
 					case 1: 
 						List<Person> person = service.getPersons();
@@ -47,8 +47,9 @@ public class HibernateActivity {
 
                         if(existUp) {
                             Person people = service.getPersons(idNo);
-                            String toEdit = stringValid(userInput("Edit What? [name] [address] [age] [contacts][bday] "+
-                                            "[employment status] [grade] [date hired] [gender] "),"Category to Edit");                              
+                            String toEdit = stringValid(userInput("<Person: "+people.getFirst_name()+">\n"+"Edit What? \n[name] " + 
+                                                       "[address] [age] \n[contacts] [bday] [employment status] \n[grade] " +
+                                                       "[date hired] [gender] "),"Category to Edit");                              
                             people = editPerson(toEdit, people);                                
                             String message = service.updatePersons(people);
                             System.out.println(message);                        
@@ -69,7 +70,7 @@ public class HibernateActivity {
 
         for(Iterator iterator = person.iterator(); iterator.hasNext();) {
             Person persons = (Person) iterator.next();
-            System.out.println("Name: " + persons.getFirst_name()+ " "+ persons.getLast_name());    
+            System.out.println("\nName: " + persons.getFirst_name()+ " "+ persons.getLast_name());    
  
             Set<Contacts> c = persons.getContact(); 
             for (Iterator iterator2 = c.iterator(); iterator2.hasNext();) {
@@ -98,7 +99,7 @@ public class HibernateActivity {
                     break loop;
 
                 case "contacts":
-                    Set<Contacts> toUpCon = person.getContact();
+                    Set toUpCon = person.getContact();
                     toUpCon = upContacts(toUpCon);
                     person.setContact(toUpCon);
                     break loop;
@@ -140,6 +141,7 @@ public class HibernateActivity {
         return input;
     }
     public static Person addPerson() {
+        System.out.println("Add Person: ");
         Person newPerson = new Person();
        
         newPerson.setFirst_name(stringValid(userInput("Enter Person's First Name: "),"First Name: "));
@@ -279,7 +281,7 @@ public class HibernateActivity {
 
         for(Iterator iterator = toUpCon.iterator(); iterator.hasNext();){
             Contacts cont = (Contacts) iterator.next();
-            String up = stringValid(userInput(" Edit: " + cont.getContact() + "? [Yes][No]: "),"Answer[Yes][No]: ").toLowerCase();
+            String up = stringValid(userInput(" Edit: " + cont.getContact() + "? [Yes][No][Delete]: "),"Answer[Yes][No][Delete]: ").toLowerCase();
 
             switch (up) {
                 case "yes":
@@ -295,10 +297,24 @@ public class HibernateActivity {
                 case "no":                    
                     break;
 
-             default:
-                 System.out.println("Not in choices! ");
-                 break;   
-                       
+                case "delete":
+                    String check = stringValid(userInput("Are you sure [Yes][No]?"),"Answer [Yes][No]").toLowerCase();
+
+                    inner: while(true) {
+                        if(check.equals("yes")||check.equals("no")){
+                            break inner;
+                        }                        
+                        check = stringValid(userInput("Are you sure [Yes][No]?"),"Answer [Yes][No]").toLowerCase();
+                    }
+                    if(check.equals("yes")) {
+                        iterator.remove();
+                        System.out.println("Contact removed!");
+                    }
+                    break;    
+
+                default:
+                    System.out.println("Not in choices! ");
+                    break;         
             }
         }
         return toUpCon;    

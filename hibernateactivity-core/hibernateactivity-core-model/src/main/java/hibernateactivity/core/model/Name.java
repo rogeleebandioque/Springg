@@ -1,14 +1,14 @@
 package hibernateactivity.core.model;
 
 public class Name {
-    private String f_name;
-    private String l_name;
+    private String first_name;
+    private String last_name;
     private int id;
 
     public Name() {}
-    public Name(String f_name, String l_name) {
-        this.f_name = f_name;
-        this.l_name = l_name;
+    public Name(String first_name, String last_name) {
+        this.first_name = first_name;
+        this.last_name = last_name;
     }
 
     public void setId(int id){
@@ -19,20 +19,20 @@ public class Name {
         return id;
     }
 
-    public void setF_name(String f_name) {
-        this.f_name = f_name;        
+    public void setFirst_name(String first_name) {
+        this.first_name = first_name;        
     }
 
-    public String getF_name() {
-        return f_name;
+    public String getFirst_name() {
+        return first_name;
     }
 
-    public void setL_name(String l_name) {
-        this.l_name = l_name;        
+    public void setLast_name(String last_name) {
+        this.last_name = last_name;        
     }
 
-    public String getL_name() {
-        return l_name;
+    public String getLast_name() {
+        return last_name;
     }
 
 }

@@ -34,6 +34,14 @@ public class HibernateActivity {
                         } 
                         if(listBy.equals("grade")) {
                             person = service.getPersons(listBy, orderBy);
+                            if(orderBy.equals("desc")){
+                                Collections.sort(person, Collections.reverseOrder());
+                            }else{
+                                Collections.sort(person);
+                            }
+                        } else if(listBy.equals("last_name")) {
+                            person = service.getPersons(listBy, orderBy);
+                            //Collections.sort(person, new NameComparator());
                         } else { 
 						    person = service.getPersons(listBy, orderBy);
                         }
@@ -64,7 +72,7 @@ public class HibernateActivity {
                         if(existUp) {
                             Person people = service.getPersons(idNo);
                             Name n = people.getNames();
-                            String toEdit = stringValid(userInput("<Person: "+n.getF_name()+">\n"+"Edit What? \n[name] " + 
+                            String toEdit = stringValid(userInput("<Person: "+n.getFirst_name()+">\n"+"Edit What? \n[name] " + 
                                                        "[address] [age] \n[contacts] [bday] [employment status] \n[grade] " +
                                                        "[date hired] [gender] "),"Category to Edit");                              
                             people = editPerson(toEdit, people);                                
@@ -86,26 +94,12 @@ public class HibernateActivity {
     public static void displayPerson(List<Person> person) {
         for(Person persons:person){
             Name name = persons.getNames();
-            System.out.println("\nName: " + name.getF_name()+ " "+ name.getL_name());      
+            System.out.println("\nName: " + name.getFirst_name()+ " "+ name.getLast_name());      
             System.out.println("Date Hired: "+ persons.getDate_hired() + "\nGrade: "+ persons.getGrade());
             for(Contacts contact:persons.getContact()){
                 System.out.println(">"+ contact.getType() + ": " + contact.getContact());
             }
         }
-
- /*       for(Iterator iterator = person.iterator(); iterator.hasNext();) {
-            Person persons = (Person) iterator.next();
-            Name name = persons.getNames();
-
-//            System.out.println("\nName: " + persons.getFirst_name() + " " + persons.getLast_name());
-            System.out.println("\nName: " + name.getF_name()+ " "+ name.getL_name());      
-            System.out.println("Date Hired: "+ persons.getDate_hired() + "\nGrade: "+ persons.getGrade());
-            Set<Contacts> c = persons.getContact(); 
-            for (Iterator iterator2 = c.iterator(); iterator2.hasNext();) {
-                Contacts contact = (Contacts) iterator2.next();
-                System.out.println(">"+ contact.getType() + ": " + contact.getContact());   
-            }
-        }*/
     }
 
     public static Person editPerson(String edit, Person person) {
@@ -115,12 +109,9 @@ public class HibernateActivity {
         loop: while (ed) {
             switch (edit) {
                 case "name":
-                    Name eName = new Name();
-                    eName.setF_name(stringValid(userInput("Enter New First Name:"),"First Name"));
-                    eName.setL_name(stringValid(userInput("Enter New Last Name:"),"Last Name"));
-                    //person.setFirst_name(stringValid(userInput("Enter New First Name:"),"First Name"));            
-                    //person.setLast_name(stringValid(userInput("Enter New Last Name:"),"Last Name"));  
-                   // person.setNames(eName);          
+                    Name eName = person.getNames();
+                    eName.setFirst_name(stringValid(userInput("Enter New First Name:"),"First Name"));
+                    eName.setLast_name(stringValid(userInput("Enter New Last Name:"),"Last Name"));   
                     break loop;
 
                 case "address":
@@ -178,11 +169,9 @@ public class HibernateActivity {
         Person newPerson = new Person();       
         Name aName = new Name();
 
-        aName.setF_name(stringValid(userInput("Enter Person's First Name:"),"First Name"));
-        aName.setL_name(stringValid(userInput("Enter Person's Last Name:"),"Last Name"));
+        aName.setFirst_name(stringValid(userInput("Enter Person's First Name:"),"First Name"));
+        aName.setLast_name(stringValid(userInput("Enter Person's Last Name:"),"Last Name"));
         newPerson.setNames(aName);
-        //newPerson.setFirst_name(stringValid(userInput("Enter Person's First Name: "),"First Name: "));
-        //newPerson.setLast_name(stringValid(userInput("Enter Person's Last Name: "),"Last Name: "));
         newPerson.setAddress(stringValid(userInput("Enter Person's Address: "),"Name: "));
         newPerson.setContact(contactDetails());
         newPerson.setAge(integerValid(userInput("Enter Person's Age: "),"Age: "));
@@ -320,9 +309,9 @@ public class HibernateActivity {
         return cD;
     }
 
-    public static Set upContacts(Set toUpCon) {
+    public static Set<Contacts> upContacts(Set<Contacts> toUpCon) {
 
-        for(Iterator iterator = toUpCon.iterator(); iterator.hasNext();){
+        for(Iterator iterator = toUpCon.iterator(); iterator.hasNext();) {
             Contacts cont = (Contacts) iterator.next();
             String up = stringValid(userInput(" Edit: " + cont.getContact() + "? [Yes][No][Delete]: "),"Answer[Yes][No][Delete]: ").toLowerCase();
 

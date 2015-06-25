@@ -30,26 +30,31 @@ public class PersonDaoImpl implements PersonDao {
         Session session = factory.openSession();
         Transaction tx = null;      
         List<Person> persons = null;  
+        String sql = null;
 
         try {
             tx = session.beginTransaction();
-            Criteria cr = session.createCriteria(Person.class); 
-
-            if(orderBy.equals("desc")) {
-                cr.addOrder(Order.desc(listBy));
-
-            } else { 
-                cr.addOrder(Order.asc(listBy));    
+            if(!(listBy.equals("grade") || listBy.equals("last_name"))) {
+                Criteria cr = session.createCriteria(Person.class); 
+                if(orderBy.equals("desc")) {
+                    cr.addOrder(Order.desc(listBy));
+                } else { 
+                    cr.addOrder(Order.asc(listBy));    
+                }
+                
+                persons = cr.list();
+            } else if(listBy.equals("last_name")) {              
+                if(orderBy.equals("asc")){
+                    sql = "FROM Person ORDER BY last_name ASC";             
+                } else {
+                    sql = "FROM Person ORDER BY last_name DESC";          
+                }
+                persons  = session.createQuery(sql).list();
+            } else {
+                sql = "from Person"; 
+                persons  = session.createQuery(sql).list();//setResultTransformer(Transformers.aliasToBean(Person.class)).list();
             }
-            persons = cr.list();
-            
-/*
-            String sql = "FROM Person"; 
-                        //"SELECT E.names as names, E.contact as contact, E.grade as grade," +
-                         //"E.date_hired as date_hired FROM Person E inner join E.Contacts"; //"Select (names, grade, date_hired, contact) from Person";
-            tx = session.beginTransaction();
-            persons  = session.createQuery(sql).setResultTransformer(Transformers.aliasToBean(Person.class)).list();
-*/            tx.commit();
+            tx.commit();
         } catch(HibernateException e) {
             e.printStackTrace();
         } finally {

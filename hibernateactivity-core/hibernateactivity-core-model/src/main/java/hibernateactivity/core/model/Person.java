@@ -2,7 +2,7 @@ package hibernateactivity.core.model;
 
 import java.util.*;
 
-public class Person {
+public class Person implements Comparable<Person> {
 
     private int id;
 /*    private String first_name;
@@ -145,5 +145,14 @@ public class Person {
 
     public Set<Roles> getRole(){
         return role;
+    }
+
+    public int getComparison(){
+		return grade;
+	}
+
+	public int compareTo(Person person){
+      		//return (this.getComparison().compareTo(person.getComparison());
+  	    return (this.grade < person.grade ) ? -1: (this.grade > person.grade ) ? 1:0 ;        
     }
 }

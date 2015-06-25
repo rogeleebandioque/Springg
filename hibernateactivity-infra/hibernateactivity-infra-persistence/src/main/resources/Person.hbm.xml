@@ -11,8 +11,8 @@
     <!--<property name="first_name" column="first_name" type="string"/>
     <property name="last_name" column="last_name" type="string"/>-->
     <component name="names" class="hibernateactivity.core.model.Name">
-        <property name="f_name" column="first_name" type="string"/>
-        <property name="l_name" column="last_name" type="string"/>
+        <property name="first_name" column="first_name" type="string"/>
+        <property name="last_name" column="last_name" type="string"/>
     </component>
     <property name="address" column="address" type="string"/>
     <set name="contact" cascade="all, delete-orphan" lazy="false">

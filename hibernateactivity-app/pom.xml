@@ -26,8 +26,8 @@
             <version>1.0SNAPSHOT</version>
         </dependency>
         <dependency>
-	            <groupId>commons-validator</groupId>
-                <artifactId>commons-validator</artifactId>
+	        <groupId>commons-validator</groupId>
+            <artifactId>commons-validator</artifactId>
 	    </dependency>
     </dependencies>
     

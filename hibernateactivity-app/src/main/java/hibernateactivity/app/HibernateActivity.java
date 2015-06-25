@@ -5,9 +5,12 @@ import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 import hibernateactivity.core.service.Service;
 import hibernateactivity.core.model.Person;
+import hibernateactivity.core.model.Roles; //Additional
 import hibernateactivity.core.model.Contacts;
+import hibernateactivity.core.model.Name;
 import org.apache.commons.validator.routines.DateValidator;
 import org.apache.commons.validator.routines.EmailValidator;
+
 
 public class HibernateActivity {
 
@@ -20,9 +23,22 @@ public class HibernateActivity {
 			    int input = Integer.parseInt(userInput("\nEnter Choice: \n [1] List [2] Add [3] Delete [4] Edit"));
 				switch (input) {
 					case 1: 
-						List<Person> person = service.getPersons();
-                           displayPerson(person);
-							break;
+                        List<Person> person = null;
+                        String listBy = stringValid(userInput("Order by [Grade] [Date_Hired] [Last_Name]"),"Input: ").toLowerCase();
+                        while(!(listBy.equals("grade") || listBy.equals("date_hired") || listBy.equals("last_name"))) {
+                            listBy = stringValid(userInput("Order by [Grade] [Date_Hired] [Last_Name]"),"Input: ").toLowerCase();
+                        }
+                        String orderBy = stringValid(userInput("[ASC]Ascending [DESC]Descending"),"Input: ").toLowerCase();
+                        while(!(orderBy.equals("asc") || orderBy.equals("desc"))) {
+                            orderBy = stringValid(userInput("[ASC]Ascending [DESC]Descending"),"Input: ").toLowerCase();
+                        } 
+                        if(listBy.equals("grade")) {
+                            person = service.getPersons(listBy, orderBy);
+                        } else { 
+						    person = service.getPersons(listBy, orderBy);
+                        }
+                        displayPerson(person);
+						break;
 
 					case 2: 
                         Person addPer = addPerson();
@@ -47,12 +63,13 @@ public class HibernateActivity {
 
                         if(existUp) {
                             Person people = service.getPersons(idNo);
-                            String toEdit = stringValid(userInput("<Person: "+people.getFirst_name()+">\n"+"Edit What? \n[name] " + 
+                            Name n = people.getNames();
+                            String toEdit = stringValid(userInput("<Person: "+n.getF_name()+">\n"+"Edit What? \n[name] " + 
                                                        "[address] [age] \n[contacts] [bday] [employment status] \n[grade] " +
                                                        "[date hired] [gender] "),"Category to Edit");                              
                             people = editPerson(toEdit, people);                                
                             String message = service.updatePersons(people);
-                            System.out.println(message);                        
+                            System.out.println(message);                     
                         }
     					break;
 
@@ -67,28 +84,43 @@ public class HibernateActivity {
     }
 
     public static void displayPerson(List<Person> person) {
+        for(Person persons:person){
+            Name name = persons.getNames();
+            System.out.println("\nName: " + name.getF_name()+ " "+ name.getL_name());      
+            System.out.println("Date Hired: "+ persons.getDate_hired() + "\nGrade: "+ persons.getGrade());
+            for(Contacts contact:persons.getContact()){
+                System.out.println(">"+ contact.getType() + ": " + contact.getContact());
+            }
+        }
 
-        for(Iterator iterator = person.iterator(); iterator.hasNext();) {
+ /*       for(Iterator iterator = person.iterator(); iterator.hasNext();) {
             Person persons = (Person) iterator.next();
-            System.out.println("\nName: " + persons.getFirst_name()+ " "+ persons.getLast_name());    
- 
+            Name name = persons.getNames();
+
+//            System.out.println("\nName: " + persons.getFirst_name() + " " + persons.getLast_name());
+            System.out.println("\nName: " + name.getF_name()+ " "+ name.getL_name());      
+            System.out.println("Date Hired: "+ persons.getDate_hired() + "\nGrade: "+ persons.getGrade());
             Set<Contacts> c = persons.getContact(); 
             for (Iterator iterator2 = c.iterator(); iterator2.hasNext();) {
                 Contacts contact = (Contacts) iterator2.next();
                 System.out.println(">"+ contact.getType() + ": " + contact.getContact());   
             }
-        }
+        }*/
     }
 
     public static Person editPerson(String edit, Person person) {
         edit = edit.toLowerCase().trim();
-      // boolean edit = true;
+        boolean ed = true;
 
-        loop: while (true) {
+        loop: while (ed) {
             switch (edit) {
                 case "name":
-                    person.setFirst_name(stringValid(userInput("Enter New First Name:"),"First Name"));            
-                    person.setLast_name(stringValid(userInput("Enter New Last Name:"),"Last Name"));            
+                    Name eName = new Name();
+                    eName.setF_name(stringValid(userInput("Enter New First Name:"),"First Name"));
+                    eName.setL_name(stringValid(userInput("Enter New Last Name:"),"Last Name"));
+                    //person.setFirst_name(stringValid(userInput("Enter New First Name:"),"First Name"));            
+                    //person.setLast_name(stringValid(userInput("Enter New Last Name:"),"Last Name"));  
+                   // person.setNames(eName);          
                     break loop;
 
                 case "address":
@@ -143,10 +175,14 @@ public class HibernateActivity {
     }
     public static Person addPerson() {
         System.out.println("Add Person: ");
-        Person newPerson = new Person();
-       
-        newPerson.setFirst_name(stringValid(userInput("Enter Person's First Name: "),"First Name: "));
-        newPerson.setLast_name(stringValid(userInput("Enter Person's Last Name: "),"Last Name: "));
+        Person newPerson = new Person();       
+        Name aName = new Name();
+
+        aName.setF_name(stringValid(userInput("Enter Person's First Name:"),"First Name"));
+        aName.setL_name(stringValid(userInput("Enter Person's Last Name:"),"Last Name"));
+        newPerson.setNames(aName);
+        //newPerson.setFirst_name(stringValid(userInput("Enter Person's First Name: "),"First Name: "));
+        //newPerson.setLast_name(stringValid(userInput("Enter Person's Last Name: "),"Last Name: "));
         newPerson.setAddress(stringValid(userInput("Enter Person's Address: "),"Name: "));
         newPerson.setContact(contactDetails());
         newPerson.setAge(integerValid(userInput("Enter Person's Age: "),"Age: "));
@@ -155,7 +191,8 @@ public class HibernateActivity {
         newPerson.setBday(dateValid(userInput("Enter Person's Birth date (MM/dd/yyyy): "), "Birth date (MM/dd/yyyy): "));
         newPerson.setGrade(integerValid(userInput("Enter Person's Grade: "),"Grade: "));
         newPerson.setDate_hired(dateValid(userInput("Enter Person's Date Hired (MM/dd/yyyy):  "),"Date Hired (MM/dd/yyyy): : "));
-        newPerson.setCurrently_employed(employmentValid(userInput("Currently Employed? [yes] [no]")));    
+        newPerson.setCurrently_employed(employmentValid(userInput("Currently Employed? [yes] [no]"))); 
+        newPerson.setRole(addRole());   
        
        return newPerson;    
     }
@@ -209,9 +246,9 @@ public class HibernateActivity {
             gender = integerValid(userInput("Enter valid " + categ), categ);        
         }
         if(gender == 1){
-            genderV = "Male";
+            genderV = "male";
         }else if(gender == 2){
-            genderV = "Female";
+            genderV = "female";
         }
         return genderV;    
     }
@@ -337,6 +374,42 @@ public class HibernateActivity {
             matches = matcher.matches();
         }
     return num;
+    }
+    
+    public static Set<Roles> addRole() {
+        Set r = new HashSet();        
+
+        boolean rol = true;
+        while(rol){
+            int rolNo = integerValid(userInput("Choose Role [1]Police [2]Politician [3]Soldier [4]Celebrity [5]Worker"),"Choice");
+            switch(rolNo) {
+                case 1: 
+                    r.add(new Roles(1,"Police"));
+                    break;
+                case 2:
+                    r.add(new Roles(2,"Politician"));
+                    break;
+                case 3:
+                    r.add(new Roles(3,"Soldier"));
+                    break;
+                case 4:
+                    r.add(new Roles(4,"Celebrity"));
+                    break;
+                case 5:
+                    r.add(new Roles(5,"Worker"));
+                    break;
+            }
+            int anotherRole = integerValid(userInput("Add another Role? [1]Yes [2]No "),"Answer [1]Yes [2]No: ");
+            while(anotherRole>2) {
+                System.out.println("Not in the choices");
+                anotherRole = integerValid(userInput("Add another Role? [1]Yes [2]No"),"Answer [1]Yes [2]No: ");         
+            }
+            if(anotherRole == 2) {
+                rol = false;
+            }
+        }
+        return r;
+           
     }
 
 }

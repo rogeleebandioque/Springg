@@ -1,14 +1,9 @@
-CREATE TABLE PERSON(
+CREATE TABLE Contacts(
     id int not null, 
-    first_name text,
-    last_name text,
-    address text,
-    age int, 
-    gender text, 
-    bday date, 
-    grade int, 
-    date_hired date, 
-    currently_employed text, 
-    PRIMARY KEY (id)
+    contact text not null, 
+    person_id int default null, 
+    type text not null CHECK (type='e-mail' or type ='cellphone' or type = 'telephone'), 
+    PRIMARY KEY (id),
+    FOREIGN KEY(person_id) references person(id) on delete cascade
 );
 

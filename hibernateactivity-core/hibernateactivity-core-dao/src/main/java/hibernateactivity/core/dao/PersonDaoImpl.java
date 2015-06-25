@@ -6,7 +6,11 @@ import org.hibernate.Transaction;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 import hibernateactivity.core.model.Person;
+import hibernateactivity.core.model.Name;
 import java.util.List;
+import org.hibernate.Criteria;
+import org.hibernate.criterion.Order;
+import org.hibernate.transform.Transformers;
 
 public class PersonDaoImpl implements PersonDao {
 
@@ -22,15 +26,30 @@ public class PersonDaoImpl implements PersonDao {
          }
     }
 
-    public List<Person> getPeople() {
+    public List<Person> getPeople(String listBy, String orderBy) {
         Session session = factory.openSession();
         Transaction tx = null;      
-        List persons = null;  
+        List<Person> persons = null;  
 
         try {
             tx = session.beginTransaction();
-            persons = session.createQuery("FROM Person").list();
-            tx.commit();
+            Criteria cr = session.createCriteria(Person.class); 
+
+            if(orderBy.equals("desc")) {
+                cr.addOrder(Order.desc(listBy));
+
+            } else { 
+                cr.addOrder(Order.asc(listBy));    
+            }
+            persons = cr.list();
+            
+/*
+            String sql = "FROM Person"; 
+                        //"SELECT E.names as names, E.contact as contact, E.grade as grade," +
+                         //"E.date_hired as date_hired FROM Person E inner join E.Contacts"; //"Select (names, grade, date_hired, contact) from Person";
+            tx = session.beginTransaction();
+            persons  = session.createQuery(sql).setResultTransformer(Transformers.aliasToBean(Person.class)).list();
+*/            tx.commit();
         } catch(HibernateException e) {
             e.printStackTrace();
         } finally {

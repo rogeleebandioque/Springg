@@ -1,0 +1,61 @@
+package hibernateactivity.core.model;
+
+import java.util.*;
+
+public class Roles {
+
+    private int id;
+    private String roleName;
+    private Set<Person> personRole;
+    
+    public Roles() {}
+    public Roles(int id, String roleName) {
+        this.id = id;        
+        this.roleName = roleName;
+    }
+    
+    public int getId() {
+        return this.id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setRoleName(String roleName) {
+        this.roleName = roleName;
+    }
+    
+    public String getRoleName() {
+        return this.roleName;
+    }
+    
+    public void setPersonRole(Set<Person> personRole) {
+        this.personRole = personRole;
+    }
+    
+    public Set<Person> getPersonRole() {
+        return this.personRole;
+    }  
+
+    public boolean equals(Object obj) {
+        if (obj == null) return false;
+
+        if (!this.getClass().equals(obj.getClass())) {
+            return false;
+        }
+        
+        Roles obj2 = (Roles)obj;
+
+        if((this.id == obj2.getId()) && (this.roleName.equals(obj2.getRoleName()))) {
+            return true;
+        }
+        return false;
+    }
+
+    public int hashCode() {
+        int tmp = 0;
+        tmp = ( id + roleName ).hashCode();
+        return tmp;
+    } 
+}

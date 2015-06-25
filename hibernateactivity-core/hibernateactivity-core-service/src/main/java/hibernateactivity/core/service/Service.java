@@ -7,9 +7,9 @@ import java.util.List;
 
 public class Service {
 
-    public List<Person> getPersons() {
+    public List<Person> getPersons(String listBy, String orderBy) {
         PersonDaoImpl dao = new PersonDaoImpl();
-        return dao.getPeople();
+        return dao.getPeople(listBy, orderBy);
     }
 
     public String deletePersons(int idNum) {

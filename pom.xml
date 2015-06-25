@@ -11,9 +11,13 @@
     <url>http://maven.apache.org</url>
 
     <properties>
-       <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <property name="hibernate.connection.url" value="${database.url}"/>
+        <property name="hibernate.connection.username" value="${user.name}"/>
+        <property name="hibernate.connection.password" value="${password}"/>
+     
     </properties>
-
+    
     <modules>
         <module>hibernateactivity-app</module>
         <module>hibernateactivity-core</module>
@@ -37,6 +41,12 @@
                 <artifactId>commons-validator</artifactId>
 	            <version>1.4.0</version>
             </dependency>
+            <dependency>
+                <groupId>org.hibernate</groupId>
+                <artifactId>hibernate-core</artifactId>
+                <version>4.3.10.Final</version>
+            </dependency>
+
         </dependencies>
     </dependencyManagement>    
     
@@ -78,6 +88,24 @@
         		</plugin>
             </plugins>
         </pluginManagement>
+        
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
     </build>
+    
+    <profiles>
+           <profile>
+                <id>dev</id>                    
+                <properties>
+                    <database.url>jdbc:postgresql://localhost/Person</database.url>
+                    <user.name>rbandioque</user.name>
+                    <password>rbandioque</password>
+                </properties>
+           </profile>
+    </profiles>
 
 </project>

@@ -52,22 +52,20 @@ public class PersonDaoImpl implements PersonDao {
                 }
                 persons  = session.createQuery(sql).list();
             } else {
-                //sql = "Select p.names as names ,p.date_hired as date_hired, p.grade as grade from Person as p";    
-                //persons  = session.createQuery(sql).setResultTransformer(Transformers.aliasToBean(Person.class)).list();
-                sql = "From Person";
-                persons  = session.createQuery(sql).list();
-/*
+                sql = "Select p.id as id, p.names as names ,p.date_hired as date_hired, p.grade as grade from Person as p";    
+                persons  = session.createQuery(sql).setResultTransformer(Transformers.aliasToBean(Person.class)).list();
+                //sql = "From Person";
+                //persons  = session.createQuery(sql).list();
                 for(Person pc:persons){
         
                     sql = "from Contacts where person_id = :person_id";
                     Set<Contacts> setsContact = new HashSet();   
-                    int num = pc.getId();
-                    List<Contacts> cont = session.createQuery(sql).setParameter("person_id", num).list();         
+                    List<Contacts> cont = session.createQuery(sql).setParameter("person_id", pc.getId()).list();         
                     for(Contacts eachCont:cont){
                         setsContact.add(eachCont);
                     }
                     pc.setContact(setsContact);                
-                }*/                
+                }            
             }
             tx.commit();
         } catch(HibernateException e) {

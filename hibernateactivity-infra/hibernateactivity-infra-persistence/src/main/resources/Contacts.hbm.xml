@@ -9,6 +9,10 @@
         <id name="id" type="int" column="id">
             <generator class="increment"/>
         </id>
+<!--       <many-to-one name="person_id" class="hibernateactivity.core.model.Person">
+           <column name="person_id" not-null="true" />
+        </many-to-one> -->
+     
         <property name="contact" column="contact" type="string"/>
         <property name="type" column="type" type="string"/>
         

@@ -9,7 +9,7 @@
         <!--<generator class="native"/>-->
     </id>
     <property name="roleName" column="roleName" type="string"/>
-    <set name="personRole" cascade="save-update" table="PER_ROLE" inverse="true">
+    <set name="personRole" cascade="save-update" table="PER_ROLE">
         <key column="person_id"/>
         <many-to-many column="role_id" class="hibernateactivity.core.model.Roles"/>
     </set>

@@ -7,7 +7,8 @@ import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 import hibernateactivity.core.model.Person;
 import hibernateactivity.core.model.Name;
-import java.util.List;
+import hibernateactivity.core.model.Contacts;
+import java.util.*;
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Order;
 import org.hibernate.transform.Transformers;
@@ -51,8 +52,22 @@ public class PersonDaoImpl implements PersonDao {
                 }
                 persons  = session.createQuery(sql).list();
             } else {
-                sql = "from Person"; 
-                persons  = session.createQuery(sql).list();//setResultTransformer(Transformers.aliasToBean(Person.class)).list();
+                //sql = "Select p.names as names ,p.date_hired as date_hired, p.grade as grade from Person as p";    
+                //persons  = session.createQuery(sql).setResultTransformer(Transformers.aliasToBean(Person.class)).list();
+                sql = "From Person";
+                persons  = session.createQuery(sql).list();
+/*
+                for(Person pc:persons){
+        
+                    sql = "from Contacts where person_id = :person_id";
+                    Set<Contacts> setsContact = new HashSet();   
+                    int num = pc.getId();
+                    List<Contacts> cont = session.createQuery(sql).setParameter("person_id", num).list();         
+                    for(Contacts eachCont:cont){
+                        setsContact.add(eachCont);
+                    }
+                    pc.setContact(setsContact);                
+                }*/                
             }
             tx.commit();
         } catch(HibernateException e) {

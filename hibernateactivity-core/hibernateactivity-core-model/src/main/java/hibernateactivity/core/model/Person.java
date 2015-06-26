@@ -4,10 +4,7 @@ import java.util.*;
 
 public class Person implements Comparable<Person> {
 
-    private int id;
-/*    private String first_name;
-    private String last_name;
-*/    
+    private int id;    
     private Name names;
     private String address;
     private Set<Contacts> contact;
@@ -20,19 +17,7 @@ public class Person implements Comparable<Person> {
     private Set<Roles> role;
 
     public Person() {}
- /*   public Person(String first_name,String last_name, String address, int age, String gender, 
-                  Date bday, int grade, Date date_hired, String currently_employed) {
-        this.first_name = first_name;
-        this.last_name = first_name;
-        this.address = address;
-        this.age = age;
-        this.gender = gender;
-        this.bday = bday;
-        this.grade = grade;
-        this.date_hired = date_hired;
-        this.currently_employed = currently_employed;
-    }
-*/    public Person(Name names, String address, int age, String gender, 
+    public Person(Name names, String address, int age, String gender, 
                   Date bday, int grade, Date date_hired, String currently_employed) {
         this.names = names;
         this.address = address;
@@ -52,22 +37,7 @@ public class Person implements Comparable<Person> {
         return id;
     }    
 
-/*    public void setFirst_name(String first_name){
-        this.first_name = first_name;
-    }
-
-    public String getFirst_name(){
-        return first_name;
-    }
-    public void setLast_name(String last_name){
-        this.last_name = last_name;
-    }
-
-    public String getLast_name(){
-        return last_name;
-    }
-*/
-     public void setNames(Name names){
+    public void setNames(Name names){
         this.names = names;
     }
 

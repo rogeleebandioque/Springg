@@ -26,7 +26,7 @@
     <property name="grade" column="grade" type="int"/>
     <property name="date_hired" column="date_hired" type="date"/>
     <property name="currently_employed" column="currently_employed" type="string"/>
-    <set name="role" cascade="save-update" table="PER_ROLE">
+    <set name="role" cascade="save-update" table="PER_ROLE" lazy="false">
         <key column="person_id"/>
         <many-to-many column="role_id" class="hibernateactivity.core.model.Roles"/>
     </set>

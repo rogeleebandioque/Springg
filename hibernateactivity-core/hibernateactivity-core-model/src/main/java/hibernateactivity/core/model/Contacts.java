@@ -3,6 +3,7 @@ package hibernateactivity.core.model;
 public class Contacts {
 
     private int id;
+    private int person_id;
     private String type;
     private String contact;
 
@@ -19,6 +20,14 @@ public class Contacts {
 
     public void setId(int id) {
         this.id = id;
+    }
+    
+    public int getPerson_id() {
+        return this.person_id;    
+    }
+
+    public void setPerson_id(int person_id) {
+        this.person_id = person_id;
     }
 
     public String getContact() {

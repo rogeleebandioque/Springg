@@ -41,7 +41,6 @@ public class HibernateActivity {
                             }
                         } else if(listBy.equals("last_name")) {
                             person = service.getPersons(listBy, orderBy);
-                            //Collections.sort(person, new NameComparator());
                         } else { 
 						    person = service.getPersons(listBy, orderBy);
                         }
@@ -74,7 +73,7 @@ public class HibernateActivity {
                             Name n = people.getNames();
                             String toEdit = stringValid(userInput("<Person: "+n.getFirst_name()+">\n"+"Edit What? \n[name] " + 
                                                        "[address] [age] \n[contacts] [bday] [employment status] \n[grade] " +
-                                                       "[date hired] [gender] "),"Category to Edit");                              
+                                                       "[date hired] [gender] [role]"),"Category to Edit");                              
                             people = editPerson(toEdit, people);                                
                             String message = service.updatePersons(people);
                             System.out.println(message);                     
@@ -147,6 +146,11 @@ public class HibernateActivity {
 
                 case "grade":
                     person.setGrade(integerValid(userInput("Enter Person's Grade: "),"Grade: "));
+                    break loop;
+
+                case "role":
+                    Set<Roles> upRole = person.getRole();
+                    person.setRole(upRoles(upRole));
                     break loop;
 
                 default:
@@ -366,8 +370,32 @@ public class HibernateActivity {
     }
     
     public static Set<Roles> addRole() {
-        Set r = new HashSet();        
+        Set aRole = new HashSet(); 
+        aRole = listRoles(aRole);       
 
+        return aRole;
+    }
+
+    public static Set<Roles> upRoles(Set<Roles> updRole) {
+        String ansRole = stringValid(userInput("Update Roles: [Add] [Delete]"),"Answer [Add] [Delete]: ");
+
+        while(!(ansRole.equalsIgnoreCase("Add") || ansRole.equalsIgnoreCase("Delete"))) {
+            ansRole = stringValid(userInput("Update Roles: [Add] [Delete]"),"Answer [Add] [Delete]: ");
+        }
+        if (ansRole.equalsIgnoreCase("Add")) {
+            updRole = listRoles(updRole);
+        } else {
+            for(Roles uRoles: updRole) {
+                String delRole = stringValid(userInput("Delete: " + uRoles.getRoleName() + " [Yes][No] "),"Answer: ");
+                if(delRole.equalsIgnoreCase("yes")){
+                    updRole.remove(uRoles);
+                }
+            }
+        }
+        return updRole;        
+    }
+
+    public static Set<Roles> listRoles(Set<Roles> r) {
         boolean rol = true;
         while(rol){
             int rolNo = integerValid(userInput("Choose Role [1]Police [2]Politician [3]Soldier [4]Celebrity [5]Worker"),"Choice");
@@ -397,8 +425,7 @@ public class HibernateActivity {
                 rol = false;
             }
         }
-        return r;
-           
+        return r; 
     }
 
 }

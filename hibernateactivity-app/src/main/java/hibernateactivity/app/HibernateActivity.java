@@ -16,13 +16,12 @@ public class HibernateActivity {
 
     public static void main( String[] args ) {
         Service service = new Service();
-    	boolean choice = true;
-		
+        boolean choice = true;    	
         while (choice) {
     	    try {
-			    int input = Integer.parseInt(userInput("\nEnter Choice: \n [1] List [2] Add [3] Delete [4] Edit"));
-				switch (input) {
-					case 1: 
+                int input = Integer.parseInt(userInput("\nEnter Choice: \n [1] List [2] Add [3] Delete [4] Edit"));
+                switch (input) {
+                    case 1: 
                         List<Person> person = null;
                         String listBy = stringValid(userInput("Order by [Grade] [Date_Hired] [Last_Name]"),"Input: ").toLowerCase();
                         while(!(listBy.equals("grade") || listBy.equals("date_hired") || listBy.equals("last_name"))) {
@@ -42,18 +41,18 @@ public class HibernateActivity {
                         } else if(listBy.equals("last_name")) {
                             person = service.getPersons(listBy, orderBy);
                         } else { 
-						    person = service.getPersons(listBy, orderBy);
+                            person = service.getPersons(listBy, orderBy);
                         }
                         displayPerson(person);
 						break;
 
-					case 2: 
+                    case 2: 
                         Person addPer = addPerson();
                         System.out.println(service.addPersons(addPer));	 
-    					break;
+                        break;
 
-					case 3: 
-	                    int idNum = integerValid(userInput("Enter ID# to be deleted"),"ID#");
+                    case 3: 
+                        int idNum = integerValid(userInput("Enter ID# to be deleted"),"ID#");
                         boolean exist = service.searchPersons(idNum);
                            
                         if (exist) {
@@ -64,7 +63,7 @@ public class HibernateActivity {
                         }
 					    break;
 
-					case 4: 
+                    case 4: 
                         int idNo = integerValid(userInput("Enter ID to update: "),"ID to update");
                         boolean existUp = service.searchPersons(idNo);                          
 
@@ -78,15 +77,15 @@ public class HibernateActivity {
                             String message = service.updatePersons(people);
                             System.out.println(message);                     
                         }
-    					break;
+                        break;
 
         			default:
     					System.out.println("Not in Choices!");
-						break;
-				}
-			} catch (NumberFormatException e) {
-				System.out.println("Invalid Input");
-			}
+                    break;
+                }
+            } catch (NumberFormatException e) {
+                 System.out.println("Invalid Input");
+            }
         }
     }
 

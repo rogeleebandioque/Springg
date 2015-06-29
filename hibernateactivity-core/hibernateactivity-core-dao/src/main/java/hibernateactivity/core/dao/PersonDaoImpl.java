@@ -9,8 +9,9 @@ import hibernateactivity.core.model.Person;
 import hibernateactivity.core.model.Name;
 import hibernateactivity.core.model.Contacts;
 import java.util.*;
-import org.hibernate.Criteria;
-import org.hibernate.criterion.Order;
+import org.hibernate.*;
+import org.hibernate.sql.JoinType;
+import org.hibernate.criterion.*;
 import org.hibernate.transform.Transformers;
 
 public class PersonDaoImpl implements PersonDao {
@@ -46,9 +47,9 @@ public class PersonDaoImpl implements PersonDao {
                 persons = cr.list();
             } else if(listBy.equals("last_name")) {              
                 if(orderBy.equals("asc")){
-                    sql = "FROM Person ORDER BY last_name ASC";             
+                    sql = "FROM Person ORDER BY names.last_name ASC";             
                 } else {
-                    sql = "FROM Person ORDER BY last_name DESC";          
+                    sql = "FROM Person ORDER BY names.last_name DESC";          
                 }
                 persons  = session.createQuery(sql).list();
             } else {
@@ -57,7 +58,6 @@ public class PersonDaoImpl implements PersonDao {
                 //sql = "From Person";
                 //persons  = session.createQuery(sql).list();
                 for(Person pc:persons){
-        
                     sql = "from Contacts where person_id = :person_id";
                     Set<Contacts> setsContact = new HashSet();   
                     List<Contacts> cont = session.createQuery(sql).setParameter("person_id", pc.getId()).list();         
@@ -65,7 +65,19 @@ public class PersonDaoImpl implements PersonDao {
                         setsContact.add(eachCont);
                     }
                     pc.setContact(setsContact);                
-                }            
+                }   
+               /* Criteria criteria = session.createCriteria(Person.class);
+                          criteria.setProjection(Projections.projectionList()
+                                            .add(Projections.property("id"), "id")
+                                            .add(Projections.property("names"), "names")
+                                            .add(Projections.property("address"), "address")
+                                            .add(Projections.property("grade"), "grade")
+                                            .add(Projections.property("date_hired"), "date_hired")
+                                            .add(Projections.property("bday"), "bday")
+                                            .add(Projections.property("currently_employed"), "currently_employed")
+                                            .add(Projections.property("contact"), "contact"));
+                                            
+                persons  = criteria.setResultTransformer(Transformers.aliasToBean(Person.class)).list();*/
             }
             tx.commit();
         } catch(HibernateException e) {
@@ -81,16 +93,16 @@ public class PersonDaoImpl implements PersonDao {
         Transaction tx = null; 
 
         try {
-	        tx = session.beginTransaction();
-	        Person person =(Person)session.get(Person.class, idNum);
-	        session.delete(person);
-	        tx.commit();
+            tx = session.beginTransaction();
+            Person person =(Person)session.get(Person.class, idNum);
+            session.delete(person);
+            tx.commit();
 	    } catch (HibernateException e) {
-	        if (tx!=null) tx.rollback();
-	        e.printStackTrace();
-	    } finally {
-	        session.close();
-	    }
+            if (tx!=null) tx.rollback();
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
         return "Person Deleted";
     }
 
@@ -106,7 +118,7 @@ public class PersonDaoImpl implements PersonDao {
             tx.commit();
         } catch(HibernateException e) {
            	if (tx!=null) tx.rollback();
-	        e.printStackTrace();
+            e.printStackTrace();
         } finally {
             session.close();
         }
@@ -122,13 +134,13 @@ public class PersonDaoImpl implements PersonDao {
         Transaction tx = null;  
 
         try {
-	        tx = session.beginTransaction();
-	        session.save(person);
-	        tx.commit();
-	    } catch (HibernateException e) {
-	        if (tx!=null) tx.rollback();
-	        e.printStackTrace();
-	    } finally {
+            tx = session.beginTransaction();
+            session.save(person);
+            tx.commit();
+        } catch (HibernateException e) {
+            if (tx!=null) tx.rollback();
+            e.printStackTrace();
+        } finally {
 	        session.close();
 	    }
         return "Added!";
@@ -140,9 +152,9 @@ public class PersonDaoImpl implements PersonDao {
         String mes = null;
 
         try {
-	        tx = session.beginTransaction();
-	        session.update(person);
-	        tx.commit();
+            tx = session.beginTransaction();
+            session.update(person);
+            tx.commit();
             mes = "Updated!";
 	    } catch (HibernateException e) {
 	        if (tx!=null) tx.rollback();

@@ -9,8 +9,9 @@ import hibernateactivity.core.model.Person;
 import hibernateactivity.core.model.Name;
 import hibernateactivity.core.model.Contacts;
 import java.util.*;
-import org.hibernate.Criteria;
-import org.hibernate.criterion.Order;
+import org.hibernate.*;
+import org.hibernate.sql.JoinType;
+import org.hibernate.criterion.*;
 import org.hibernate.transform.Transformers;
 
 public class PersonDaoImpl implements PersonDao {
@@ -46,9 +47,9 @@ public class PersonDaoImpl implements PersonDao {
                 persons = cr.list();
             } else if(listBy.equals("last_name")) {              
                 if(orderBy.equals("asc")){
-                    sql = "FROM Person ORDER BY last_name ASC";             
+                    sql = "FROM Person ORDER BY names.last_name ASC";             
                 } else {
-                    sql = "FROM Person ORDER BY last_name DESC";          
+                    sql = "FROM Person ORDER BY names.last_name DESC";          
                 }
                 persons  = session.createQuery(sql).list();
             } else {
@@ -65,7 +66,19 @@ public class PersonDaoImpl implements PersonDao {
                         setsContact.add(eachCont);
                     }
                     pc.setContact(setsContact);                
-                }            
+                }   
+               /* Criteria criteria = session.createCriteria(Person.class);
+                          criteria.setProjection(Projections.projectionList()
+                                            .add(Projections.property("id"), "id")
+                                            .add(Projections.property("names"), "names")
+                                            .add(Projections.property("address"), "address")
+                                            .add(Projections.property("grade"), "grade")
+                                            .add(Projections.property("date_hired"), "date_hired")
+                                            .add(Projections.property("bday"), "bday")
+                                            .add(Projections.property("currently_employed"), "currently_employed")
+                                            .add(Projections.property("contact"), "contact"));
+                                            
+                persons  = criteria.setResultTransformer(Transformers.aliasToBean(Person.class)).list();*/
             }
             tx.commit();
         } catch(HibernateException e) {

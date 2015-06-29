@@ -118,11 +118,11 @@ public class Person implements Comparable<Person> {
     }
 
     public int getComparison(){
-		return grade;
-	}
+        return grade;
+    }
 
-	public int compareTo(Person person){
-      		//return (this.getComparison().compareTo(person.getComparison());
+    public int compareTo(Person person){
+        //return (this.getComparison().compareTo(person.getComparison());
   	    return (this.grade < person.grade ) ? -1: (this.grade > person.grade ) ? 1:0 ;        
     }
 }

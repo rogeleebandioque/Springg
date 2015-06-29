@@ -58,7 +58,6 @@ public class PersonDaoImpl implements PersonDao {
                 //sql = "From Person";
                 //persons  = session.createQuery(sql).list();
                 for(Person pc:persons){
-        
                     sql = "from Contacts where person_id = :person_id";
                     Set<Contacts> setsContact = new HashSet();   
                     List<Contacts> cont = session.createQuery(sql).setParameter("person_id", pc.getId()).list();         
@@ -94,16 +93,16 @@ public class PersonDaoImpl implements PersonDao {
         Transaction tx = null; 
 
         try {
-	        tx = session.beginTransaction();
-	        Person person =(Person)session.get(Person.class, idNum);
-	        session.delete(person);
-	        tx.commit();
+            tx = session.beginTransaction();
+            Person person =(Person)session.get(Person.class, idNum);
+            session.delete(person);
+            tx.commit();
 	    } catch (HibernateException e) {
-	        if (tx!=null) tx.rollback();
-	        e.printStackTrace();
-	    } finally {
-	        session.close();
-	    }
+            if (tx!=null) tx.rollback();
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
         return "Person Deleted";
     }
 
@@ -119,7 +118,7 @@ public class PersonDaoImpl implements PersonDao {
             tx.commit();
         } catch(HibernateException e) {
            	if (tx!=null) tx.rollback();
-	        e.printStackTrace();
+            e.printStackTrace();
         } finally {
             session.close();
         }
@@ -135,13 +134,13 @@ public class PersonDaoImpl implements PersonDao {
         Transaction tx = null;  
 
         try {
-	        tx = session.beginTransaction();
-	        session.save(person);
-	        tx.commit();
-	    } catch (HibernateException e) {
-	        if (tx!=null) tx.rollback();
-	        e.printStackTrace();
-	    } finally {
+            tx = session.beginTransaction();
+            session.save(person);
+            tx.commit();
+        } catch (HibernateException e) {
+            if (tx!=null) tx.rollback();
+            e.printStackTrace();
+        } finally {
 	        session.close();
 	    }
         return "Added!";
@@ -153,9 +152,9 @@ public class PersonDaoImpl implements PersonDao {
         String mes = null;
 
         try {
-	        tx = session.beginTransaction();
-	        session.update(person);
-	        tx.commit();
+            tx = session.beginTransaction();
+            session.update(person);
+            tx.commit();
             mes = "Updated!";
 	    } catch (HibernateException e) {
 	        if (tx!=null) tx.rollback();

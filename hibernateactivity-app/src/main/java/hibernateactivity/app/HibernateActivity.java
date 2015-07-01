@@ -5,7 +5,7 @@ import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 import hibernateactivity.core.service.Service;
 import hibernateactivity.core.model.Person;
-import hibernateactivity.core.model.Roles; //Additional
+import hibernateactivity.core.model.Roles;
 import hibernateactivity.core.model.Contacts;
 import hibernateactivity.core.model.Name;
 import org.apache.commons.validator.routines.DateValidator;
@@ -17,35 +17,26 @@ public class HibernateActivity {
     public static void main( String[] args ) {
         Service service = new Service();
         boolean choice = true;    	
-        while (choice) {
+
+        while (choice != false) {
     	    try {
                 int input = Integer.parseInt(userInput("\nEnter Choice: \n [1] List [2] Add [3] Delete [4] Edit"));
                 switch (input) {
                     case 1: 
                         List<Person> person = null;
-                        String listBy = stringValid(userInput("Order by [Grade] [Date_Hired] [Last_Name]"),"Input: ").toLowerCase();
+                        String listBy = "";
+                        String orderBy = "";
+
                         while(!(listBy.equals("grade") || listBy.equals("date_hired") || listBy.equals("last_name"))) {
                             listBy = stringValid(userInput("Order by [Grade] [Date_Hired] [Last_Name]"),"Input: ").toLowerCase();
                         }
-                        String orderBy = stringValid(userInput("[ASC]Ascending [DESC]Descending"),"Input: ").toLowerCase();
                         while(!(orderBy.equals("asc") || orderBy.equals("desc"))) {
                             orderBy = stringValid(userInput("[ASC]Ascending [DESC]Descending"),"Input: ").toLowerCase();
                         } 
-                        if(listBy.equals("grade")) {
-                            person = service.getPersons(listBy, orderBy);
-                            if(orderBy.equals("desc")){
-                                Collections.sort(person, Collections.reverseOrder());
-                            }else{
-                                Collections.sort(person);
-                            }
-                        } else if(listBy.equals("last_name")) {
-                            person = service.getPersons(listBy, orderBy);
-                        } else { 
-                            person = service.getPersons(listBy, orderBy);
-                        }
+                        person = service.getPersons(listBy, orderBy);
                         displayPerson(person);
-						break;
-
+                        break;                    
+            
                     case 2: 
                         Person addPer = addPerson();
                         System.out.println(service.addPersons(addPer));	 
@@ -161,12 +152,6 @@ public class HibernateActivity {
         return person;
     }
 
-    public static String userInput(String message) {
-        System.out.println(message);        
-        Scanner scan = new Scanner(System.in);
-        String input = scan.nextLine();
-        return input;
-    }
     public static Person addPerson() {
         System.out.println("Add Person: ");
         Person newPerson = new Person();       
@@ -187,89 +172,6 @@ public class HibernateActivity {
         newPerson.setRole(addRole());   
        
        return newPerson;    
-    }
-
-    public static String stringValid(String check, String categ) {
-        while(check.equals("")) {
-            check = userInput("Enter Valid "+ categ);
-        }
-        return check; 
-    }
-
-    public static int integerValid(String in, String categ) {
-        boolean a = true;
-        int input = 0;
-        
-        while(a) {
-            try {
-                input = Integer.parseInt(in);
-                a = false;
-            } catch(NumberFormatException e) {
-                in = userInput("Enter valid "+categ);
-            }
-        }
-        return input;
-    }
-
-    public static Date dateValid(String date, String categ) {
-        boolean d=true;
-        DateValidator dateVal = DateValidator.getInstance();
-        Date dt = null;
-
-        while(d) {                      
-            dt = dateVal.validate(date, "MM/dd/yyyy");
-            if(dt == null) {
-                date = userInput("Enter valid "+categ);
-            } else {
-                d = false;
-            }
-        }
-        return dt; 
-    }
-    
-    public static String genderValid(int gender,String categ) {
-        String genderV = "";     
-        boolean gv = true;           
-
-        while(gv) {
-            if(gender ==1 || gender ==2) {
-                break; 
-            }
-            gender = integerValid(userInput("Enter valid " + categ), categ);        
-        }
-        if(gender == 1){
-            genderV = "male";
-        }else if(gender == 2){
-            genderV = "female";
-        }
-        return genderV;    
-    }
-
-    public static String employmentValid(String status) {
-        status = status.toLowerCase().trim();
-        boolean ev = true;
-
-        while (ev) {
-            if(status.equals("yes") || status.equals("no")) {
-                break;
-            }
-            status = stringValid(userInput("Enter valid answer: "), "Enter valid answer: ");
-        }
-        return status; 
-    }
-
-    public static String emailValid(String email, String categ) {
-        EmailValidator valid = EmailValidator.getInstance();        
-        boolean emv = true;
-
-        while(emv) {
-            if(valid.isValid(email)) {
-                break;
-            } else {
-                email = userInput("Enter Valid "+ categ);
-            }
-        }
-        return email;
     }
 
     public static Set contactDetails() {
@@ -354,19 +256,6 @@ public class HibernateActivity {
         }
         return toUpCon;    
     }
-
-    public static String patternMatch(String num) {
-        Pattern pattern = Pattern.compile("^[0-9]*$");
-        Matcher matcher = pattern.matcher(num);
-        boolean matches = matcher.matches();
-
-        while(matches == false) {
-            num = stringValid(userInput("Enter valid input: "),"input: ");
-            matcher = pattern.matcher(num);
-            matches = matcher.matches();
-        }
-    return num;
-    }
     
     public static Set<Roles> addRole() {
         Set aRole = new HashSet(); 
@@ -376,19 +265,26 @@ public class HibernateActivity {
     }
 
     public static Set<Roles> upRoles(Set<Roles> updRole) {
-        String ansRole = stringValid(userInput("Update Roles: [Add] [Delete]"),"Answer [Add] [Delete]: ");
+        String ansRole = "";
+        String delRole = "";
 
         while(!(ansRole.equalsIgnoreCase("Add") || ansRole.equalsIgnoreCase("Delete"))) {
             ansRole = stringValid(userInput("Update Roles: [Add] [Delete]"),"Answer [Add] [Delete]: ");
         }
+
         if (ansRole.equalsIgnoreCase("Add")) {
             updRole = listRoles(updRole);
         } else {
-            for(Roles uRoles: updRole) {
-                String delRole = stringValid(userInput("Delete: " + uRoles.getRoleName() + " [Yes][No] "),"Answer: ");
-                if(delRole.equalsIgnoreCase("yes")){
-                    updRole.remove(uRoles);
-                }
+            for(Iterator iterator = updRole.iterator(); iterator.hasNext();) {
+                Roles uRoles = (Roles) iterator.next();
+                delRole = stringValid(userInput("Delete: " + uRoles.getRoleName() + " [Yes][No] "),"Answer: ");
+                    while(!(delRole.equalsIgnoreCase("yes") || delRole.equalsIgnoreCase("no"))){
+                        delRole = stringValid(userInput("Delete: " + uRoles.getRoleName() + " [Yes][No] "),"Answer: ");
+                    }
+                    if(delRole.equalsIgnoreCase("yes")) {
+                        iterator.remove();
+                        System.out.println("Role removed!");
+                    }     
             }
         }
         return updRole;        
@@ -426,5 +322,110 @@ public class HibernateActivity {
         }
         return r; 
     }
+    
+    //VALIDATIONS
+    public static String stringValid(String check, String categ) {
+        while(check.equals("")) {
+            check = userInput("Enter Valid "+ categ);
+        }
+        return check; 
+    }
+
+    public static int integerValid(String in, String categ) {
+        boolean a = true;
+        int input = 0;
+        
+        while(a) {
+            try {
+                input = Integer.parseInt(in);
+                a = false;
+            } catch(NumberFormatException e) {
+                in = userInput("Enter valid "+categ);
+            }
+        }
+        return input;
+    }
+
+    public static Date dateValid(String date, String categ) {
+        boolean d=true;
+        DateValidator dateVal = DateValidator.getInstance();
+        Date dt = null;
+
+        while(d) {                      
+            dt = dateVal.validate(date, "MM/dd/yyyy");
+            if(dt == null) {
+                date = userInput("Enter valid "+categ);
+            } else {
+                d = false;
+            }
+        }
+        return dt; 
+    }
+    
+    public static String genderValid(int gender,String categ) {
+        String genderV = "";     
+        boolean gv = true;           
+
+        while(gv) {
+            if(gender ==1 || gender ==2) {
+                break; 
+            }
+            gender = integerValid(userInput("Enter valid " + categ), categ);        
+        }
+        if(gender == 1){
+            genderV = "male";
+        }else if(gender == 2){
+            genderV = "female";
+        }
+        return genderV;    
+    }
+
+    public static String employmentValid(String status) {
+        status = status.toLowerCase().trim();
+        boolean ev = true;
+
+        while (ev) {
+            if(status.equals("yes") || status.equals("no")) {
+                break;
+            }
+            status = stringValid(userInput("Enter valid answer: "), "Enter valid answer: ");
+        }
+        return status; 
+    }
+
+    public static String patternMatch(String num) {
+        Pattern pattern = Pattern.compile("^[0-9]*$");
+        Matcher matcher = pattern.matcher(num);
+        boolean matches = matcher.matches();
+
+        while(matches == false) {
+            num = stringValid(userInput("Enter valid input: "),"input: ");
+            matcher = pattern.matcher(num);
+            matches = matcher.matches();
+        }
+        return num;
+    }
+
+    public static String emailValid(String email, String categ) {
+        EmailValidator valid = EmailValidator.getInstance();        
+        boolean emv = true;
+
+        while(emv) {
+            if(valid.isValid(email)) {
+                break;
+            } else {
+                email = userInput("Enter Valid "+ categ);
+            }
+        }
+        return email;
+    }
+
+    public static String userInput(String message) {
+        System.out.println(message);        
+        Scanner scan = new Scanner(System.in);
+        String input = scan.nextLine();
+        return input;
+    }
+
 
 }

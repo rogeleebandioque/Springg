@@ -28,7 +28,7 @@ public class ListPerson implements Command {
         String sql = null;
         List<Person> persons = null;  
 
-           if(!(listBy.equals("grade") || listBy.equals("last_name"))) {
+           if(!listBy.equals("last_name")) {
                 Criteria cr = session.createCriteria(Person.class); 
                 if(orderBy.equals("desc")) {
                     cr.addOrder(Order.desc(listBy));
@@ -37,15 +37,12 @@ public class ListPerson implements Command {
                 }
                 
                 persons = cr.list();
-            } else if(listBy.equals("last_name")) {              
+            } else {              
                 if(orderBy.equals("asc")){
                     sql = "FROM Person ORDER BY names.last_name ASC";             
                 } else {
                     sql = "FROM Person ORDER BY names.last_name DESC";          
                 }
-                persons  = session.createQuery(sql).list();
-            } else {
-                sql = "From Person";
                 persons  = session.createQuery(sql).list();
             }
 

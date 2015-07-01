@@ -33,11 +33,11 @@ public class PersonDaoImpl implements PersonDao {
     }
 
     public String addPeople(Person person) {
-        return HibernateUtil.perform(new Save(person), Boolean.class) ? "Added!" : "Unable to Add";
+        return HibernateUtil.perform(new Save(person), Boolean.class) ? "Unable to Add" : "Added";
     }
 
     public String updatePeople(Person person) {
-        return HibernateUtil.perform(new Update(person), Boolean.class) ? "Updated!" : "Unable to Update!";
+        return HibernateUtil.perform(new Update(person), Boolean.class) ? "Unable to Update!" : "Updated!";
     }
 
     public Person getPeople(int idNum) {

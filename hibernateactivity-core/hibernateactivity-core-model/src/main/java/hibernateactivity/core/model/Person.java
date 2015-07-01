@@ -40,7 +40,7 @@ public class Person implements Comparable<Person> {
     private String currently_employed;
     @Column(name="currenty_employed")
 
-    @ManyToMany(cascade=CascadeType.PERSIST, fetch=FetchType.LAZY)
+    @ManyToMany(cascade=CascadeType.PERSIST, fetch=FetchType.EAGER)
     @JoinTable(name="PER_ROLE", joinColumns={@JoinColumn(name="person_id")},inverseJoinColumns={@JoinColumn(name="role_id")})   
     private Set<Roles> role;
 

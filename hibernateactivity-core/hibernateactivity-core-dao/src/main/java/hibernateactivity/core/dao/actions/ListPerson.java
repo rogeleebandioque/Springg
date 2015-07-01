@@ -46,6 +46,16 @@ public class ListPerson implements Command {
                 persons  = session.createQuery(sql).list();
             }
 
+        /*Criteria criteria = session.createCriteria(Person.class);
+        criteria.setProjection(Projections.projectionList()
+        .add(Projections.property("id"), "id")
+        .add(Projections.property("names"), "names")
+        .add(Projections.property("grade"), "grade")
+        .add(Projections.property("date_hired"), "date_hired")
+        .add(Projections.property("contact"), "contact"));
+        persons = criteria.setResultTransformer(Transformers.aliasToBean(Person.class)).list();
+        */
+
         return persons;
     }
 }

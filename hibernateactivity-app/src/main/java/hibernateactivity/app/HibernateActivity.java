@@ -160,7 +160,7 @@ public class HibernateActivity {
         aName.setFirst_name(stringValid(userInput("Enter Person's First Name:"),"First Name"));
         aName.setLast_name(stringValid(userInput("Enter Person's Last Name:"),"Last Name"));
         newPerson.setNames(aName);
-        newPerson.setAddress(stringValid(userInput("Enter Person's Address: "),"Name: "));
+        newPerson.setAddress(stringValid(userInput("Enter Person's Address: "),"Address: "));
         newPerson.setContact(contactDetails());
         newPerson.setAge(integerValid(userInput("Enter Person's Age: "),"Age: "));
         newPerson.setGender(genderValid(integerValid(userInput("Enter Person's Gender [1] Male [2] Female: "),"Answer: "),
@@ -292,9 +292,12 @@ public class HibernateActivity {
 
     public static Set<Roles> listRoles(Set<Roles> r) {
         boolean rol = true;
+        
+    
         while(rol){
             int rolNo = integerValid(userInput("Choose Role [1]Police [2]Politician [3]Soldier [4]Celebrity [5]Worker"),"Choice");
-            switch(rolNo) {
+            
+        switch(rolNo) {
                 case 1: 
                     r.add(new Roles(1,"Police"));
                     break;
@@ -312,7 +315,7 @@ public class HibernateActivity {
                     break;
             }
             int anotherRole = integerValid(userInput("Add another Role? [1]Yes [2]No "),"Answer [1]Yes [2]No: ");
-            while(anotherRole>2) {
+            while(anotherRole>2 && anotherRole!=0) {
                 System.out.println("Not in the choices");
                 anotherRole = integerValid(userInput("Add another Role? [1]Yes [2]No"),"Answer [1]Yes [2]No: ");         
             }

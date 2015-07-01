@@ -3,9 +3,6 @@ package hibernateactivity.core.dao.actions;
 import hibernateactivity.core.dao.Command;
 import org.hibernate.Session;
 
-/**
- * Created by ddevera on 6/29/15.
- */
 public class Exists implements Command {
 
     private Session session;
@@ -22,6 +19,6 @@ public class Exists implements Command {
 
     @Override
     public Object execute() {
-        return session.createQuery("FROM Person WHERE contact.id =" + id).list().isEmpty();
+        return session.createQuery("FROM Person WHERE id =" + id).list().isEmpty();
     }
 }

@@ -20,7 +20,6 @@ public class DeletePerson implements Command {
     public Object execute() {
         Person person = (Person) session.get(Person.class, id);
         session.delete(person);
-        
-        return new Object();
+        return session.createQuery("FROM Person WHERE id =" + id).list().isEmpty();
     }
 }

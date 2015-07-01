@@ -19,7 +19,6 @@ public class Update implements Command {
 
     public Object execute() {
         session.update(person);
-        
-        return new Object();
+        return session.createQuery("FROM Person WHERE id =" + person.getId()).list().isEmpty();
     }
 }

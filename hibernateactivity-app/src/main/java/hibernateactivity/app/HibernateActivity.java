@@ -55,7 +55,7 @@ public class HibernateActivity {
                         int idNum = integerValid(userInput("Enter ID# to be deleted"),"ID#");
                         boolean exist = service.searchPersons(idNum);
                            
-                        if (exist) {
+                        if (!exist) {
                             String mes = service.deletePersons(idNum);
                             System.out.println(mes);
                         } else {
@@ -65,10 +65,9 @@ public class HibernateActivity {
 
                     case 4: 
                         int idNo = integerValid(userInput("Enter ID to update: "),"ID to update");
-                        boolean existUp = service.searchPersons(idNo);
-                        System.out.println(existUp);                          
+                        boolean existUp = service.searchPersons(idNo);                        
 
-                        if(existUp) {
+                        if(!existUp) {
                             Person people = service.getPersons(idNo);
                             Name n = people.getNames();
                             String toEdit = stringValid(userInput("<Person: "+n.getFirst_name()+">\n"+"Edit What? \n[name] " + 

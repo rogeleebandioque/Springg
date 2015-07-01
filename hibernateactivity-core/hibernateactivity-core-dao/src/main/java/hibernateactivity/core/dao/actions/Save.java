@@ -20,6 +20,7 @@ public class Save implements Command {
 
     @Override
     public Object execute() {
-        return session.save(person);
+        session.save(person);
+        return session.createQuery("FROM Person WHERE id =" + person.getId()).list().isEmpty();
     }
 }

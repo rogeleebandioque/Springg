@@ -1,10 +1,20 @@
 package hibernateactivity.core.model;
+import javax.persistence.*;
 
+@Entity
+@Table(name="Contacts")
 public class Contacts {
 
-    private int id;
-    private int person_id;
+    @Id
+    @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="contact_generator")    
+    @SequenceGenerator(name="contact_generator", sequenceName="contact_generator", allocationSize=1)
+    @Column(name="contact_id")
+    private int contact_id;
+
+    @Column(name="type")
     private String type;
+
+    @Column(name="contact")
     private String contact;
 
     public Contacts() {}
@@ -14,22 +24,14 @@ public class Contacts {
         this.type = type;    
     }
     
-    public int getId() {
-        return this.id;    
+    public int getContact_id() {
+        return this.contact_id;    
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setContact_id(int contact_id) {
+        this.contact_id = contact_id;
     }
     
-    public int getPerson_id() {
-        return this.person_id;    
-    }
-
-    public void setPerson_id(int person_id) {
-        this.person_id = person_id;
-    }
-
     public String getContact() {
         return this.contact;    
     }
@@ -55,7 +57,7 @@ public class Contacts {
         
         Contacts obj2 = (Contacts)obj;
 
-        if((this.id == obj2.getId()) && (this.contact.equals(obj2.getContact()))) {
+        if((this.contact_id == obj2.getContact_id()) && (this.contact.equals(obj2.getContact()))) {
             return true;
         }
         return false;
@@ -63,7 +65,7 @@ public class Contacts {
 
     public int hashCode() {
         int tmp = 0;
-        tmp = ( id + contact ).hashCode();
+        tmp = ( contact_id + contact ).hashCode();
         return tmp;
     }   
 

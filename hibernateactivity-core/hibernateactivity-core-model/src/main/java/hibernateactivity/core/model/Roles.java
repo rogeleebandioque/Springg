@@ -1,11 +1,24 @@
 package hibernateactivity.core.model;
 
 import java.util.*;
+import javax.persistence.*;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 
+@Entity
+@Table(name="Role")
+@Cacheable
+@Cache(usage=CacheConcurrencyStrategy.READ_ONLY, region="roles")
 public class Roles {
 
+    @Id 
+    @Column(name="id")
     private int id;
+
+    @Column(name="roleName")
     private String roleName;
+
+    @ManyToMany(mappedBy="role")    
     private Set<Person> personRole;
     
     public Roles() {}

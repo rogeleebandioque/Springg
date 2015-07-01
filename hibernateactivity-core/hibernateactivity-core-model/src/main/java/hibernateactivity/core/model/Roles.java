@@ -2,9 +2,12 @@ package hibernateactivity.core.model;
 
 import java.util.*;
 import javax.persistence.*;
+import org.hibernate.annotations.*;
 
 @Entity
 @Table(name="Role")
+@Cacheable
+@Cache(usage=CacheConcurrencyStrategy.READ_ONLY, region="employee")
 public class Roles {
 
     @Id 

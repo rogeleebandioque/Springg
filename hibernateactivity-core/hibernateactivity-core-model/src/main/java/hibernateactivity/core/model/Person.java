@@ -7,7 +7,8 @@ import javax.persistence.*;
 @Table(name="Person")
 public class Person implements Comparable<Person> {
     @Id 
-    @GeneratedValue(strategy=GenerationType.TABLE, generator="personid_generator")
+    @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="personid_generator")
+    @SequenceGenerator(name="personid_generator", sequenceName="personid_generator", allocationSize=1)
     @Column(name="id")
     private int id;
 

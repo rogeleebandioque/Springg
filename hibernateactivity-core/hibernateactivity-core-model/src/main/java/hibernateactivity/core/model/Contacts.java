@@ -1,10 +1,20 @@
 package hibernateactivity.core.model;
 import javax.persistence.*;
 
+@Entity
+@Table(name="Contacts")
 public class Contacts {
 
+    @Id
+    @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="contact_generator")    
+    @SequenceGenerator(name="contact_generator", sequenceName="contact_generator", allocationSize=1)
+    @Column(name="contact_id")
     private int contact_id;
+
+    @Column(name="type")
     private String type;
+
+    @Column(name="contact")
     private String contact;
 
     public Contacts() {}

@@ -8,20 +8,11 @@ public class Name {
     private String first_name;
     @Column(name="last_name")
     private String last_name;
-    private int id;
 
     public Name() {}
     public Name(String first_name, String last_name) {
         this.first_name = first_name;
         this.last_name = last_name;
-    }
-
-    public void setId(int id){
-        this.id = id;
-    }
-    
-    public int getId(){
-        return id;
     }
 
     public void setFirst_name(String first_name) {

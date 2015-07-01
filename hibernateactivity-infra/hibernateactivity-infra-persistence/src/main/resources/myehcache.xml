@@ -10,16 +10,13 @@
         eternal="false"
         timeToIdleSeconds="120"
         timeToLiveSeconds="120"
-        overflowToDisk="true"> 
-        <persistence strategy="localTempSwap" />
-        </defaultCache>
+        overflowToDisk="true"/>
 
         <cache name="roles"
         maxElementsInMemory="500"
-        eternal="true"
-        timeToIdleSeconds="0"
-        timeToLiveSeconds="0"
-        overflowToDisk="false">
+        eternal="false"
+        timeToIdleSeconds="5"
+        timeToLiveSeconds="200">
         <persistence strategy="localTempSwap" />
         </cache>
 

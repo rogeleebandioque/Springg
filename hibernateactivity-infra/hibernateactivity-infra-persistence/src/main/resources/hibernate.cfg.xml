@@ -18,7 +18,7 @@
         <property name="format_sql">true</property>
     
 
-        <property name="hibernate.cache.region.factory_class">org.hibernate.cache.ehcache.EhCacheRegionFactory</property>
+        <property name="hibernate.cache.region.factory_class">org.hibernate.cache.ehcache.SingletonEhCacheRegionFactory</property>
         <property name="hibernate.cache.use_second_level_cache">true</property>
         <property name="hibernate.cache.use_query_cache">true</property>
         <property name="net.sf.ehcache.configurationResourceName">myehcache.xml</property>
@@ -28,10 +28,10 @@
         <mapping resource="Contacts.hbm.xml"/>
         <mapping resource="Roles.hbm.xml"/> -->
 
-        <mapping class="hibernateactivity.core.model.Names"/>
+        <mapping class="hibernateactivity.core.model.Name"/>
         <mapping class="hibernateactivity.core.model.Person"/>
         <mapping class="hibernateactivity.core.model.Roles"/>
-        <mapping class="hibernateactivity.core.model.Contactss"/>
+        <mapping class="hibernateactivity.core.model.Contacts"/>
 
     </session-factory>
 </hibernate-configuration>

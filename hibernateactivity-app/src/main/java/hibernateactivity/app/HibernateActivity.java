@@ -65,7 +65,8 @@ public class HibernateActivity {
 
                     case 4: 
                         int idNo = integerValid(userInput("Enter ID to update: "),"ID to update");
-                        boolean existUp = service.searchPersons(idNo);                          
+                        boolean existUp = service.searchPersons(idNo);
+                        System.out.println(existUp);                          
 
                         if(existUp) {
                             Person people = service.getPersons(idNo);

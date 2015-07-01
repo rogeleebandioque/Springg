@@ -1,7 +1,12 @@
 package hibernateactivity.core.model;
 
+import javax.persistence.*;
+
+@Embeddable
 public class Name {
+    @Column(name="first_name")
     private String first_name;
+    @Column(name="last_name")
     private String last_name;
     private int id;
 

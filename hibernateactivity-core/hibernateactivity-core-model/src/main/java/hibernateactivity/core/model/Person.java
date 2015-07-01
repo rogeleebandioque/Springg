@@ -1,19 +1,46 @@
 package hibernateactivity.core.model;
 
 import java.util.*;
+import javax.persistence.*;
 
+@Entity
+@Table(name="Person")
 public class Person implements Comparable<Person> {
+    @Id 
+    @GeneratedValue(strategy=GenerationType.TABLE, generator="personid_generator")
+    @Column(name="id")
+    private int id;
 
-    private int id;    
+    @Embedded    
     private Name names;
+
+    @Column(name="address")
     private String address;
+
+    @OneToMany (cascade=CascadeType.ALL, fetch=FetchType.EAGER)
+    @JoinColumn(name="person_id")
     private Set<Contacts> contact;
+
+    @Column(name="age")
     private int age;
+
+    @Column(name="gender")    
     private String gender;
+
+    @Column(name="bday")
     private Date bday;
+
+    @Column(name="grade")
     private int grade;
+
+    @Column(name="date_hired")    
     private Date date_hired;
+
     private String currently_employed;
+    @Column(name="currenty_employed")
+
+    @ManyToMany(cascade=CascadeType.PERSIST, fetch=FetchType.LAZY)
+    @JoinTable(name="PER_ROLE", joinColumns={@JoinColumn(name="person_id")},inverseJoinColumns={@JoinColumn(name="role_id")})   
     private Set<Roles> role;
 
     public Person() {}

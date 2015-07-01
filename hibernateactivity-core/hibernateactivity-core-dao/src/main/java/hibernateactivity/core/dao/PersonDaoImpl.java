@@ -1,10 +1,16 @@
 package hibernateactivity.core.dao;
 
+import hibernateactivity.core.dao.actions.DeletePerson;
+import hibernateactivity.core.dao.actions.Exists;
+import hibernateactivity.core.dao.actions.GetPerson;
+import hibernateactivity.core.dao.actions.Save;
+import hibernateactivity.core.dao.actions.Update;
+import org.hibernate.cfg.AnnotationConfiguration;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.SessionFactory;
-import org.hibernate.cfg.Configuration;
+//import org.hibernate.cfg.Configuration;
 import hibernateactivity.core.model.Person;
 import hibernateactivity.core.model.Name;
 import hibernateactivity.core.model.Contacts;
@@ -20,7 +26,7 @@ public class PersonDaoImpl implements PersonDao {
 
     public PersonDaoImpl() {
         try {
-            factory =  new Configuration().configure("hibernate.cfg.xml").buildSessionFactory();       
+            factory =  new AnnotationConfiguration().configure("hibernate.cfg.xml").buildSessionFactory();       
         } catch(Throwable ex) {
             ex.printStackTrace();
             System.err.println("Failed to create sessionFactory object" + ex);
@@ -53,31 +59,8 @@ public class PersonDaoImpl implements PersonDao {
                 }
                 persons  = session.createQuery(sql).list();
             } else {
-                sql = "Select p.id as id, p.names as names ,p.date_hired as date_hired, p.grade as grade from Person as p";    
-                persons  = session.createQuery(sql).setResultTransformer(Transformers.aliasToBean(Person.class)).list();
-                //sql = "From Person";
-                //persons  = session.createQuery(sql).list();
-                for(Person pc:persons){
-                    sql = "from Contacts where person_id = :person_id";
-                    Set<Contacts> setsContact = new HashSet();   
-                    List<Contacts> cont = session.createQuery(sql).setParameter("person_id", pc.getId()).list();         
-                    for(Contacts eachCont:cont){
-                        setsContact.add(eachCont);
-                    }
-                    pc.setContact(setsContact);                
-                }   
-               /* Criteria criteria = session.createCriteria(Person.class);
-                          criteria.setProjection(Projections.projectionList()
-                                            .add(Projections.property("id"), "id")
-                                            .add(Projections.property("names"), "names")
-                                            .add(Projections.property("address"), "address")
-                                            .add(Projections.property("grade"), "grade")
-                                            .add(Projections.property("date_hired"), "date_hired")
-                                            .add(Projections.property("bday"), "bday")
-                                            .add(Projections.property("currently_employed"), "currently_employed")
-                                            .add(Projections.property("contact"), "contact"));
-                                            
-                persons  = criteria.setResultTransformer(Transformers.aliasToBean(Person.class)).list();*/
+                sql = "From Person";
+                persons  = session.createQuery(sql).list();
             }
             tx.commit();
         } catch(HibernateException e) {
@@ -89,97 +72,24 @@ public class PersonDaoImpl implements PersonDao {
     }
 
     public String deletePeople(int idNum) {
-        Session session = factory.openSession();
-        Transaction tx = null; 
-
-        try {
-            tx = session.beginTransaction();
-            Person person =(Person)session.get(Person.class, idNum);
-            session.delete(person);
-            tx.commit();
-	    } catch (HibernateException e) {
-            if (tx!=null) tx.rollback();
-            e.printStackTrace();
-        } finally {
-            session.close();
-        }
-        return "Person Deleted";
+        return HibernateUtil.perform(new DeletePerson(idNum), Boolean.class) ? "Person Deleted!" : "Person not Deleted!";
     }
 
     public boolean inRecord(int idNum) {
-        Session session = factory.openSession();
-        Transaction tx = null; 
-        List persons = null;
-        boolean y = true;
-            
-        try {
-            tx = session.beginTransaction();
-            persons = session.createQuery("FROM Person WHERE id ="+idNum).list();
-            tx.commit();
-        } catch(HibernateException e) {
-           	if (tx!=null) tx.rollback();
-            e.printStackTrace();
-        } finally {
-            session.close();
-        }
-
-        if (persons.isEmpty()) {
-            y = false;
-        }
-        return y;    
+        return HibernateUtil.perform(new Exists(idNum), Boolean.class);
     }
 
     public String addPeople(Person person) {
-        Session session = factory.openSession();
-        Transaction tx = null;  
-
-        try {
-            tx = session.beginTransaction();
-            session.save(person);
-            tx.commit();
-        } catch (HibernateException e) {
-            if (tx!=null) tx.rollback();
-            e.printStackTrace();
-        } finally {
-	        session.close();
-	    }
-        return "Added!";
+        return HibernateUtil.perform(new Save(person), String.class) != null ? "Added!" : "Not Added!";
     }
 
     public String updatePeople(Person person) {
-        Session session = factory.openSession();
-        Transaction tx = null;
-        String mes = null;
-
-        try {
-            tx = session.beginTransaction();
-            session.update(person);
-            tx.commit();
-            mes = "Updated!";
-	    } catch (HibernateException e) {
-	        if (tx!=null) tx.rollback();
-	        e.printStackTrace();
-	    } finally {
-	        session.close();
-	    }
-        return mes;
+        person = HibernateUtil.perform(new Update(person), Person.class);
+        return person != null ? "Updated!" : "Not Updated!";
     }
 
     public Person getPeople(int idNum) {
-        Session session = factory.openSession();
-        Transaction tx = null;
-        Person people = null;        
-
-        try {
-            tx = session.beginTransaction();
-            people = (Person)session.get(Person.class, idNum);
-            tx.commit();
-        } catch(HibernateException e) {
-            
-        } finally {
-            session.close();
-        }
-        return people;
-    }    
+        return HibernateUtil.perform(new GetPerson(idNum), Person.class);
+    }
     
 }

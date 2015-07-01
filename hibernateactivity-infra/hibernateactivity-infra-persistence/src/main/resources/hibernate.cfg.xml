@@ -17,9 +17,15 @@
         <property name="show_sql">true</property>
         <property name="format_sql">true</property>
     
-        <!-- List of XML mapping files -->
+        <!-- List of XML mapping files
         <mapping resource="Person.hbm.xml"/>
         <mapping resource="Contacts.hbm.xml"/>
-        <mapping resource="Roles.hbm.xml"/>
+        <mapping resource="Roles.hbm.xml"/> -->
+
+        <mapping class="hibernateactivity.core.model.Names"/>
+        <mapping class="hibernateactivity.core.model.Person"/>
+        <mapping class="hibernateactivity.core.model.Roles"/>
+        <mapping class="hibernateactivity.core.model.Contactss"/>
+
     </session-factory>
 </hibernate-configuration>

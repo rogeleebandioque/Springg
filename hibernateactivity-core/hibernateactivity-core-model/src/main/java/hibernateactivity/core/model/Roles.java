@@ -1,11 +1,20 @@
 package hibernateactivity.core.model;
 
 import java.util.*;
+import javax.persistence.*;
 
+@Entity
+@Table(name="Role")
 public class Roles {
 
+    @Id 
+    @Column(name="id")
     private int id;
+
+    @Column(name="roleName")
     private String roleName;
+
+    @ManyToMany(mappedBy="role")    
     private Set<Person> personRole;
     
     public Roles() {}

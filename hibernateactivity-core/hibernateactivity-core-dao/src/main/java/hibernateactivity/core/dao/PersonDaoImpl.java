@@ -6,9 +6,12 @@ import hibernateactivity.core.dao.actions.GetPerson;
 import hibernateactivity.core.dao.actions.Save;
 import hibernateactivity.core.dao.actions.Update;
 import hibernateactivity.core.dao.actions.ListPerson;
+import hibernateactivity.core.dao.actions.ListRoles;
+import hibernateactivity.core.dao.actions.SearchPerson;
 import hibernateactivity.core.model.Person;
 import hibernateactivity.core.model.Name;
 import hibernateactivity.core.model.Contacts;
+import hibernateactivity.core.model.Roles;
 import java.util.*;
 
 
@@ -38,5 +41,12 @@ public class PersonDaoImpl implements PersonDao {
     public Person getPeople(int idNum) {
         return HibernateUtil.perform(new GetPerson(idNum), Person.class);
     }
-    
+
+    public Roles getRole(Integer category) {
+        return HibernateUtil.perform(new ListRoles(category), Roles.class);
+    }
+   
+    public List<Person> searchPeople(String search) {
+        return HibernateUtil.perform(new SearchPerson(search), List.class);
+    }
 }

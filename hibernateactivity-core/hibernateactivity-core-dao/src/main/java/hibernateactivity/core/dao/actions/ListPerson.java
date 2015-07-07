@@ -27,7 +27,7 @@ public class ListPerson implements Command {
     public Object execute() {
         String sql = null;
         List<Person> persons = null;  
-
+        listBy = listBy.replace(" ", "_").toLowerCase();
            if(!listBy.equals("last_name")) {
                 Criteria cr = session.createCriteria(Person.class); 
                 if(orderBy.equals("desc")) {
@@ -35,7 +35,7 @@ public class ListPerson implements Command {
                 } else { 
                     cr.addOrder(Order.asc(listBy));    
                 }
-                
+                cr.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
                 persons = cr.list();
             } else {              
                 if(orderBy.equals("asc")){

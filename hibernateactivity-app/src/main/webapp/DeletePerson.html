@@ -1,0 +1,20 @@
+<html>
+    <head>
+        <title> Servlets Activity</title>
+        <link rel="stylesheet" type="text/css" href="servlets.css"/>
+        <script src="Servlets.js">
+		</script>
+    </head>
+    <body>
+    <div id="container">
+    <h1>Delete Person</h1>
+    <form action="ServletsDelete" method="GET">
+        Enter Person ID :</td><td> <input type="text" name="id_number" placeHolder="Person id"/>
+        <input type="submit" value="Delete Person" onClick="return confirm_delete()"/> 
+        <input type="button" value="Cancel" onClick="location.href='Servlets'"/>
+        <input type="text" name="todo" value="Delete" id="todo"/></br>
+    </form>
+    </div>
+    </body>
+</html>
+

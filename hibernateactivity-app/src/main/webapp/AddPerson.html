@@ -1,0 +1,46 @@
+<html>
+    <head>
+        <title> Servlets Activity</title>
+        <link rel="stylesheet" type="text/css" href="servlets.css"/>        
+        <script src="Servlets.js">
+		</script>
+    </head>
+    <body>
+    <div id="container"> 
+    <h1>Add Person</h1>
+        <form action="ServletsAdd" method="POST" name="forms" onSubmit="return checkInput()">
+        <table align="center">
+            <tr><td>First Name:</td><td> <input type="text" name="first_name"/></td></tr>
+            <tr><td>Last Name: </td><td><input type="text" name="last_name"/></td></tr>
+            <tr><td>Address: </td><td><input type="text" name="address"/></td></tr>
+            <tr><td>Birthday: </td><td><input type="date" name="bday" placeHolder="MM/dd/yyyy"/></td></tr>
+            <tr><td>Age: </td><td><input type="number" name="age"/></td></tr>
+            <tr><td>Contact Number: </td>
+                <td id="contactNumber"><select id="contact">
+                        <option value="email" onclick="createField('E-mail')">E-mail</option>
+                        <option value="cellphone" onclick="createField('Cellphone')">Cellphone#</option>
+                        <option value="telephone"onclick="createField('Telephone')">Telephone#</option>
+                    </select>
+                </td></tr>
+            <tr><td>Gender: </td><td><input type="radio" name="gender" value="male"/>Male
+                            <input type="radio" name="gender" value="female"/>Female</td></tr>    
+            <tr><td>Grade: </td><td><input type="number" name="grade" /></td></tr>
+            <tr><td>Date hired: </td><td><input type="date" name="date_hired" placeHolder="MM/dd/yyyy"/></td></tr>
+            <tr><td>Currently Employed: </td><td>
+                                    <input type="radio" name="currently_employed" value="yes"/>Yes 
+                                    <input type="radio" name="currently_employed" value="no"/>No
+            </td></tr>
+            <tr><td>Roles: </td><td><input type="checkbox" name="roles" value="police"/>Police <br/>
+                                    <input type="checkbox" name="roles" value="soldier"/>Soldier <br/>
+                                    <input type="checkbox" name="roles" value="politician"/>Politician<br/>
+                                    <input type="checkbox" name="roles" value="celebrity"/>Celebrity <br/>
+                                    <input type="checkbox" name="roles" value="worker"/>Worker</td></tr>
+            <tr><td></td><td><input type="submit" value="Add Person">
+            <input type="button" value="Cancel" onClick="location.href='Servlets'"/>
+            <input type="text" name="todo" value="Add" id="todo"/></br>
+        </table>
+        </form>
+    </div>
+    </body>
+</html>
+

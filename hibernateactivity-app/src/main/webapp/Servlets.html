@@ -1,26 +1,27 @@
 <html>
     <head>
-        <title>Servlets Activity</title>
-        <link rel="stylesheet" type="text/css" href="Servlets.css"/>
+        <title> Servlets Activity</title>
+        <link rel="stylesheet" type="text/css" href="servlets.css"/>
         <script src="Servlets.js">
-        </script>
+		</script>
     </head>
-    
     <body>
-        <div id="Choose">
-            <span id="title">Servlets Activty</span>
-            <span id="navi">
-            |<span class="navig"> <a href="List.html">List Persons </a></span>|
-            |<span class="navig" onClick="AddPerson()">Add Persons</span>|
-            |<span class="navig" onClick="DeletePerson()">Delete Person</span>|
-            |<span class="navig" onClick="EditPerson()">Edit Person</span>|
-            </span>
-        </div>
-
-        <div id="Contents">
-
-        </div>
+    <div id="container">
+    <h1>Servlets Activity</h1>
+        <form>
+            <input type="button" value="Add Person" onClick="location.href='AddPerson.html'"/> 
+            <input type="button" value="Delete Person" onClick="location.href='DeletePerson.html'"/> 
+            <input type="button" value="Edit Person" onClick="location.href='EditPerson.html'"/> 
+            <br/><br/>
+            View: 
+            <input type="radio" name="view" onclick="listTo('person')"/> Person &nbsp;&nbsp;
+            <input type="radio" name="view" onclick="listTo('role')"/> Roles &nbsp;&nbsp;
+        </form>
+        <form action="Servlets" method="GET" id="displist">
+       
+        </form>
+        
+    </div>
     </body>
 </html>
-
 

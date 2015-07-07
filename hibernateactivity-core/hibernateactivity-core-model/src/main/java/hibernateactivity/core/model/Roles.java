@@ -18,7 +18,9 @@ public class Roles {
     @Column(name="roleName")
     private String roleName;
 
-    @ManyToMany(mappedBy="role")    
+    //@ManyToMany(mappedBy="role", fetch=FetchType.EAGER) 
+    @ManyToMany(fetch=FetchType.EAGER)
+    @JoinTable(name="PER_ROLE", joinColumns={@JoinColumn(name="role_id")},inverseJoinColumns={@JoinColumn(name="person_id")})      
     private Set<Person> personRole;
     
     public Roles() {}

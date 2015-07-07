@@ -31,6 +31,11 @@
                 <version>9.3-1102-jdbc41</version>
             </dependency>
             <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-lang3</artifactId>
+                <version>3.4</version>
+            </dependency>
+            <dependency>
                 <groupId>org.hibernate</groupId>
                 <artifactId>hibernate-entitymanager</artifactId>
                 <version>4.3.10.Final</version>
@@ -104,11 +109,6 @@
                     <groupId>org.mortbay.jetty</groupId>
                     <artifactId>jetty-maven-plugin</artifactId>
                     <version>8.1.16.v20140903</version>
-                    <configuration>
-                        <httpConnector>
-                            <port>8080</port>
-                        </httpConnector>
-                    </configuration>
                 </plugin>
                 <plugin>            
                     <groupId>org.apache.maven.plugins</groupId>
@@ -143,7 +143,7 @@
            <profile>
                 <id>dev</id>                    
                 <properties>
-                    <database.url>jdbc:postgresql://localhost/Person</database.url>
+                    <database.url>jdbc:postgresql://localhost:5432/Person</database.url>
                     <user.name>rbandioque</user.name>
                     <password>rbandioque</password>
                 </properties>

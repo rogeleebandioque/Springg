@@ -1,86 +1,215 @@
-function ListPerson(){
-    
-    document.getElementById("Contents").innerHTML = "";
-    
-    var f = document.createElement("form");
-    f.setAttribute("action","Servlets");
-    f.setAttribute("method","GET");
-        
-    var r1 = document.createElement("input");
-    r1.setAttribute("type","radio");
-    r1.setAttribute("name","display");
-    r1.setAttribute("value","last_name");
-    r1.setAttribute("id","r1");
-
-    var r2 = document.createElement("input");
-    r2.setAttribute("type","radio");
-    r2.setAttribute("name","display");
-    r2.setAttribute("value","grade");
-    r2.setAttribute("id","r2");
-
-    var r3 = document.createElement("input");
-    r3.setAttribute("type","radio");
-    r3.setAttribute("name","display");
-    r3.setAttribute("value","date_hired");
-    r3.setAttribute("id","r3");
-
-    var b1 = document.createElement("input");
-    b1.setAttribute("type","submit");
-    b1.setAttribute("value","Submit");
-
-    var objTextNode1 = document.createTextNode("Last Name");
-    var objTextNode2 = document.createTextNode("Grade");
-    var objTextNode3 = document.createTextNode("Date Hired");
-    
-    var objLabel = document.createElement("label");
-    objLabel.htmlFor = r1.id;
-    objLabel.appendChild(r1);
-    objLabel.appendChild(objTextNode1);
-
-    var objLabel2 = document.createElement("label");
-    objLabel2.htmlFor = r2.id;
-    objLabel2.appendChild(r2);
-    objLabel2.appendChild(objTextNode2);
-
-    var objLabel3 = document.createElement("label");
-    objLabel3.htmlFor = r3.id;
-    objLabel3.appendChild(r3);
-    objLabel3.appendChild(objTextNode3);
-
-    f.appendChild(objLabel);
-    f.appendChild(objLabel2);
-    f.appendChild(objLabel3);
-    f.appendChild(b1);
-    document.getElementById("Contents").appendChild(f);
-
-}
-function AddPerson(){
-
-    var f = document.createElement("form");
-    f.setAttribute("action","Servlets");
-    f.setAttribute("method","GET");
-
-    var categ = ["First Name: ","Last Name: ", "Grade: " , "Age: " , "Birthday: " , "Address: ", "Gender: ", "Date Hired: ", "Currently Employed: " ];
-    document.getElementById("Contents").innerHTML = "";
-    for (var i=0; i<categ.length; i++){
-        var inp = document.createElement("input");
-        inp.setAttribute("type","text");
-        inp.setAttribute("name","categ"+i);
-        inp.setAttribute("id","categ"+i);
-        console.log("categ"+i);
-        var objTextNode1 = document.createTextNode(categ[i]);
-        var objLabel = document.createElement("label");
-        objLabel3.htmlFor = inp.id;
-        objLabel.appendChild(inp);
-        objLabel.appendChild(objTextNode1);
-        document.getElementById('MyFormElem').label.innerHTML = 'Look ma this works!';
-        f.appendChild(objLabel);
+var i;
+var k;
+function createField(_type){
+    i++;
+    breakLine("contactNumber");
+    console.log(_type);
+    var inp = document.createElement("input");
+    if(_type == "E-mail"){
+     inp.setAttribute("type","email");
+    } else {
+    inp.setAttribute("type","text");
     }
-    document.getElementById("Contents").appendChild(f);
-}
-function DeletePerson(){
+    inp.setAttribute("id",i);
+    inp.setAttribute("name","contactDetail");    
 
+    document.getElementById("contactNumber").appendChild(inp);
+    label(_type,inp);
 }
-function EditPerson(){
 
+function confirm_delete() {
+  return confirm('Are you sure?');
 }
+
+function breakLine(_div){
+    var br = document.createElement("br");
+    document.getElementById(_div).appendChild(br);
+}
+
+function label(_type,_inp){
+    var itemLabel = document.createElement("Label");
+    itemLabel.setAttribute("for", i);
+    itemLabel.setAttribute("name", "contactType");    
+    itemLabel.innerHTML = _type + ": ";
+    var inv = document.createElement("input");
+    inv.setAttribute("id", "todo");
+    inv.setAttribute("name", "contactType"); 
+    inv.setAttribute("value", _type);     
+    document.getElementById("contactNumber").appendChild(inv);    
+    document.getElementById("contactNumber").insertBefore(itemLabel,_inp );
+}
+
+function br(){
+    var br = document.createElement("br");
+    document.getElementById("displist").appendChild(br);
+}
+
+function listTo(_by){
+    document.getElementById("displist").innerHTML = "";
+    
+    var inp = document.createElement("input");
+    inp.setAttribute("type","hidden");
+    inp.setAttribute("name","todo");    
+    inp.setAttribute("value",_by);  
+    document.getElementById("displist").appendChild(inp);
+    br();
+    if(_by == "person"){
+        var listBy = ["last_name","grade","date_hired"];
+        var listBy = ["Last Name","Grade","Date Hired"];
+        for(var categ in listBy){
+
+            var cb = document.createElement("input");
+            cb.setAttribute("type","radio");
+            cb.setAttribute("name","listBy");
+            cb.setAttribute("value",listBy[categ]);        
+            document.getElementById("displist").appendChild(cb);
+            var itemLabel = document.createElement("Label");
+            itemLabel.innerHTML =  listBy[categ];
+            document.getElementById("displist").appendChild(itemLabel,cb);
+       }
+        br();
+        var cb = document.createElement("input");
+        cb.setAttribute("type","radio");
+        cb.setAttribute("name","order");
+        cb.setAttribute("value","asc");        
+        document.getElementById("displist").appendChild(cb);
+        var itemLabel = document.createElement("Label");
+        itemLabel.innerHTML =  "Ascending";
+        document.getElementById("displist").appendChild(itemLabel,cb);
+        
+        var cb = document.createElement("input");
+        cb.setAttribute("type","radio");
+        cb.setAttribute("name","order");
+        cb.setAttribute("value","desc");        
+        document.getElementById("displist").appendChild(cb);
+        var itemLabel = document.createElement("Label");
+        itemLabel.innerHTML =  "Descending";
+        document.getElementById("displist").appendChild(itemLabel,cb);
+    } else {
+        var lroles = ["Police", "Politician","Soldier","Celebrity","Worker"];
+        var x = 1;
+        for(var categ in lroles){
+
+            var cb = document.createElement("input");
+            cb.setAttribute("type","radio");
+            cb.setAttribute("name","listBy");
+            cb.setAttribute("value",x);        
+            document.getElementById("displist").appendChild(cb);
+            var itemLabel = document.createElement("Label");
+            itemLabel.innerHTML =  lroles[categ];
+            document.getElementById("displist").appendChild(itemLabel,cb);
+
+            x++;
+       }       
+
+    }
+    br();
+    var b = document.createElement("input");
+    b.setAttribute("type","submit");
+    b.setAttribute("value","List");
+    document.getElementById("displist").appendChild(b);
+}
+
+function checkList(){
+    var r = document.getElementsByName("listBy");
+    var c = -1;
+    
+    for(var i=0; i < r.length; i++){
+       if(r[i].checked) {
+          c = i; 
+       }
+    }
+    var o = document.getElementsByName("order");  
+    if(!o.length == 0){
+        return checkOrder(o);
+    } 
+    
+    if (c == -1 ){
+	    return false;
+    }
+    return true;
+}
+
+function checkOrder(_o){
+     
+    var or = -1;
+    
+    for(var i=0; i < _o.length; i++){
+       if(_o[i].checked) {
+          or = i; 
+       }
+    }
+    if(or == -1){
+        return false;
+    } else{
+        return true;
+    }
+}
+
+function checkInput(){
+    var fname = document.forms.first_name;
+    var lname = document.forms.last_name;
+    var address = document.forms.address;
+    var bday = document.forms.bday;
+    var age = document.forms.age;
+    var gender = document.getElementsByName("gender");
+    var grade = document.forms.grade;
+    var datehired = document.forms.date_hired;
+    var employed = document.getElementsByName("currently_employed");
+    var contacts = document.getElementsByName("contactDetail");
+    var roles = document.getElementsByName("roles");
+
+    if(fname == "" ||
+        lname == "" ||
+        address == "" ||
+        bday== ""||
+        age ==""||
+        grade =="" ||
+        datehired =="" ||
+        employed == "" ||
+        contacts.length == 0||
+        roles.length == 0){
+            alert("All fields are required!");
+            return false;
+        }
+        var or = -1;
+        var g = -1;
+        var em = -1;
+        var c = -1;
+        for(var i=0; i < roles.length; i++){
+           if(roles[i].checked) {
+              or = i; 
+           }
+        }
+        for(var i=0; i < employed.length; i++){
+           if(employed[i].checked) {
+              em = i; 
+           }
+        }
+        for(var i=0; i < gender.length; i++){
+           if(gender[i].checked) {
+              g = i; 
+           }
+        }
+        for(var i=0; i < contacts.length; i++){
+            var word = document.getElementsByName("contactDetail")[i].value; 
+            console.log(word);          
+            if(!word == "") {
+              c = i; 
+           }
+        }        
+        if(or == -1 || g == -1 || em == -1 || g == -1 || c == -1){
+            alert("All fields are required!");
+            return false;
+        }
+        return true;
+}
+
+function removeDiv(_id){
+    console.log("aa");
+    document.getElementById("cont").removeChild(document.getElementById(_id));
+}
+
+
+
+

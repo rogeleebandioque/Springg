@@ -8,55 +8,67 @@ import hibernateactivity.core.service.Service;
 import hibernateactivity.core.model.Person;
 import hibernateactivity.core.model.Contacts;
 import hibernateactivity.core.model.Name;
+import hibernateactivity.core.model.Roles;
+import org.apache.commons.lang3.StringUtils;
 
-// Extend HttpServlet class
 public class Servlets extends HttpServlet {
+    private Service service;
+    private Operations op;
+    private String title;
+    private String startHtml;
+    private String endHtml;
+    public void init() throws ServletException{
+        service = new Service();
+        op = new Operations();
+        title = "Servlets Activity";
+        startHtml = "<!doctype html public \"-//w3c//dtd html 4.0 transitional//en\">\n"+
+                    "<html>\n" +
+                    "<head><title>" + title + "</title>" +
+                    "<link rel=\"stylesheet\" type=\"text/css\" href=\"servlets.css\"/>" + 
+                    "<script src=\"Servlets.js\"></script></head>\n" +
+                    "<body><div id=\"container\">\n" +
+                    "<h1 align=\"center\">" + title + "</h1>\n";
+        endHtml = "</div></body></html>";
 
-    // Method to handle GET method request.
+    }
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // Set response content type
         response.setContentType("text/html");
-
         PrintWriter out = response.getWriter();
-        String title = "List of Persons";
-        String docType = "<!doctype html public \"-//w3c//dtd html 4.0 transitional//en\">\n";
-
-        String listBy = request.getParameter("display");
-        String orderBy = "asc";
-
-        out.println(docType +
-        "<html>\n" +
-        "<head><title>" + title + "</title></head>\n" +
-        "<body>\n" +
-        "<h1 align=\"center\">" + title + "</h1>\n" +
-        "<table border=\"1\">\n");
-        Service service = new Service();
-        List<Person> person = service.getPersons(listBy, orderBy);
-        
-        out.println(displayPerson(person));
-        out.print("\n </body> \n </html>");
-
-    }
-    // Method to handle POST method request.
-    public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        doGet(request, response);
-    }
-
-    public static String displayPerson(List<Person> person) {
-        String words = "<tr><th>Name</th><th>Grade</th><th>Date Hired</th><th>Contact Number</th></tr>";
-        for(Person persons: person){
-            Name name = persons.getNames();
-            words = words +"<tr><td>"+ name.getFirst_name() + " " + name.getLast_name()+"</td>" + 
-                           "<td>"+ persons.getGrade() +"</td>" +
-                           "<td>"+ persons.getDate_hired() +"</td> <td>";
-
-            for(Contacts contact:persons.getContact()){
-                words = words + contact.getType() + ": " + contact.getContact() + " \n" ;
-            }     
-            words = words + "</td></tr>";
+        out.println(startHtml);
+        out.println(op.createFields());
+        out.println(op.searchBox());
+        String searchQ = request.getParameter("search");
+        if(!StringUtils.isEmpty(searchQ)){
+            List<Person> searchList = service.searchPerson(searchQ);
+            out.println(op.displaySearch(searchList));
         }
-        words = words + "</table>";
-        return words;
+        List<Person> person = service.getPersons("last_name", "asc");
+        out.println(op.displayPerson(person, "Last Name"));
+        out.println(op.listBy());
+        out.println(endHtml);
     }
-}
 
+    public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        response.setContentType("text/html");
+        PrintWriter out = response.getWriter();
+        out.println(startHtml);
+        out.println(op.createFields());
+        out.println(op.searchBox());
+        String choice = request.getParameter("todo").toLowerCase();
+        switch (choice) {
+            case "person":
+                List<Person> person = service.getPersons(request.getParameter("listBy"), request.getParameter("order"));
+                out.println(op.displayPerson(person,request.getParameter("listBy")));
+                break;
+
+            case "role":
+                Integer categ = op.integerValid(request.getParameter("listBy"));
+                Roles roles = service.getByRole(categ);
+                out.println(op.displayRole(roles,categ));
+                break;
+        }
+        
+        out.println(op.listBy());   
+        out.println(endHtml);
+    }
+}    

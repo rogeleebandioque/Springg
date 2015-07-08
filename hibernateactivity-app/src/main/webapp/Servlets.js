@@ -2,8 +2,11 @@ var i;
 var k;
 function createField(_type){
     i++;
-    breakLine("contactNumber");
-    console.log(_type);
+    var divi = "div" + i;
+    //breakLine("divi");
+    console.log(divi);
+    var div = document.createElement("div");
+    div.setAttribute("id", divi);
     var inp = document.createElement("input");
     if(_type == "E-mail"){
      inp.setAttribute("type","email");
@@ -11,10 +14,26 @@ function createField(_type){
     inp.setAttribute("type","text");
     }
     inp.setAttribute("id",i);
-    inp.setAttribute("name","contactDetail");    
-
-    document.getElementById("contactNumber").appendChild(inp);
-    label(_type,inp);
+    inp.setAttribute("name","contactDetail"); 
+    inp.setAttribute("size", "10");
+    var itemLabel = document.createElement("Label");
+    itemLabel.setAttribute("for", i);
+    itemLabel.setAttribute("name", "contactType");    
+    itemLabel.innerHTML = _type + ": ";
+    var inv = document.createElement("input");
+    inv.setAttribute("type", "hidden");
+    inv.setAttribute("name", "contactType"); 
+    inv.setAttribute("value", _type);    
+    div.appendChild(itemLabel);
+    div.appendChild(inp);
+    div.appendChild(inv);
+    
+    var rm = document.createElement("input");
+    rm.setAttribute("type","button");
+    rm.setAttribute("value","Remove");
+    rm.setAttribute("onClick","removeDiv('"+ divi +"')");    
+    div.appendChild(rm);
+    document.getElementById("contactNumber").appendChild(div);
 }
 
 function confirm_delete() {
@@ -26,7 +45,7 @@ function breakLine(_div){
     document.getElementById(_div).appendChild(br);
 }
 
-function label(_type,_inp){
+function label(_type,_inp,_d){
     var itemLabel = document.createElement("Label");
     itemLabel.setAttribute("for", i);
     itemLabel.setAttribute("name", "contactType");    
@@ -35,8 +54,8 @@ function label(_type,_inp){
     inv.setAttribute("id", "todo");
     inv.setAttribute("name", "contactType"); 
     inv.setAttribute("value", _type);     
-    document.getElementById("contactNumber").appendChild(inv);    
-    document.getElementById("contactNumber").insertBefore(itemLabel,_inp );
+    _d.appendChild(inv);    
+    _d.insertBefore(itemLabel,_inp );
 }
 
 function br(){
@@ -207,7 +226,7 @@ function checkInput(){
 
 function removeDiv(_id){
     console.log("aa");
-    document.getElementById("cont").removeChild(document.getElementById(_id));
+    document.getElementById("contactNumber").removeChild(document.getElementById(_id));
 }
 
 

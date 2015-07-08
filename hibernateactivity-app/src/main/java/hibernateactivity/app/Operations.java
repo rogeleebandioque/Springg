@@ -51,10 +51,10 @@ public class Operations {
         DateValidator dateVal = DateValidator.getInstance();
         Date dt = null;                    
         
-        dt = dateVal.validate(date, "MM/dd/yyyy");
+        dt = dateVal.validate(date, "yyyy-MM-dd");
         if(dt == null) {
-            date = "01/01/0001";
-            dt = dateVal.validate(date, "MM/dd/yyyy");
+            date = "0001-01-01";
+            dt = dateVal.validate(date, "yyyy-MM-dd");
         } 
         return dt; 
     }
@@ -79,7 +79,11 @@ public class Operations {
                         "<tr><td>Address: </td><td><input type=\"text\" name=\"address\"value=\"" + person.getAddress() + "\"/></td></tr>" +
                         "<tr><td>Birthday: </td><td><input type=\"date\" name=\"bday\"value=\"" + person.getBday() + "\"/></td></tr>" +
                         "<tr><td>Age: </td><td><input type=\"number\" name=\"age\"value=\"" + person.getAge() + "\"/></td></tr>"+
-                        "<tr><td>Contacts: </td><td id=\"cont\">";
+                        "<tr><td>Contacts: </td><td id=\"contactNumber\"><select id=\"contact\">" +
+                        "<option value=\"email\" onclick=\"createField('E-mail')\">E-mail</option>" +
+                        "<option value=\"cellphone\" onclick=\"createField('Cellphone')\">Cellphone#</option>" +
+                        "<option value=\"telephone\"onclick=\"createField('Telephone')\">Telephone#</option>" +
+                        "</select>";
         Set<Contacts> c = person.getContact();
         for(Contacts cont: c) {
             eForm = eForm +"<div id=\""+ cont.getContact() +"\">"+ cont.getType() + ": "+

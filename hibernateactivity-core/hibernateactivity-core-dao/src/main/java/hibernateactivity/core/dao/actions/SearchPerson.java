@@ -14,9 +14,13 @@ public class SearchPerson implements Command {
 
     private Session session;
     private String search;
+    private String listBy;
+    private String order;
 
-    public SearchPerson(String search) {
+    public SearchPerson(String search, String listBy, String order) {
         this.search = search;
+        this.listBy = listBy;
+        this.order = order;
     }
 
     public void setSession(Session session) {
@@ -24,11 +28,17 @@ public class SearchPerson implements Command {
     }
 
     public Object execute() {
-        List<Person> persons = null;  
-        Criteria criteria = session.createCriteria(Person.class);
-        criteria.add(Restrictions.like("names.last_name", search, MatchMode.ANYWHERE));
-        criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
-        persons = criteria.list();
+        List<Person> persons = null;
+        listBy = listBy.replace(" ", "_").toLowerCase();  
+        Criteria cr = session.createCriteria(Person.class);
+        cr.add(Restrictions.like("names.last_name", search, MatchMode.ANYWHERE));
+        if(order.equals("asc")){
+            cr.addOrder(Order.asc(listBy));
+        }else{
+            cr.addOrder(Order.desc(listBy));
+        }
+        cr.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
+        persons = cr.list();
         return persons;
     }
 }

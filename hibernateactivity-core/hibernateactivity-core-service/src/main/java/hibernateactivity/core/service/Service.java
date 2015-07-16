@@ -1,6 +1,6 @@
 package hibernateactivity.core.service;
 
-import  hibernateactivity.core.dao.PersonDaoImpl;
+import hibernateactivity.core.dao.PersonDaoImpl;
 import hibernateactivity.core.model.Person;
 import hibernateactivity.core.model.Contacts;
 import hibernateactivity.core.model.Roles;
@@ -8,43 +8,49 @@ import java.util.List;
 
 public class Service {
 
-    public List<Person> getPersons(String listBy, String orderBy) {
-        PersonDaoImpl dao = new PersonDaoImpl();
-        return dao.getPeople(listBy, orderBy);
+    PersonDaoImpl personDaoImpl;
+
+    public void setPersonDaoImpl(PersonDaoImpl personDaoImpl){
+        this.personDaoImpl = personDaoImpl;
+    }
+
+    public List<Person> getPersons() {
+        //PersonDaoImpl dao = new PersonDaoImpl();
+        return personDaoImpl.getPeople();
     }
 
     public String deletePersons(int idNum) {
-        PersonDaoImpl dao = new PersonDaoImpl();
-        return dao.deletePeople(idNum);
+        //PersonDaoImpl dao = new PersonDaoImpl();
+        return personDaoImpl.deletePeople(idNum);
     }
 
     public boolean searchPersons(int idNum) {
-        PersonDaoImpl dao = new PersonDaoImpl();
-        return dao.inRecord(idNum);
+        //PersonDaoImpl dao = new PersonDaoImpl();
+        return personDaoImpl.inRecord(idNum);
     }
 
     public String addPersons(Person person) {
-        PersonDaoImpl dao = new PersonDaoImpl();
-        return dao.addPeople(person);
+        //PersonDaoImpl dao = new PersonDaoImpl();
+        return personDaoImpl.addPeople(person);
     }
 
     public String updatePersons(Person person) {
-        PersonDaoImpl dao = new PersonDaoImpl();
-        return dao.updatePeople(person);
+        //PersonDaoImpl dao = new PersonDaoImpl();
+        return personDaoImpl.updatePeople(person);
     }
 
     public Person getPersons(int idNum) {
-        PersonDaoImpl dao = new PersonDaoImpl();
-        return dao.getPeople(idNum);
+        //PersonDaoImpl dao = new PersonDaoImpl();
+        return personDaoImpl.getPeople(idNum);
     }
 
     public Roles getByRole(Integer category) {
-        PersonDaoImpl dao = new PersonDaoImpl();
-        return dao.getRole(category);
+        //PersonDaoImpl dao = new PersonDaoImpl();
+        return personDaoImpl.getRole(category);
     }
 
-    public List<Person> searchPerson(String searchQ) {
-        PersonDaoImpl dao = new PersonDaoImpl();
-        return dao.searchPeople(searchQ);
+    public List<Person> searchPerson(String searchQ, String listBy, String order) {
+        //PersonDaoImpl dao = new PersonDaoImpl();
+        return personDaoImpl.searchPeople(searchQ, listBy, order);
     }
 }

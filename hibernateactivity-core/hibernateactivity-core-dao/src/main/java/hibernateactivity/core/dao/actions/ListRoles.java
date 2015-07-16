@@ -17,15 +17,13 @@ public class ListRoles implements Command {
 
     public ListRoles(Integer category) {
         this.category = category;
-    }
+     }
 
     public void setSession(Session session) {
         this.session = session;
     }
 
     public Object execute() {
-        String sql = null;
-        List<Roles> role = null;  
         return (Roles) session.get(Roles.class, category);
     }
 }

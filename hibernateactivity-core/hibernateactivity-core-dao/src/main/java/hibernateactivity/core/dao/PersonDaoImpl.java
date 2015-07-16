@@ -18,8 +18,8 @@ import java.util.*;
 
 public class PersonDaoImpl implements PersonDao {
 
-    public List<Person> getPeople(String listBy, String orderBy) {
-        return HibernateUtil.perform(new ListPerson(listBy,orderBy), List.class);         
+    public List<Person> getPeople() {
+        return HibernateUtil.perform(new ListPerson(), List.class);         
     }
 
     public String deletePeople(int idNum) {
@@ -46,7 +46,7 @@ public class PersonDaoImpl implements PersonDao {
         return HibernateUtil.perform(new ListRoles(category), Roles.class);
     }
    
-    public List<Person> searchPeople(String search) {
-        return HibernateUtil.perform(new SearchPerson(search), List.class);
+    public List<Person> searchPeople(String search, String listBy, String order) {
+        return HibernateUtil.perform(new SearchPerson(search,listBy,order), List.class);
     }
 }

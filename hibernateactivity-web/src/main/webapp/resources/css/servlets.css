@@ -1,0 +1,28 @@
+#container {
+	position:relative;    
+    top:5%;
+    width:60%;
+    height:50%;
+    left:20%;
+    text-align:center;
+}
+#todo {
+    display:none;
+}
+table{
+    text-align: center;
+}
+#search{
+    text-align:right;
+}
+#add{
+    text-align:right;
+}
+#alertUser{
+    border:1px;
+    
+}
+#fileUpload{
+    position:static;
+    
+}

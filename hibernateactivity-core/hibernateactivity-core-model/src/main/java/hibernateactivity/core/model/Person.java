@@ -20,7 +20,7 @@ public class Person {//implements Comparable<Person> {
 
     @OneToMany (cascade=CascadeType.ALL, fetch=FetchType.EAGER)
     @JoinColumn(name="person_id")
-    private Set<Contacts> contact;
+    private Set<Contacts> contact = new HashSet<Contacts>();
 
     @Column(name="age")
     private int age;
@@ -42,7 +42,7 @@ public class Person {//implements Comparable<Person> {
 
     @ManyToMany(cascade=CascadeType.PERSIST, fetch=FetchType.EAGER)
     @JoinTable(name="PER_ROLE", joinColumns={@JoinColumn(name="person_id")},inverseJoinColumns={@JoinColumn(name="role_id")})   
-    private Set<Roles> role;
+    private Set<Roles> role = new HashSet<Roles>();
 
     public Person() {}
     public Person(Name names, String address, int age, String gender, 

@@ -7,11 +7,6 @@
 <%@ page import="org.springframework.context.support.ClassPathXmlApplicationContext" %>
 <%@ page import="hibernateactivity.web.Operations" %>
 
-<%! 
-    ApplicationContext applicationContext = new ClassPathXmlApplicationContext("/application-context.xml");
-    Operations op = (Operations) applicationContext.getBean("operations");
-%>
-
 <html>
     <head>
     <spring:url value="/resources/css/servlets.css" var="ServletsCss" />

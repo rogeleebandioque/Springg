@@ -16,23 +16,30 @@ import org.springframework.ui.Model;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.multipart.MultipartFile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.apache.commons.io.FileUtils;
+
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import org.apache.commons.io.FileUtils;
 
 import hibernateactivity.web.Operations;
 import hibernateactivity.core.model.FileUpload;
 
 @Controller
 public class ActivityController{
-    private Operations operations;    
+    private Operations operations = new Operations();    
     private Service service;
-
+/*
     public void setOperation(Operations operations){
         this.operations = operations;
-    }    
+    }  */  
 
     public void setService(Service service){
         this.service = service;
@@ -46,20 +53,118 @@ public class ActivityController{
 
 		Person person = new Person();
 		model.addAttribute("personForm", person);
-        FileUpload fileModel = new FileUpload();
-        model.addAttribute("file", fileModel);
         populateModel(model);
         return "UserForm";
 	}
 
-    @RequestMapping(value="/UploadForm",method = RequestMethod.POST)
-    public String fileUploaded(Model model, FileUpload file, final RedirectAttributes redirectAttributes) {
-        logger.debug("fileUploaded()");           
-        MultipartFile multipartFile = file.getFile();
-        redirectAttributes.addFlashAttribute("msg", "File Uploaded!");
+    @RequestMapping(value = "/uploadForm", method = RequestMethod.POST)
+    public String uploadFileHandler(@RequestParam("file") MultipartFile file,@RequestParam("name") String name, Model model) {
+        Person person = new Person();
+        Name n = person.getNames();
+        Set<Contacts> c = person.getContact();
+        Set<Roles> r = person.getRole();
+        if (!file.isEmpty()) {
+            try {
+                byte[] bytes = file.getBytes();
+ 
+                File dir = new File("Uploaded Files");
+                if (!dir.exists())
+                    dir.mkdirs();
+                File serverFile = new File(dir.getAbsolutePath()
+                        + File.separator + name);
+                BufferedOutputStream stream = new BufferedOutputStream(
+                        new FileOutputStream(serverFile));
+                stream.write(bytes);
+                stream.close();
+            
+            
+            List<String> personDetails = FileUtils.readLines(serverFile);
+                    System.out.println(personDetails.size());
+            
+                for(String details: personDetails){
+                    System.out.println(details);
+                    String[] detail = details.split(":");        
+                    switch (detail[0]){
+                        case "first name":
+                            n.setFirst_name(detail[1]);
+                            break;
+
+                        case "last name":
+                            n.setLast_name(detail[1]);
+                            break;
+
+                        case "address":
+                            person.setAddress(detail[1]);
+                            break;
+
+                        case "age":
+                            person.setAge(operations.integerValid(detail[1]));
+                           break;
+
+                        case "grade":
+                            person.setGrade(operations.integerValid(detail[1]));
+                           break;
+
+                        case "birthday":
+                            person.setBday(operations.dateValid(detail[1]));
+                            System.out.println(person.getBday());
+                            break;
+
+                        case "contact":
+                            System.out.println(detail[1]);
+                            String[] contacts = detail[1].split("=");
+                            c.add(new Contacts(contacts[1],contacts[0]));
+                            break;
+
+                        case "gender":
+                            person.setGender(detail[1]);
+                            break;
+
+                        case "date hired":
+                            person.setDate_hired(operations.dateValid(detail[1]));
+                            break;
+
+                        case "currently employed":
+                            person.setCurrently_employed(detail[1]);
+                            break;
+
+                        case "role":
+                            switch(detail[1]){
+                                case "police": 
+                                    r.add(new Roles(1,"Police"));
+                                    break;
+                                case "politician":
+                                    r.add(new Roles(2,"Politician"));
+                                    break;
+                                case "soldier":
+                                    r.add(new Roles(3,"Soldier"));
+                                    break;
+                                case "celebrity":
+                                    r.add(new Roles(4,"Celebrity"));
+                                    break;
+                                case "worker":
+                                    r.add(new Roles(5,"Worker"));
+                                    break;
+                            }
+                            break;
+                            
+                        default:
+                            break;
+                    }//switch
+                }
+		    
+            } catch (Exception e) {
+            }
+            model.addAttribute("roles", r);
+            model.addAttribute("personForm", person);
+            model.addAttribute("contact", c);
+            populateModel(model);
+           return "UserForm";
+        } else {
+            return "Main";
+        }
         
-        return "redirect:Persons";
-    } 
+    }
 
 	@RequestMapping(value ="Persons", method = RequestMethod.GET)
     public String displayPerson(ModelMap model) {

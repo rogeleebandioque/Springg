@@ -4,8 +4,10 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans 
 	   					   http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <bean id="activityController" class="hibernateactivity.web.ActivityController" autowire="byName" >    
-    </bean>
+<!--    <bean id="activityController" class="hibernateactivity.web.ActivityController" autowire="byName" >    
+    </bean>-->
+    <bean id="simpleController" class="hibernateactivity.web.ListPersonController" autowire="byName" >    
+    </bean> 
     <bean id="operations" class="hibernateactivity.web.Operations" >
     </bean>
     <import resource="classpath:services.xml"/>

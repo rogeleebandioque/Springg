@@ -25,5 +25,6 @@ http://www.springframework.org/schema/aop/spring-aop.xsd">
         <aop:advisor advice-ref="txAdvice" pointcut-ref="seviceTrans"/>
     </aop:config>
     <bean id="txManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+    <property name="dataSource" ref="dataSource"/>    
     </bean>
 </beans>

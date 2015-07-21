@@ -8,5 +8,7 @@
     </bean>
     <bean id="operations" class="hibernateactivity.web.Operations" >
     </bean>
+    <bean id="userFormValidator" class="hibernateactivity.web.UserFormValidator" >
+    </bean>
     <import resource="classpath:services.xml"/>
 </beans>

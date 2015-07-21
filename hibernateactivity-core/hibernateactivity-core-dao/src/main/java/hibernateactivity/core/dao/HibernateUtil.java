@@ -9,24 +9,32 @@ import org.hibernate.cfg.Configuration;
 
 public class HibernateUtil {
 
-    private static SessionFactory factory;
+    private static SessionFactory sessionFactory;
     private static Session session;
     private static Transaction transaction;
     
-    public static void init() {
-        try {
+//    public HibernateUtil(SessionFactory sessionFactory){
+//        this.sessionFactory = sessionFactory;
+//    }
+    public void setSessionFactory(SessionFactory sessionFactory){
+        this.sessionFactory = sessionFactory;
+    }
+    /*  public static void init() {
+       try {
             factory = new AnnotationConfiguration().configure("hibernate.cfg.xml").buildSessionFactory(); 
         } catch (Throwable e) {
             System.err.println("Failed to create session factory object.");
             e.printStackTrace();
         }
-    }
+            
+        
+    }*/
     
     public static <T> T perform(Command command, Class<T> returnClass) {
-        if(session == null) {
+        /*if(session == null) {
             init();
-        }
-        session = factory.openSession();
+        }*/
+        session = sessionFactory.openSession();
         transaction = session.beginTransaction();
         
         Object returnObject = null;

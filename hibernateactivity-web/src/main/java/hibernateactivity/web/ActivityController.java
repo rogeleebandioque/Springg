@@ -34,12 +34,12 @@ import hibernateactivity.core.model.FileUpload;
 
 @Controller
 public class ActivityController{
-    private Operations operations = new Operations();    
+    private Operations operations;    
     private Service service;
-/*
-    public void setOperation(Operations operations){
+
+    public void setOperations(Operations operations){
         this.operations = operations;
-    }  */  
+    }   
 
     public void setService(Service service){
         this.service = service;
@@ -184,7 +184,7 @@ public class ActivityController{
         logger.debug("saveOrUpdateUser()");        
         Set<Roles> r = new HashSet();        
         Set<Contacts> c = new HashSet();
-        
+        System.out.println(person.getBday());
         if(roles!=null){
             r = operations.addRole(roles);
             person.setRole(r);        
@@ -193,10 +193,7 @@ public class ActivityController{
             c = operations.contactDetails(detail, type);
             person.setContact(c);
         }
-
-        person.setBday(operations.dateValid("1994-11-08"));
-        person.setDate_hired(operations.dateValid("1994-11-08"));        
-
+        
         if(person.isNew()){
             redirectAttributes.addFlashAttribute("msg", "User added successfully!");
             service.addPersons(person);

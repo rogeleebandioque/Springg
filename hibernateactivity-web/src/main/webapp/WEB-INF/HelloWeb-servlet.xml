@@ -50,6 +50,8 @@ http://www.springframework.org/schema/context/spring-context-3.0.xsd">
 		class="org.springframework.web.multipart.commons.CommonsMultipartResolver" />
 
     <import resource="classpath:webapp.xml"/>
+    <import resource="classpath:services.xml"/>
+    <import resource="classpath:dao.xml"/>
 
     <mvc:resources mapping="/resources/**" location="/resources/" />
     <mvc:annotation-driven />

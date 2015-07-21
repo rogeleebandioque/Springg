@@ -14,8 +14,6 @@ import hibernateactivity.core.model.Contacts;
 import hibernateactivity.core.model.Roles;
 import java.util.*;
 
-
-
 public class PersonDaoImpl implements PersonDao {
 
     public List<Person> getPeople() {

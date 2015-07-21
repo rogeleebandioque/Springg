@@ -55,7 +55,7 @@
                 </spring:bind>                
 
                     <tr><td><spring:message code="label.address"/></td><td><form:input path="address" id="address" placeholder="address"required="true"/></td></tr>
-                    <tr><td><spring:message code="label.bday"/></td><td><form:input path="bday" name="bday" placeHolder="yyyy-MM-dd"required="true"/></td></tr>
+                    <tr><td><spring:message code="label.bday"/></td><td><form:input type="date" path="bday" name="bday" placeHolder="yyyy-MM-dd"required="true"/></td></tr>
                     <tr><td><spring:message code="label.age"/> </td><td><form:input path="age" name="age"required="true"/></td></tr>
                     <tr><td><spring:message code="label.contact"/> </td>
                         <td>
@@ -83,7 +83,7 @@
                     </spring:bind>                
 
                     <tr><td><spring:message code="label.grade"/> </td><td><form:input path="grade" name="grade" required="true"/></td></tr>
-                    <tr><td><spring:message code="label.datehired"/> </td><td><form:input path="date_hired" name="date_hired" placeHolder="yyyy-MM-dd"required="true"/></td></tr>
+                    <tr><td><spring:message code="label.datehired"/> </td><td><form:input type="date" path="date_hired" name="date_hired" placeHolder="yyyy-MM-dd"required="true"/></td></tr>
                     
                     <spring:bind path="currently_employed">                
                         <tr><td><spring:message code="label.currentlyemployed"/> </td><td>

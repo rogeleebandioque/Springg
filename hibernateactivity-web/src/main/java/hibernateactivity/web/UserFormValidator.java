@@ -9,8 +9,8 @@ import org.springframework.validation.Validator;
  
 import hibernateactivity.core.model.Person;
 
-public class UserFormValidator implements Validator {
- 
+public class UserFormValidator{// implements Validator {
+ /*
 	@Override
 	public boolean supports(Class<?> clazz) {
 		return Person.class.equals(clazz);
@@ -22,5 +22,5 @@ public class UserFormValidator implements Validator {
 		//ValidationUtils.rejectIfEmptyOrWhitespace(errors, "name", "NotEmpty.userForm.name");
 		
 	}
- 
+ */
 }

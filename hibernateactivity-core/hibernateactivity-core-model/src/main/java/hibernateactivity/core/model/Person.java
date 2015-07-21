@@ -29,13 +29,13 @@ public class Person {//implements Comparable<Person> {
     private String gender;
 
     @Column(name="bday")
-    private Date bday;
+    private Date bday = new Date();
 
     @Column(name="grade")
     private int grade;
 
     @Column(name="date_hired")    
-    private Date date_hired;
+    private Date date_hired = new Date();
 
     private String currently_employed;
     @Column(name="currenty_employed")

@@ -5,7 +5,6 @@ import hibernateactivity.core.model.Person;
 import org.hibernate.Session;
 import java.util.*;
 import org.hibernate.*;
-import org.hibernate.sql.JoinType;
 import org.hibernate.criterion.*;
 import org.hibernate.transform.Transformers;
 

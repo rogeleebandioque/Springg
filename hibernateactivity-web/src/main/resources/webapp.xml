@@ -4,11 +4,9 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans 
 	   					   http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-<!--    <import resource="classpath:/resources/sevices.xml"/>-->
     <bean id="activityController" class="hibernateactivity.web.ActivityController" autowire="byName" >    
     </bean>
     <bean id="operations" class="hibernateactivity.web.Operations" >
     </bean>
-    <bean id="service" class="hibernateactivity.core.service.Service">
-    </bean>
+    <import resource="classpath:services.xml"/>
 </beans>

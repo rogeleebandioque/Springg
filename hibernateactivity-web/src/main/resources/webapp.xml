@@ -6,9 +6,31 @@
 
 <!--    <bean id="activityController" class="hibernateactivity.web.ActivityController" autowire="byName" >    
     </bean>-->
-    <bean id="simpleController" class="hibernateactivity.web.ListPersonController" autowire="byName" >    
-    </bean> 
     <bean id="operations" class="hibernateactivity.web.Operations" >
     </bean>
+
+    <bean id="userFormValidator" class="hibernateactivity.web.UserFormValidator" >
+    </bean>
+
+    <bean name="/persons" class="hibernateactivity.web.ListPersonController" autowire="byName">
+        <property name="commandName" value="personView"></property>
+        <property name="commandClass" value="hibernateactivity.core.model.Person"></property>
+        <property name="formView" value="Main"></property>
+    </bean> 
+
+    <bean name="/AddPerson" class="hibernateactivity.web.AddPersonController" autowire="byName">
+        <property name="commandName" value="personForm"></property>
+        <property name="commandClass" value="hibernateactivity.core.model.Person"></property>
+        <property name="formView" value="UserForm"></property>
+        <property name="validator" ref="userFormValidator"/>
+    </bean> 
+
+    <bean name="/UpdatePerson" class="hibernateactivity.web.UpdatePersonController" autowire="byName">
+        <property name="commandName" value="updateForm"></property>
+        <property name="commandClass" value="hibernateactivity.core.model.Person"></property>
+        <property name="formView" value="UserForm"></property>
+        <property name="validator" ref="userFormValidator"/>
+    </bean>  
+
     <import resource="classpath:services.xml"/>
 </beans>

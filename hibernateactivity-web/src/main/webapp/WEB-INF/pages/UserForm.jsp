@@ -45,26 +45,40 @@
             </c:choose>
             
             <br/>
-            <form:form action="SaveUpdate" method="POST" nid="formtry" modelAttribute="personForm">
+            <form:form method="POST" commandName="personForm">
                 <table align="center">
                 <form:hidden path="id" value="${userForm.id}"/>
                 
                 <spring:bind path="names">
-                    <tr><td><spring:message code="label.firstname"/></td><td> <form:input path="names.first_name" required="true"/></td></tr>
-                    <tr><td><spring:message code="label.lastname"/> </td><td><form:input path="names.last_name"required="true"/></td></tr>
+                    <tr><td><spring:message code="label.firstname"/></td>
+                        <td> <form:input path="names.first_name" required="true"/></td>
+                        <td> <form:errors path="names.first_name"/> </td>    
+                    </tr>
+                    <tr><td><spring:message code="label.lastname"/> </td>
+                        <td><form:input path="names.last_name"required="true"/></td>
+                        <td><form:errors path="names.last_name"/></td>
+                    </tr>
                 </spring:bind>                
 
-                    <tr><td><spring:message code="label.address"/></td><td><form:input path="address" id="address" placeholder="address"required="true"/></td></tr>
-                    <tr><td><spring:message code="label.bday"/></td><td><form:input type="date" path="bday" name="bday" placeHolder="yyyy-MM-dd"required="true"/></td></tr>
-                    <tr><td><spring:message code="label.age"/> </td><td><form:input path="age" name="age"required="true"/></td></tr>
-                    <tr><td><spring:message code="label.contact"/> </td>
-                        <td>
+                    <tr><td><spring:message code="label.address"/></td>
+                        <td><form:input path="address" id="address" placeholder="address"required="true"/></td>
+                        <td><form:errors path="address"/></td>        
+                    </tr>
 
-                    <select id="contact">
-                        <option value="email" id="e-mail">E-mail</option>
-                        <option value="cellphone" id="cellphone">Cellphone#</option>
-                        <option value="telephone" id="telephone">Telephone#</option>
-                    </select>
+                    <tr><td><spring:message code="label.bday"/></td>
+                        <td><form:input type="date" path="bday" name="bday" placeHolder="yyyy-MM-dd"required="true"/></td>
+                        <td><form:errors path="bday"/></td>
+                    </tr>
+                    <tr><td><spring:message code="label.age"/> </td>
+                        <td><form:input path="age" name="age"required="true"/></td>
+                        <td><form:errors path="age"/></td>
+                    </tr>
+                    <tr><td><spring:message code="label.contact"/></td>
+                        <td><select id="contact">
+                            <option value="email" id="e-mail">E-mail</option>
+                            <option value="cellphone" id="cellphone">Cellphone#</option>
+                            <option value="telephone" id="telephone">Telephone#</option>
+                        </select>
 
                         <div id="contactNumber">                
                             <c:forEach var="contacts" items="${contact}">
@@ -78,18 +92,29 @@
                     </td></tr>
                     
                     <spring:bind path="gender">
-                        <tr><td><spring:message code="label.gender"/> </td><td><form:radiobutton path="gender" name="gender" value="male"required="true"/>Male
-                        <form:radiobutton path="gender" value="female"required="true"/>Female</td></tr>    
+                        <tr><td><spring:message code="label.gender"/> </td>
+                            <td><form:radiobutton path="gender" name="gender" value="male"required="true"/>Male
+                                <form:radiobutton path="gender" value="female"required="true"/>Female</td>
+                            <td><form:errors path="gender"/></td>
+                        </tr>    
                     </spring:bind>                
 
-                    <tr><td><spring:message code="label.grade"/> </td><td><form:input path="grade" name="grade" required="true"/></td></tr>
-                    <tr><td><spring:message code="label.datehired"/> </td><td><form:input type="date" path="date_hired" name="date_hired" placeHolder="yyyy-MM-dd"required="true"/></td></tr>
+                    <tr><td><spring:message code="label.grade"/> </td>
+                        <td><form:input path="grade" name="grade" required="true"/></td>
+                        <td><form:errors pathe="grade"/></td>
+                    </tr>
+                    <tr><td><spring:message code="label.datehired"/> </td>
+                        <td><form:input type="date" path="date_hired" name="date_hired" placeHolder="yyyy-MM-dd"required="true"/></td>
+                        <td><form:errors path="date_hired"/></td>
+                    </tr>
                     
                     <spring:bind path="currently_employed">                
                         <tr><td><spring:message code="label.currentlyemployed"/> </td><td>
                             <form:radiobutton path="currently_employed" value="yes"required="true"/>Yes 
                             <form:radiobutton path="currently_employed" value="no"required="true"/>No
-                        </td></tr>
+                            </td>
+                            <td><form:errors path="currently_employed"/></td>
+                        </tr>
                     </spring:bind>
 
                     <tr><td><spring:message code="label.roles"/> </td><td>
@@ -106,10 +131,11 @@
                     </c:forEach>       
                     <tr><td></td><td colspan="2">   
                     <input type="submit" value="Submit"/>    
-                    <spring:url value="Persons" var="cancel" />
+                    <spring:url value="persons" var="cancel" />
                     <input type="button" onclick="location.href='${cancel}'" value="Cancel"></td></tr>
                 </table>
             </form:form>
         </div>
     </body>
 </html>
+

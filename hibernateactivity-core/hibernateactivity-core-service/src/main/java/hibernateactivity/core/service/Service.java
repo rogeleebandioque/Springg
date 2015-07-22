@@ -8,13 +8,13 @@ import java.util.List;
 
 public class Service {
 
-    PersonDaoImpl personDaoImpl = new PersonDaoImpl();
+    private PersonDaoImpl personDaoImpl;
 
     public void setPersonDaoImpl(PersonDaoImpl personDaoImpl){
         this.personDaoImpl = personDaoImpl;
     }
 
-    public List<Person> getPersons() {
+    public List<Person> getPerson() {
 //        PersonDaoImpl personDaoImpl = new PersonDaoImpl();
         return personDaoImpl.getPeople();
     }

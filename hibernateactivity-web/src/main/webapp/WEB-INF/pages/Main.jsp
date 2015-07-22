@@ -59,7 +59,7 @@
                 <c:forEach var="user" items="${person}">
                     <tr>
                         <td>
-	                        ${user.id}
+	                        <form:hidden name="id" value="${user.id}"/>${user.id}
                         </td>
                         <td>${user.names.first_name} ${user.names.last_name}</td>
                         <td>${user.date_hired}</td>

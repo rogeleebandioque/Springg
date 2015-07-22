@@ -2,6 +2,8 @@ package hibernateactivity.core.model;
 
 import java.util.*;
 import javax.persistence.*;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.format.annotation.DateTimeFormat.ISO;
 
 @Entity
 @Table(name="Person")
@@ -28,12 +30,14 @@ public class Person {//implements Comparable<Person> {
     @Column(name="gender")    
     private String gender;
 
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     @Column(name="bday")
     private Date bday = new Date();
 
     @Column(name="grade")
     private int grade;
 
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     @Column(name="date_hired")    
     private Date date_hired = new Date();
 
@@ -157,3 +161,4 @@ public class Person {//implements Comparable<Person> {
   	    return (this.grade < person.grade ) ? -1: (this.grade > person.grade ) ? 1:0 ;        
     }*/
 }
+

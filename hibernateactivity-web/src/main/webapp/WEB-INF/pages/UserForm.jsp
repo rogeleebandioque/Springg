@@ -30,10 +30,10 @@
                 <c:when test="${personForm.id == 0}">
                 <h1>Add Person</h1>
                 <div id="fileUpload">                
-                <form:form method="post" action="/uploadForm" enctype="multipart/form-data">
+                <form:form method="post" action="/uploadForm" commandName="uploadForm" enctype="multipart/form-data">
                     Upload File: <input type="file" name="file"/><br/>
                     Name: <input type="text" name="name" required><br />
-                    <input type="submit" value="Add File"/>
+                    <input type="submit" value="Add File" onClick="location.href='/uploadFile'"/>
                 </form:form>
                 </div>
                 <br />

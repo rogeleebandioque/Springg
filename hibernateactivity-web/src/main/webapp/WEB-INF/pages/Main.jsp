@@ -59,7 +59,7 @@
                 <c:forEach var="user" items="${person}">
                     <tr>
                         <td>
-	                        <form:hidden name="id" value="${user.id}"/>${user.id}
+	                        ${user.id}
                         </td>
                         <td>${user.names.first_name} ${user.names.last_name}</td>
                         <td>${user.date_hired}</td>
@@ -71,8 +71,8 @@
                           </c:forEach>
                         </td>
                         <td>
-                            <spring:url value="${user.id}delete" var="deleteUrl" /> 
-                            <spring:url value="${user.id}update" var="updateUrl" />
+                            <spring:url value="/DeletePerson?id=${user.id}" var="deleteUrl" /> 
+                            <spring:url value="/UpdatePerson?id=${user.id}" var="updateUrl" />
 
                             <button onclick="location.href='${updateUrl}'">Update</button>
                             <button onclick="location.href='${deleteUrl}'">Delete</button>

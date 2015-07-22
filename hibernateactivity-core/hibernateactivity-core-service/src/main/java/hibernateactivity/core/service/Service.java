@@ -39,7 +39,7 @@ public class Service {
         return personDaoImpl.updatePeople(person);
     }
 
-    public Person getPersons(int idNum) {
+    public Person getIndividual(int idNum) {
 //        PersonDaoImpl personDaoImpl = new PersonDaoImpl();
         return personDaoImpl.getPeople(idNum);
     }

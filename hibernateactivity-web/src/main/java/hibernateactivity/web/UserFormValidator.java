@@ -22,5 +22,9 @@ public class UserFormValidator implements Validator {
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "gender", "erform.gender");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "currently_employed", "erform.currently_employed");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "grade", "erform.grade");
-    }
+        
+        if(person.getAge() <= 0){
+            errors.rejectValue("age","erform.age");
+        }
+   }
 }

@@ -4,6 +4,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page import="java.io.*,java.util.*, javax.servlet.*" %>
 <%@ page import="javax.servlet.http.*" %>
+<%@ page session="true" %>
 
 <html>
     <head>
@@ -47,7 +48,6 @@
             <br/>
             <form:form method="POST" commandName="personForm">
                 <table align="center">
-                <form:hidden path="id" value="${userForm.id}"/>
                 
                 <spring:bind path="names">
                     <tr><td><spring:message code="label.firstname"/></td>
@@ -101,7 +101,7 @@
 
                     <tr><td><spring:message code="label.grade"/> </td>
                         <td><form:input path="grade" name="grade" required="true"/></td>
-                        <td><form:errors pathe="grade"/></td>
+                        <td><form:errors path="grade"/></td>
                     </tr>
                     <tr><td><spring:message code="label.datehired"/> </td>
                         <td><form:input type="date" path="date_hired" name="date_hired" placeHolder="yyyy-MM-dd"required="true"/></td>

@@ -22,8 +22,18 @@
         <property name="commandName" value="personForm"></property>
         <property name="commandClass" value="hibernateactivity.core.model.Person"></property>
         <property name="formView" value="UserForm"></property>
+        <property name="successView" value="Main"></property>
         <property name="validator" ref="userFormValidator"/>
     </bean> 
+    
+    <bean name="/UploadPerson" class="hibernateactivity.web.UploadPersonController" autowire="byName">
+        <property name="commandName" value="personForm"></property>
+        <property name="commandClass" value="hibernateactivity.core.model.Person"></property>
+        <property name="formView" value="UserForm"></property>
+        <property name="successView" value="Main"></property>
+        <property name="validator" ref="userFormValidator"/>
+    </bean> 
+
     <bean name="/uploadForm" class="hibernateactivity.web.FileUploadController" autowire="byName">
         <property name="commandName" value="uploadForm"></property>
         <property name="commandClass" value="hibernateactivity.core.model.FileUpload"></property>
@@ -33,6 +43,7 @@
         <property name="commandName" value="personForm"></property>
         <property name="commandClass" value="hibernateactivity.core.model.Person"></property>
         <property name="formView" value="UserForm"></property>
+        <property name="successView" value="Main"></property>
         <property name="validator" ref="userFormValidator"/>
     </bean>  
 

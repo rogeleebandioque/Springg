@@ -43,7 +43,6 @@ public class AddPersonController extends SimpleFormController {
                    throws Exception{
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, false));
-        binder.registerCustomEditor(Integer.class, new CustomNumberEditor(Integer.class, false));    
     }
 
     protected ModelAndView showForm(HttpServletRequest request,
@@ -65,6 +64,46 @@ public class AddPersonController extends SimpleFormController {
         logger.debug("AddPersonController: formBackingObject()");
         Person personForm = new Person();
         return personForm;
+    }
+
+    protected ModelAndView processFormSubmission(HttpServletRequest request,
+                                             HttpServletResponse response,
+                                             Object command,
+                                             BindException errors)
+                                      throws Exception {
+        ModelAndView mav = new ModelAndView();
+        Person person = (Person) command;
+        String[] type = request.getParameterValues("contactType");
+        String[] details = request.getParameterValues("contactDetail");
+        String[] roles = request.getParameterValues("r");
+    
+        Set<Roles> r = new HashSet();        
+        Set<Contacts> c = new HashSet();
+
+        if(roles!=null){
+            logger.debug("AddPersonController: processFormSubmission");
+            r = operations.addRole(roles);
+            person.setRole(r);        
+        }
+        if(details!=null){
+            c = operations.contactDetails(details, type);
+            person.setContact(c);
+        }
+
+        if (errors.hasErrors()){
+        System.out.println("error");
+            List<ObjectError> e = errors.getAllErrors();
+            System.out.println(person.getId());
+            for(ObjectError er: e){
+                System.out.println(er);
+            }
+            return showForm(request,response,errors);
+        } 
+        service.updatePersons(person);        
+        mav.setViewName("Main");
+        mav.addObject("msg", "User updated successfully!");
+    
+        return mav;   
     }
 
     protected ModelAndView onSubmit(HttpServletRequest request,

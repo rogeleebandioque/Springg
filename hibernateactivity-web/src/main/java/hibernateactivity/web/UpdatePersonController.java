@@ -43,7 +43,6 @@ public class UpdatePersonController extends SimpleFormController {
                    throws Exception{
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, false));
-        binder.registerCustomEditor(Integer.class, new CustomNumberEditor(Integer.class, false));    
     }
 
     protected ModelAndView showForm(HttpServletRequest request, HttpServletResponse response, BindException errors) {

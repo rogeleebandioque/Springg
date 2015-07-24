@@ -51,7 +51,6 @@ public class UploadPersonController extends SimpleFormController {
                    throws Exception{
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, true)); 
-        binder.registerCustomEditor(Integer.class, new CustomNumberEditor(Integer.class, true));    
     }
 
     protected ModelAndView showForm(HttpServletRequest request,

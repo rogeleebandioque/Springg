@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.validation.BindException;
 import org.springframework.web.bind.ServletRequestDataBinder;
+import org.springframework.beans.propertyeditors.CustomNumberEditor;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.servlet.view.RedirectView;
@@ -49,7 +50,8 @@ public class UploadPersonController extends SimpleFormController {
                           ServletRequestDataBinder binder)
                    throws Exception{
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-        binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, false));   
+        binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, true)); 
+        binder.registerCustomEditor(Integer.class, new CustomNumberEditor(Integer.class, true));    
     }
 
     protected ModelAndView showForm(HttpServletRequest request,
@@ -177,10 +179,11 @@ public class UploadPersonController extends SimpleFormController {
         if (errors.hasErrors()){
             return new ModelAndView("UserForm","person",person);   
         }
+        service.addPersons(person);
         Map mav = new HashMap();
         mav.put("msg", "Person added successfully!");
         mav.put("person", service.getPerson());
-        service.addPersons(person);
+
         return new ModelAndView("Main",mav);
     }
 

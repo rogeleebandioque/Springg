@@ -4,15 +4,9 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans 
 	   					   http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-<!--    <bean id="activityController" class="hibernateactivity.web.ActivityController" autowire="byName" >    
-    </bean>-->
     <bean id="operations" class="hibernateactivity.web.Operations" >
     </bean>
-<<<<<<< HEAD
-    <bean id="userFormValidator" class="hibernateactivity.web.UserFormValidator" >
-    </bean>
-=======
-
+    <import resource="classpath:services.xml"/>
     <bean id="userFormValidator" class="hibernateactivity.web.UserFormValidator" >
     </bean>
 
@@ -68,6 +62,5 @@
         <property name="commandClass" value="hibernateactivity.core.model.Person"></property>
         <property name="formView" value="Main"></property>
     </bean> 
->>>>>>> xc
-    <import resource="classpath:services.xml"/>
+
 </beans>

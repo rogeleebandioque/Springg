@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.validation.BindException;
 import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
+import org.springframework.beans.propertyeditors.CustomNumberEditor;
 import org.springframework.validation.ObjectError;
 
 import org.slf4j.Logger;
@@ -37,11 +38,12 @@ public class UpdatePersonController extends SimpleFormController {
         this.operations = operations;
     }
 
-    protected void initBinder(HttpServletRequest request, ServletRequestDataBinder dataBinder) throws Exception{
-        DateFormat df = new SimpleDateFormat("yyyy/MM/dd");
-        df.setLenient(false);
-        dataBinder.registerCustomEditor(Date.class,new CustomDateEditor(df,false));
-        super.initBinder(request,dataBinder);
+    protected void initBinder(HttpServletRequest request,
+                          ServletRequestDataBinder binder)
+                   throws Exception{
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, false));
+        binder.registerCustomEditor(Integer.class, new CustomNumberEditor(Integer.class, false));    
     }
 
     protected ModelAndView showForm(HttpServletRequest request, HttpServletResponse response, BindException errors) {

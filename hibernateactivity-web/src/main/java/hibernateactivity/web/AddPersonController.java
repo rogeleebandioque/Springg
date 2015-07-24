@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.validation.BindException;
 import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
+import org.springframework.beans.propertyeditors.CustomNumberEditor;
 import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.servlet.view.RedirectView;
 
@@ -41,7 +42,8 @@ public class AddPersonController extends SimpleFormController {
                           ServletRequestDataBinder binder)
                    throws Exception{
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-        binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, false));   
+        binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, false));
+        binder.registerCustomEditor(Integer.class, new CustomNumberEditor(Integer.class, false));    
     }
 
     protected ModelAndView showForm(HttpServletRequest request,

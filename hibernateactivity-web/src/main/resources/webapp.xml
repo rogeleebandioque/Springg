@@ -4,11 +4,70 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans 
 	   					   http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <bean id="activityController" class="hibernateactivity.web.ActivityController" autowire="byName" >    
-    </bean>
+<!--    <bean id="activityController" class="hibernateactivity.web.ActivityController" autowire="byName" >    
+    </bean>-->
     <bean id="operations" class="hibernateactivity.web.Operations" >
     </bean>
+<<<<<<< HEAD
     <bean id="userFormValidator" class="hibernateactivity.web.UserFormValidator" >
     </bean>
+=======
+
+    <bean id="userFormValidator" class="hibernateactivity.web.UserFormValidator" >
+    </bean>
+
+    <bean name="/persons" class="hibernateactivity.web.ListPersonController" autowire="byName">
+        <property name="commandName" value="personView"></property>
+        <property name="commandClass" value="hibernateactivity.core.model.Person"></property>
+        <property name="formView" value="Main"></property>
+    </bean> 
+
+    <bean name="/AddPerson" class="hibernateactivity.web.AddPersonController" autowire="byName">
+        <property name="commandName" value="personForm"></property>
+        <property name="commandClass" value="hibernateactivity.core.model.Person"></property>
+        <property name="formView" value="UserForm"></property>
+        <property name="successView" value="Main"></property>
+        <property name="validator" ref="userFormValidator"/>
+    </bean> 
+    
+    <bean name="/UploadPerson" class="hibernateactivity.web.UploadPersonController" autowire="byName">
+        <property name="commandName" value="personForm"></property>
+        <property name="commandClass" value="hibernateactivity.core.model.Person"></property>
+        <property name="formView" value="UserForm"></property>
+        <property name="successView" value="Main"></property>
+        <property name="validator" ref="userFormValidator"/>
+    </bean> 
+
+    <bean name="/uploadForm" class="hibernateactivity.web.FileUploadController" autowire="byName">
+        <property name="commandName" value="uploadForm"></property>
+        <property name="commandClass" value="hibernateactivity.core.model.FileUpload"></property>
+        <property name="formView" value="UserForm"></property>
+    </bean>  
+    <bean name="/UpdatePerson*" class="hibernateactivity.web.UpdatePersonController" autowire="byName">
+        <property name="commandName" value="personForm"></property>
+        <property name="commandClass" value="hibernateactivity.core.model.Person"></property>
+        <property name="formView" value="UserForm"></property>
+        <property name="successView" value="Main"></property>
+        <property name="validator" ref="userFormValidator"/>
+    </bean>  
+
+    <bean name="/DeletePerson*" class="hibernateactivity.web.DeletePersonController" autowire="byName">
+        <property name="commandName" value="personForm"></property>
+        <property name="commandClass" value="hibernateactivity.core.model.Person"></property>
+        <property name="formView" value="Main"></property>
+    </bean>  
+
+    <bean name="/SearchPerson" class="hibernateactivity.web.SearchPersonController" autowire="byName">
+        <property name="commandName" value="personForm"></property>
+        <property name="commandClass" value="hibernateactivity.core.model.Person"></property>
+        <property name="formView" value="Main"></property>
+    </bean>  
+
+    <bean name="/SearchRole" class="hibernateactivity.web.SearchRoleController" autowire="byName">
+        <property name="commandName" value="personForm"></property>
+        <property name="commandClass" value="hibernateactivity.core.model.Person"></property>
+        <property name="formView" value="Main"></property>
+    </bean> 
+>>>>>>> xc
     <import resource="classpath:services.xml"/>
 </beans>

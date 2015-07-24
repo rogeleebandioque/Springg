@@ -8,13 +8,13 @@ import java.util.List;
 
 public class Service {
 
-    PersonDaoImpl personDaoImpl = new PersonDaoImpl();
+    private PersonDaoImpl personDaoImpl;
 
     public void setPersonDaoImpl(PersonDaoImpl personDaoImpl){
         this.personDaoImpl = personDaoImpl;
     }
 
-    public List<Person> getPersons() {
+    public List<Person> getPerson() {
 //        PersonDaoImpl personDaoImpl = new PersonDaoImpl();
         return personDaoImpl.getPeople();
     }
@@ -39,7 +39,7 @@ public class Service {
         return personDaoImpl.updatePeople(person);
     }
 
-    public Person getPersons(int idNum) {
+    public Person getIndividual(int idNum) {
 //        PersonDaoImpl personDaoImpl = new PersonDaoImpl();
         return personDaoImpl.getPeople(idNum);
     }

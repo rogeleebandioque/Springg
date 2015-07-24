@@ -27,7 +27,7 @@ public class AddPersonController extends SimpleFormController {
 
     private Service service;
     private Operations operations;
-    private final Logger logger = LoggerFactory.getLogger(ListPersonController.class);
+    private final Logger logger = LoggerFactory.getLogger(AddPersonController.class);
 
     public void setOperations(Operations operations){
         this.operations = operations;
@@ -48,6 +48,7 @@ public class AddPersonController extends SimpleFormController {
                                 HttpServletResponse response,
                                 BindException errors)
                          throws Exception {
+        logger.debug("AddPersonController: showForm()");
         Map model = errors.getModel();
         Map add = new HashMap();
         populateModel(add);
@@ -59,6 +60,7 @@ public class AddPersonController extends SimpleFormController {
 
     protected Object formBackingObject(HttpServletRequest request)
                             throws Exception{
+        logger.debug("AddPersonController: formBackingObject()");
         Person personForm = new Person();
         return personForm;
     }
@@ -68,6 +70,7 @@ public class AddPersonController extends SimpleFormController {
                                 Object command,
                                 BindException errors)
                          throws Exception{ 
+        logger.debug("AddPersonController: onSubmit()");
         Person person = (Person) command;
         Set<Roles> r = new HashSet();        
         Set<Contacts> c = new HashSet();
@@ -88,10 +91,11 @@ public class AddPersonController extends SimpleFormController {
         if (errors.hasErrors()){
             return new ModelAndView("UserForm","person",person);   
         }
+        String mess = service.addPersons(person);
         Map mav = new HashMap();
         mav.put("msg", "Person added successfully!");
         mav.put("person", service.getPerson());
-        service.addPersons(person);
+        
         return new ModelAndView("Main",mav);
     }
 

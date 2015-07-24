@@ -23,13 +23,15 @@ public class SearchPersonController extends SimpleFormController {
  
     private Service service;
 
+    private final Logger logger = LoggerFactory.getLogger(SearchPersonController.class);
+
     public void setService(Service service){
         this.service = service;
     } 
 
     protected ModelAndView showForm(HttpServletRequest request, HttpServletResponse response, BindException errors) {
+        logger.info("SearchPersonController: showForm()");
         ModelAndView mav = new ModelAndView();
-        
         String listBy = request.getParameter("listBy");
         String order = request.getParameter("order");
         String search = request.getParameter("search");
@@ -45,15 +47,15 @@ public class SearchPersonController extends SimpleFormController {
         }
         return new ModelAndView("Main","person",service.searchPerson(search,listBy,order));
     }      
-
+/*
     protected ModelAndView onSubmit(HttpServletRequest request,
                                 HttpServletResponse response,
                                 Object command,
                                 BindException errors)
                          throws Exception{
-
+        logger.info("SearchPersonController: onSubmit()");
         return new ModelAndView("Main","person",service.getPerson());
     }
-
+*/
 }
  

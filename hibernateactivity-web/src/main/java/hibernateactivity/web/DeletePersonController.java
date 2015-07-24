@@ -27,19 +27,26 @@ public class DeletePersonController extends SimpleFormController {
         this.service = service;
     } 
 
+    private final Logger logger = LoggerFactory.getLogger(DeletePersonController.class);
+
     protected ModelAndView showForm(HttpServletRequest request, HttpServletResponse response, BindException errors) {
+        logger.debug("DeletePersontroller: showForm()");
+        ModelAndView mav = new ModelAndView();
         String message = service.deletePersons(Integer.parseInt(request.getParameter("id")));
-        return new ModelAndView("Main","person",service.getPerson());
+        mav.setViewName("Main");
+        mav.addObject("person",service.getPerson());
+        mav.addObject("msg", "User Deleted");        
+        return mav;
     }      
 
-    protected ModelAndView onSubmit(HttpServletRequest request,
+/*    protected ModelAndView onSubmit(HttpServletRequest request,
                                 HttpServletResponse response,
                                 Object command,
                                 BindException errors)
                          throws Exception{
-
+        logger.debug("UpdatePersontroller: showForm()");
         return new ModelAndView("Main","person",service.getPerson());
     }
-
+*/
 }
  

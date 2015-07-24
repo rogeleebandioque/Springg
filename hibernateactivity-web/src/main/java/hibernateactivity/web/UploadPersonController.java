@@ -35,7 +35,7 @@ public class UploadPersonController extends SimpleFormController {
 
     private Service service;
     private Operations operations;
-    private final Logger logger = LoggerFactory.getLogger(ListPersonController.class);
+    private final Logger logger = LoggerFactory.getLogger(UploadPersonController.class);
 
     public void setOperations(Operations operations){
         this.operations = operations;
@@ -56,6 +56,7 @@ public class UploadPersonController extends SimpleFormController {
                                 HttpServletResponse response,
                                 BindException errors)
                          throws Exception {
+        logger.debug("UploadPersonController: showForm()");
         Map model = errors.getModel();
         Person p = (Person)model.values().iterator().next();
         
@@ -70,6 +71,7 @@ public class UploadPersonController extends SimpleFormController {
 
     protected Object formBackingObject(HttpServletRequest request)
                             throws Exception{
+        logger.debug("UploadPersonController: formBackingObject()");
         Person personForm = new Person();
         Name n = personForm.getNames();
         Set<Contacts> c = personForm.getContact();
@@ -153,7 +155,8 @@ public class UploadPersonController extends SimpleFormController {
                                 HttpServletResponse response,
                                 Object command,
                                 BindException errors)
-                         throws Exception{ 
+                         throws Exception{
+        logger.debug("UploadPersonController: onSubmit()");         
         Person person = (Person) command;
         Set<Roles> r = new HashSet();        
         Set<Contacts> c = new HashSet();

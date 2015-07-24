@@ -27,7 +27,7 @@ public class UpdatePersonController extends SimpleFormController {
  
     private Service service;
     private Operations operations;
-    private final Logger logger = LoggerFactory.getLogger(ListPersonController.class);
+    private final Logger logger = LoggerFactory.getLogger(UpdatePersonController.class);
 
     public void setService(Service service){
         this.service = service;
@@ -45,6 +45,7 @@ public class UpdatePersonController extends SimpleFormController {
     }
 
     protected ModelAndView showForm(HttpServletRequest request, HttpServletResponse response, BindException errors) {
+        logger.debug("UpdatePersontroller: showForm()");
         Map model = errors.getModel();
         System.out.println(model.size());
         Person person = (Person)model.values().iterator().next();
@@ -61,6 +62,7 @@ public class UpdatePersonController extends SimpleFormController {
     }
 
     protected Object formBackingObject(HttpServletRequest request) throws Exception{
+        logger.debug("UpdatePersonController: formBackingObject()");
         Person personForm = service.getIndividual(Integer.parseInt(request.getParameter("id")));
         System.out.println("form backing object");
         return personForm;
@@ -71,7 +73,7 @@ public class UpdatePersonController extends SimpleFormController {
                                 Object command,
                                 BindException errors)
                          throws Exception{
-
+        logger.debug("UpdatPersonController: onSubmit()");
         ModelAndView mav = new ModelAndView();
         Person person = (Person) command;
         String[] type = request.getParameterValues("contactType");

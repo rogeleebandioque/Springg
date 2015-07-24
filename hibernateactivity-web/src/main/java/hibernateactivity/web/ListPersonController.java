@@ -26,12 +26,12 @@ public class ListPersonController extends SimpleFormController {
     }      
 
     protected ModelAndView showForm(HttpServletRequest request, HttpServletResponse response, BindException errors) {
-        logger.info("showForm()");
+        logger.info("ListPersonController: showForm()");
         return new ModelAndView("Main","person",service.getPerson());
     } 
 
     protected ModelAndView onSubmit(Object command) throws Exception {
-        logger.info("showForm()");
+        logger.info("ListPersonController: onSubmit()");
         return new ModelAndView("Main","person",service.getPerson());
     }
 }

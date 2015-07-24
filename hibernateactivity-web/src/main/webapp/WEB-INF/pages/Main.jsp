@@ -25,7 +25,6 @@
     </head>
 
     <body>
-        
         <div id="container">
             <c:if test="${not empty msg}">     
                 <div id="alertUser">
@@ -39,8 +38,8 @@
             </span>
             <h1 align="center">Spring Activity</h1>
             <div id="search">
-                <div id="add"><button onClick="location.href='AddPerson'">Add Person</button></div><br/>                
-                 Search By: <select>
+                <div id="add"><button onClick="location.href='AddPerson'"><spring:message code="label.addperson"/> </button></div><br/>                
+                 <spring:message code="label.search"/>  <select>
                                 <option id="person">Person</option>
                                 <option id="prole">Role</option>
                             </select>                         
@@ -48,7 +47,7 @@
                     </div>
             </div>
             <table border="1"align="center">
-                 <thead><tr><th colspan="6">LIST of PERSONS</th></tr>
+                 <thead><tr><th colspan="6"><spring:message code="label.tablename"/> </th></tr>
                <tr><th>ID</th>
                     <th><spring:message code="label.name"/></th>
                     <th><spring:message code="label.datehired"/></th>

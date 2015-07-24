@@ -35,7 +35,7 @@ public class FileUploadController extends SimpleFormController {
 
     private Service service;
     private Operations operations;
-    private final Logger logger = LoggerFactory.getLogger(ListPersonController.class);
+    private final Logger logger = LoggerFactory.getLogger(FileUploadController.class);
 
     public void setOperations(Operations operations){
         this.operations = operations;
@@ -50,6 +50,7 @@ public class FileUploadController extends SimpleFormController {
                                 Object command,
                                 BindException errors)
                          throws Exception{ 
+        logger.debug("FileUploadController: onSubmit()");
         String name = request.getParameter("name");
         String path = "";
         FileUpload f = (FileUpload)command;

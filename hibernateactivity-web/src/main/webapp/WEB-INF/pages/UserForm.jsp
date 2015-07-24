@@ -124,10 +124,10 @@
                         />${rId}
                         <br/>
                     </c:forEach>       
-                    <tr><td></td><td colspan="2">   
+                    <tr><td></td><td>   
                     <input type="submit" value="<spring:message code="label.submit"/>"/>    
                     <spring:url value="persons" var="cancel" />
-                    <input type="button" onclick="location.href='${cancel}'" value="<spring:message code="label.cancel"/> "></td></tr>
+                    <input type="button" onclick="location.href='${cancel}'" value="<spring:message code="label.cancel"/> "></td><td></td></tr>
                 </table>
             </form:form>
         </div>

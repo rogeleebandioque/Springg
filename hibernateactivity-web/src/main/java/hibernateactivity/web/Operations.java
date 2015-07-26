@@ -10,7 +10,9 @@ import hibernateactivity.core.model.Contacts;
 import hibernateactivity.core.model.Name;
 import hibernateactivity.core.model.Roles;
 import org.apache.commons.validator.routines.DateValidator;
-
+import org.apache.commons.validator.routines.EmailValidator;
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
 
 public class Operations {
     
@@ -71,4 +73,11 @@ public class Operations {
         return input;
     }
 
+    public boolean patternMatch(String num) {
+        Pattern pattern = Pattern.compile("^[0-9]*$");
+        Matcher matcher = pattern.matcher(num);
+        boolean matches = matcher.matches();
+
+        return matches;
+    }
 }

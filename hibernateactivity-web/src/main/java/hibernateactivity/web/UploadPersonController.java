@@ -60,14 +60,18 @@ public class UploadPersonController extends SimpleFormController {
                          throws Exception {
         logger.debug("UploadPersonController: showForm()");
         Map model = errors.getModel();
-        Person p = (Person)model.values().iterator().next();
-        
-        Map add = new HashMap();
-        populateModel(add);
-        add.put("roles", p.getRole());
-        add.put("contact", p.getContact());
-        model.putAll(add);
-        return new ModelAndView("UserForm", model);
+        Person person = (Person)model.values().iterator().next();
+        Set<Roles> roles = person.getRole();
+        Set<Contacts> contact = person.getContact();
+        Map map = new HashMap();
+
+        map.put("personForm", person);
+        populateModel(map);
+        map.put("roles", roles);
+        map.put("contact", contact);
+
+        model.putAll(map);
+        return new ModelAndView("UserForm",model);
 
     }
 
@@ -152,6 +156,51 @@ public class UploadPersonController extends SimpleFormController {
                 }
         return personForm;
     }
+
+    protected ModelAndView processFormSubmission(HttpServletRequest request,
+                                HttpServletResponse response,
+                                Object command,
+                                BindException errors)
+                         throws Exception{ 
+        logger.debug("AddPersonController: onSubmit()");
+        Person person = (Person) command;
+        Set<Roles> r = new HashSet();        
+        Set<Contacts> c = new HashSet();
+        String[] detail = request.getParameterValues("contactDetail");
+        String[] type = request.getParameterValues("contactType");
+        String[] roles = request.getParameterValues("r");
+
+        if(roles!=null){
+            System.out.println("1");
+            r = operations.addRole(roles);
+            person.setRole(r);        
+                
+        }
+        if(detail!=null){
+             System.out.println("2");
+            c = operations.contactDetails(detail, type);
+            person.setContact(c);
+        }
+
+        if (errors.hasErrors()){
+            Set<Roles> rl = person.getRole();
+            Set<Contacts> cntct = person.getContact();
+            Map map = new HashMap();
+            populateModel(map);
+            map.put("personForm", person);
+            map.put("roles", rl);
+            map.put("contact", cntct);
+            return showForm(request,response,errors);
+            //return new ModelAndView("UserForm",map);
+        }
+        String mess = service.addPersons(person);
+        Map mav = new HashMap();
+        mav.put("msg", "Person added successfully!");
+        mav.put("person", service.getPerson());
+        
+        return new ModelAndView("Main",mav);
+    }
+
 
     protected ModelAndView onSubmit(HttpServletRequest request,
                                 HttpServletResponse response,

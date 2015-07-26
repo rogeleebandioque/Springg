@@ -1,17 +1,30 @@
 package hibernateactivity.web;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.validator.routines.EmailValidator;
+
+import java.util.*;
 import hibernateactivity.core.model.Person;
+import hibernateactivity.core.model.Contacts;
 
 public class UserFormValidator implements Validator {
+    private EmailValidator valid = EmailValidator.getInstance();  
+    private Operations operations;
+
+    public void setOperations(Operations operations){
+        this.operations = operations;
+    }
 
     public boolean supports(Class<?> clazz) {
        return Person.class.equals(clazz);
     }
+
     public void validate(Object target, Errors errors) {
         Person person = (Person) target;
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "names.first_name", "erform.name.firstname");
@@ -26,6 +39,20 @@ public class UserFormValidator implements Validator {
         
         if(person.getAge() <= 0){
             errors.rejectValue("age","erform.age");
+        }
+        if(person.getGrade() <= 0){
+            errors.rejectValue("grade","erform.grade");
+        }
+
+        Set<Contacts> contact = person.getContact();
+        for(Contacts c:contact){
+            System.out.println(c.getContact() + " " + c.getType());
+            System.out.println(StringUtils.isBlank(c.getContact()));
+            if(StringUtils.isBlank(c.getContact())){
+                    errors.rejectValue("contact","erform.contact");
+                    break;
+            }
+                  
         }
    }
 

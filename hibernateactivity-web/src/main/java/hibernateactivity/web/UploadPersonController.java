@@ -12,6 +12,7 @@ import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.servlet.view.RedirectView;
 import org.springframework.web.multipart.MultipartFile;
 
+
 import java.util.*;
 import java.text.SimpleDateFormat;
 import org.slf4j.Logger;
@@ -59,14 +60,18 @@ public class UploadPersonController extends SimpleFormController {
                          throws Exception {
         logger.debug("UploadPersonController: showForm()");
         Map model = errors.getModel();
-        Person p = (Person)model.values().iterator().next();
-        
-        Map add = new HashMap();
-        populateModel(add);
-        add.put("roles", p.getRole());
-        add.put("contact", p.getContact());
-        model.putAll(add);
-        return new ModelAndView("UserForm", model);
+        Person person = (Person)model.values().iterator().next();
+        Set<Roles> roles = person.getRole();
+        Set<Contacts> contact = person.getContact();
+        Map map = new HashMap();
+
+        map.put("personForm", person);
+        populateModel(map);
+        map.put("roles", roles);
+        map.put("contact", contact);
+
+        model.putAll(map);
+        return new ModelAndView("UserForm",model);
 
     }
 
@@ -152,6 +157,38 @@ public class UploadPersonController extends SimpleFormController {
         return personForm;
     }
 
+    protected ModelAndView processFormSubmission(HttpServletRequest request,
+                                HttpServletResponse response,
+                                Object command,
+                                BindException errors)
+                         throws Exception{ 
+        logger.debug("UploadPersonController: processForm()");
+        Person person = (Person) command;
+        Set<Roles> r = new HashSet();        
+        Set<Contacts> c = new HashSet();
+        String[] detail = request.getParameterValues("contactDetail");
+        String[] type = request.getParameterValues("contactType");
+        String[] roles = request.getParameterValues("r");
+
+        if(roles!=null){
+            System.out.println("1");
+            r = operations.addRole(roles);
+            person.setRole(r);        
+                
+        }
+        if(detail!=null){
+             System.out.println("2");
+            c = operations.contactDetails(detail, type);
+            person.setContact(c);
+        }
+
+        if (errors.hasErrors()){
+            return showForm(request,response,errors);
+        }
+        return onSubmit(request,response,command,errors);
+    }
+
+
     protected ModelAndView onSubmit(HttpServletRequest request,
                                 HttpServletResponse response,
                                 Object command,
@@ -179,11 +216,13 @@ public class UploadPersonController extends SimpleFormController {
             return new ModelAndView("UserForm","person",person);   
         }
         service.addPersons(person);
-        Map mav = new HashMap();
-        mav.put("msg", "Person added successfully!");
-        mav.put("person", service.getPerson());
-
-        return new ModelAndView("Main",mav);
+        ModelAndView mav = new ModelAndView();
+        
+        mav.setView(new RedirectView("persons"));
+//        mav.addObject("person", service.getPerson());
+        mav.addObject("msg", "User Added successfully!");
+    
+        return mav;
     }
 
     public void populateModel(Map add){

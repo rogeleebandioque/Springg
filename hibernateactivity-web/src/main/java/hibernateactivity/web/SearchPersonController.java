@@ -47,15 +47,29 @@ public class SearchPersonController extends SimpleFormController {
         }
         return new ModelAndView("Main","person",service.searchPerson(search,listBy,order));
     }      
-/*
-    protected ModelAndView onSubmit(HttpServletRequest request,
+
+    /*protected ModelAndView onSubmit(HttpServletRequest request,
                                 HttpServletResponse response,
                                 Object command,
                                 BindException errors)
                          throws Exception{
         logger.info("SearchPersonController: onSubmit()");
-        return new ModelAndView("Main","person",service.getPerson());
-    }
-*/
+        ModelAndView mav = new ModelAndView();
+        String listBy = request.getParameter("listBy");
+        String order = request.getParameter("order");
+        String search = request.getParameter("search");
+
+        if(listBy == null){
+            listBy="date_hired";
+        }
+        if(order== null){
+            order = "asc";
+        }
+        if(search == null){
+            search = "";
+        }
+        return new ModelAndView("Main","person",service.searchPerson(search,listBy,order));
+    }*/
+
 }
  

@@ -33,7 +33,8 @@ public class DeletePersonController extends SimpleFormController {
         logger.debug("DeletePersontroller: showForm()");
         ModelAndView mav = new ModelAndView();
         String message = service.deletePersons(Integer.parseInt(request.getParameter("id")));
-        mav.setViewName("Main");
+        //mav.setViewName("Main");
+        mav.setView(new RedirectView("persons"));
         mav.addObject("person",service.getPerson());
         mav.addObject("msg", "User Deleted");        
         return mav;

@@ -32,21 +32,34 @@ public class SearchRoleController extends SimpleFormController {
         logger.info("SearchRoleController: showForm()");
         ModelAndView mav = new ModelAndView();
         String listBy = request.getParameter("listBy");
+        if(listBy==null){
+            listBy = "1";
+        }        
         Integer orders = Integer.parseInt(listBy);
         Roles pr = service.getByRole(orders);
         Set<Person> persons = pr.getPersonRole();
 
         return new ModelAndView("Main","person",persons);
     }      
-/*
+
     protected ModelAndView onSubmit(HttpServletRequest request,
                                 HttpServletResponse response,
                                 Object command,
                                 BindException errors)
                          throws Exception{
         logger.info("SearchRoleController: onSubmit()");
-        return new ModelAndView("Main","person",service.getPerson());
+        ModelAndView mav = new ModelAndView();
+        String listBy = request.getParameter("listBy");
+        if(listBy==null){
+            listBy = "1";
+        }        
+        Integer orders = Integer.parseInt(listBy);
+        
+        Roles pr = service.getByRole(orders);
+        Set<Person> persons = pr.getPersonRole();
+
+        return new ModelAndView("Main","person",persons);
     }
-*/
+
 }
  

@@ -84,7 +84,7 @@
                                 </div>
                             </c:forEach>
                         </div>                        
-                    </td></tr>
+                    </td><td><form:errors path="contact" class="errors"/></tr></tr>
                     
                     <spring:bind path="gender">
                         <tr><td><spring:message code="label.gender"/> </td>

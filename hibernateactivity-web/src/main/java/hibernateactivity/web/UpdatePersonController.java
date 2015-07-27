@@ -10,6 +10,8 @@ import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.beans.propertyeditors.CustomNumberEditor;
 import org.springframework.validation.ObjectError;
 
+import org.springframework.web.servlet.view.RedirectView;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.util.*;
@@ -54,6 +56,7 @@ public class UpdatePersonController extends SimpleFormController {
         Set<Contacts> contact = person.getContact();
         Map map = new HashMap();
 
+        map.put("personForm", person);
         populateModel(map);
         map.put("roles", roles);
         map.put("contact", contact);
@@ -68,6 +71,38 @@ public class UpdatePersonController extends SimpleFormController {
         System.out.println("form backing object");
         return personForm;
     }
+
+    protected ModelAndView processFormSubmission(HttpServletRequest request,
+                                HttpServletResponse response,
+                                Object command,
+                                BindException errors)
+                         throws Exception{ 
+        logger.debug("AddPersonController: processForm()");
+        Person person = (Person) command;
+        Set<Roles> r = new HashSet();        
+        Set<Contacts> c = new HashSet();
+        String[] detail = request.getParameterValues("contactDetail");
+        String[] type = request.getParameterValues("contactType");
+        String[] roles = request.getParameterValues("r");
+
+        if(roles!=null){
+            System.out.println("1");
+            r = operations.addRole(roles);
+            person.setRole(r);        
+                
+        }
+        if(detail!=null){
+             System.out.println("2");
+            c = operations.contactDetails(detail, type);
+            person.setContact(c);
+        }
+
+        if (errors.hasErrors()){
+            return showForm(request,response,errors);
+        }
+        return onSubmit(request,response,command,errors);
+    }
+
      
     protected ModelAndView onSubmit(HttpServletRequest request,
                                 HttpServletResponse response,
@@ -97,8 +132,9 @@ public class UpdatePersonController extends SimpleFormController {
             return new ModelAndView("UserForm", "person", person);
         } 
         service.updatePersons(person);        
-        mav.setViewName("Main");
-        mav.addObject("person", service.getPerson());
+//        mav.setViewName("Main");
+        mav.setView(new RedirectView("persons"));
+//        mav.addObject("person", service.getPerson());
         mav.addObject("msg", "User updated successfully!");
     
         return mav;

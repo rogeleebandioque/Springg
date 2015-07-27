@@ -17,7 +17,7 @@ http://www.springframework.org/schema/aop/spring-aop.xsd">
         <property name="password" value="rbandioque"></property>  
         <property name="removeAbandoned" value="true" />
         <property name="initialSize" value="20" />
-        <property name="maxActive" value="30" />
+        <property name="maxTotal" value="30" />
     </bean>
 
     <!-- SPRING 3 <bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean"> -->
